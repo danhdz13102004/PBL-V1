@@ -1,0 +1,149 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+.signin-form {
+  background-color: var(--gray-color);
+  padding: 2rem 0;
+}
+.signin-form .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.signin-form .form-login {
+  width: 100%;
+  padding: 2.4rem 2.8rem;
+  background-color: var(--white-color);
+  border-radius: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+.signin-form .form__title {
+  display: block;
+  text-align: center;
+  position: relative;
+  font-size: 2.8rem;
+  font-weight: 600;
+  margin-bottom: 3rem;
+}
+.signin-form .form__title::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -80%;
+  height: 0.3rem;
+  width: 20%;
+  background-color: var(--blue-color);
+  border-radius: 5rem;
+}
+
+.signin-form .form__input-field {
+  position: relative;
+  height: 4rem;
+  width: 100%;
+  margin-top: 18px;
+}
+.signin-form .form__input-field input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  padding: 0 35px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.signin-form .form__input-field input:is(:focus, :valid) {
+  border-bottom-color: var(--blue-color);
+}
+
+.signin-form .form__input-field i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-gray-color);
+  font-size: 23px;
+  transition: all 0.2s ease;
+}
+.signin-form .form__input-field input:is(:focus, :valid) ~ i {
+  color: var(--blue-color);
+}
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-reveal,
+input[type="password"]::-moz-reveal {
+  display: none;
+}
+.signin-form .form__input-field i.icon {
+  left: 0;
+}
+.signin-form .form__input-field i.showHidePw {
+  right: 0;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.signin-form .checkbox-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.signin-form .checkbox-text .checkbox-content {
+  display: flex;
+  align-items: center;
+}
+
+.signin-form .checkbox-content input {
+  margin-right: 10px;
+  accent-color: var(--blue-color);
+}
+
+.signin-form .text {
+  color: #333;
+  font-size: 14px;
+}
+
+a.text {
+  color: var(--blue-color);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.signin-form .buttonWrap {
+  width: 100%;
+}
+.signin-form .button {
+  width: 100%;
+  margin-top: 35px;
+}
+.signin-form .button input {
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: var(--blue-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.signin-form .button input:hover {
+  background-color: #265df2;
+}
+
+.signin-form .login-signup {
+  margin-top: 30px;
+  text-align: center;
+}
+.form__forgot-password {
+  margin-top: 16px;
+}

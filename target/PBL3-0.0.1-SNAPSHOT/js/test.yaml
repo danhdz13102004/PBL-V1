@@ -1,0 +1,14 @@
+---
+- name: Create and run a file on the server
+  hosts: ec2-18-143-167-76.ap-southeast-1.compute.amazonaws.com
+  tasks:
+    - name: Create a shell script file
+      ansible.builtin.copy:
+        content: |
+          #!/bin/bash
+          echo "Hello from Ansible" > /tmp/test_script_output.txt
+        dest: /tmp/test_script.sh
+        mode: '0755'  # Ensure the script is executable
+
+    - name: Run the shell script
+      ansible.builtin.shell: /tmp/test_script.sh

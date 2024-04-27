@@ -1,0 +1,30 @@
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+.slideInDown {
+  animation: slideInDown 0.5s ease-out;
+}
+
+.slideOutUp {
+  animation: slideOutUp 0.5s ease-out;
+}
+.menu-all-category {
+  display: none;
+}
+.menu-all-category.show {
+  display: block;
+}
