@@ -13,6 +13,7 @@ otpInput.addEventListener(`keydown`, (event) => {
   }
 });
 
+//* Click button 
 const btnSendOTPCodeToEmail = document.getElementById(`btnSendOTPCodeToEmail`);
 btnSendOTPCodeToEmail.addEventListener(`click`, () => {
   btnSendOTPCodeToEmail.setAttribute(`disabled`, true);
@@ -21,7 +22,7 @@ btnSendOTPCodeToEmail.addEventListener(`click`, () => {
   btnSendOTPCodeToEmail.style.cursor = `default`;
   let timeCountDown = 5;
   btnSendOTPCodeToEmail.innerHTML = `Gửi lại mã sau (${timeCountDown}s)`;
-  let timer = setInterval(() => {
+  const timer = setInterval(() => {
     --timeCountDown;
     btnSendOTPCodeToEmail.innerHTML = `Gửi lại mã sau (${timeCountDown}s)`;
     if (timeCountDown === 0) {
