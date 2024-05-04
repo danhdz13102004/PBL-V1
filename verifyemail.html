@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xác thực đăng ký</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Varela+Round&display=swap"
+    rel="stylesheet">
+  <link rel="shortcut icon" href="assets/image/logo.ico" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/normalize.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/verifyemail.css">
+  <script type="module" src="assets/js/header.js"></script>
+  <script type="module" src="assets/js/footer.js"></script>
+</head>
+
+<body>
+  <div class="webapp">
+    <!-- Header -->
+    <header-component></header-component>
+    <!-- Body Form Signup -->
+    <div class="user-verify-form">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-verify">
+              <div class="form__title">Xác thực tài khoản</div>
+              <form action="#" method="post" target="_self" class="form" id="form">
+                <!-- ? Email -->
+                <div class="form-field ">
+                  <input class="form__input" id="form__input-email" type="email" name="email" required autofocus
+                    placeholder=" " readonly value="nguyenhuuphuc22052004@gmail.com">
+                  <label for="form__input-email" class="form__label">Email của bạn</label>
+                  <div class="form__alert">
+                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                    </svg>
+                    <div class="form__alert-message">Email chưa được đăng ký hoặc không tồn tại</div>
+                  </div>
+                </div>
+                <!-- ? OTP -->
+                <div class="form-field">
+                  <input class="form__input" id="form__input-otp" type="number" name="otpCode" required placeholder=" ">
+                  <label for="form__input-otp" class="form__label">Nhập mã xác nhận OTP</label>
+                  <div class="form__alert">
+                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                    </svg>
+                    <div class="form__alert-message">Mã xác nhận không khớp</div>
+                  </div>
+                  <button class="button" id="btnSendOTPCodeToEmail">Gửi mã OTP</button>
+                </div>
+                <!-- ? Button Login -->
+                <div class="button__wrap">
+                  <button class="button" id="btnReturnSignupPage">Quay lại</button>
+                  <button class="button" id="btnSubmitVerify" type="submit">Xác nhận</button>
+                </div>
+                <div class="form__note">Lưu ý: Hãy chắc chắn rằng tài khoản email của bạn đã được lập. Nếu bạn không nhận được
+                  mã OTP, hãy ấn gửi lại mã OTP hoặc kiểm tra hòm thư rác.</div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer-component></footer-component>
+  </div>
+  <script type="module" src="assets/js/verifyemail.js" defer></script>
+</body>
+
+</html>

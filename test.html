@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/assets/css/normalize.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <script type="module" src="./assets/js/header.js" defer></script>
+    <script type="module" src="./assets/js/footer.js" defer></script>
+</head>
+
+<body>
+    <header-component></header-component>
+    <style>
+.product-item__image {
+  position: relative;
+  padding-top: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  /* object-fit: contain; */
+  /* Vừa với phần tử chứa nhưng vẫn giữ tỷ lệ khung hình */
+  margin-bottom: 0.8rem;
+}
+.product-item {
+  display: block;
+  width: 10%;
+  background-color: var(--white-color);
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.6rem;
+  /* box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; */
+  transition: transform 0.2s linear, box-shadow 0.2s linear;
+  will-change: transform;
+  min-height: 30rem;
+}
+    </style>
+    
+    <div class="product-item">
+        <div class="product-item__image" style="background-image: url(assets/data/Mot_thoang_ta_ruc_ro_o_nhan_gian.jpg);">
+        </div>
+    </div>
+    <footer-component></footer-component>
+</body>
+
+</html>

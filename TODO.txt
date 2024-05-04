@@ -1,0 +1,45 @@
+Git, Github
+class Footer extends HTMLElement{
+  constructor(){
+    super();
+    this.attachShadow({mode: "open"});
+  }
+  connectedCallback(){
+    this.fetchCSSFile("assets/css/footer.css");
+    this.fetchHTMLFile("../../footer.html");
+    const linkNormalize = document.createElement(`link`);
+    linkNormalize.setAttribute(`rel`, `stylesheet`);
+    linkNormalize.setAttribute(`href`, `assets/css/normalize.css`);
+    this.shadowRoot.appendChild(linkNormalize);
+    const linkBase = document.createElement(`link`);
+    linkBase.setAttribute(`rel`, `stylesheet`);
+    linkBase.setAttribute(`href`, `assets/css/base.css`);
+    this.shadowRoot.appendChild(linkBase);
+  }
+  fetchCSSFile = async (filepath) =>{
+    try{
+      const response = await fetch(filepath);
+      const cssText = await response.text();
+      const style = document.createElement('style');
+      style.textContent = cssText;
+      this.shadowRoot.appendChild(style);
+    }
+    catch(err){
+      console.error(err);
+    }
+  }
+  fetchHTMLFile = async (filepath) => {
+    try{
+      const response = await fetch(filepath);
+      const htmlText = await response.text();
+      const html = new DOMParser().parseFromString(htmlText,'text/html');
+      const footerTemplate = document.createElement(`template`);
+      footerTemplate.innerHTML = html.body.innerHTML;
+      this.shadowRoot.appendChild(footerTemplate.content.cloneNode(true));
+    }
+    catch(err){
+      console.error(err);
+    }
+  }
+}
+customElements.define("footer-component",Footer);

@@ -1,0 +1,118 @@
+/** Footer */
+.footer {
+  padding: 2rem 0rem;
+  background-color: var(--white-color);
+  color: var(--text-color);
+}
+.footer .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+/** Footer about shop  */
+.footer .footer-about-shop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0.6rem 0rem 0rem;
+  padding-left: 0rem;
+  padding-right: 0.8rem;
+  border-right: 0.2rem solid #e3e2e2;
+}
+.footer-about-shop > .footer-logo__link {
+  display: flex;
+  text-decoration: none;
+  margin-bottom: 1.2rem;
+}
+.footer-logo__link > .footer-logo__img {
+  width: 6rem;
+  height: auto;
+  aspect-ratio: 1.1/1;
+  margin-right: 1rem;
+}
+.footer-logo__link > .footer-logo__name {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+.footer-logo__name > .footer-logo__name-main {
+  display: block;
+  font-size: 3.2rem;
+  font-weight: 600;
+  padding: 1rem 0rem;
+  margin: 0rem 0rem;
+  background: linear-gradient(
+    to top,
+    var(--blue-color) 10%,
+    var(--cyan-color) 90%
+  );
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+  -o-background-clip: text;
+  -o-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.footer-logo__name > .footer-logo__name-sub {
+  display: block;
+  margin: 0rem;
+  font-size: 2.2rem;
+  color: var(--blue-color);
+  letter-spacing: 1px;
+}
+.footer-about-shop .footer-intro,
+.footer-about-shop .footer-location {
+  font-size: 1.4rem;
+  color: var(--text-color);
+  line-height: 2rem;
+  margin-bottom: 0.6rem;
+}
+/** Footer about shop  */
+/** Services, Support, Social Media */
+.footer .footer-services,
+.footer .footer-support,
+.footer .footer-social-media {
+  width: 100%;
+  line-height: 3rem;
+}
+
+.footer .footer__title {
+  margin: 0rem;
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+.footer .footer__content {
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.footer .footer__content .footer__link {
+  font-size: 1.4rem;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer .footer__link:hover {
+  color: var(--blue-color);
+}
+.footer .footer-social-media .footer__link {
+  display: inline-flex;
+  line-height: 3rem;
+  align-items: center;
+}
+.footer .footer-social-media .footer__link-icon {
+  width: 1.8rem;
+  height: 100%;
+  aspect-ratio: 1/1;
+  margin-right: 1rem;
+  transition: color 0.2s ease;
+}
+.footer .footer__link:hover .footer__link-icon {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(96%) saturate(2533%) hue-rotate(184deg) brightness(102%) contrast(105%);
+}
+.footer .footer-support .footer__link-icon-name {
+  display: block;
+  width: 100%;
+}
+/** End of Services, Support, Social Media */
+/** End of Footer */
