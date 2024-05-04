@@ -30,6 +30,8 @@ public class ChiTietGioHang {
 
     private int soLuong;
     
+    private boolean status = false;
+    
     
     
 
@@ -74,6 +76,16 @@ public class ChiTietGioHang {
 
 	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
+	}
+
+
+	public boolean isStatus() {
+		return status;
+	}
+
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
    

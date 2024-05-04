@@ -25,6 +25,9 @@ public class allRequest extends HttpServlet {
 	SachDao sachDao = SachDao.getSachDao();
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		String url = null;
 		try {
 			url = request.getRequestURL().toString();			

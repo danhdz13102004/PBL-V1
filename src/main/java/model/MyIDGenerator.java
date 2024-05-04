@@ -36,4 +36,5 @@ public class MyIDGenerator implements IdentifierGenerator,Configurable {
 		// TODO Auto-generated method stub
 		this.prefix = params.getProperty("prefix");
 	}
+	
 }

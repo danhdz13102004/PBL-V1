@@ -78,11 +78,11 @@ public class apiUser extends HttpServlet {
 			else if(url.contains("/deleteAndShow")) {
 				deleteAndShow(request, response);
 			}
-			else if(url.contains("/countNumber")) {
-				countNumber(request, response);
-			}
 			else if(url.contains("/countNumberByCategory")) {
 				countNumberByCategory(request, response);
+			}
+			else if(url.contains("/countNumber")) {
+				countNumber(request, response);
 			}
 			else if(url.contains("/getAllTheLoai")) {
 				getAllTheLoai(request, response);
@@ -207,6 +207,10 @@ public class apiUser extends HttpServlet {
 			session2 = HibernateUtil.getSessionFactory().openSession();
 			cart = GioHangDAO.getGioHangDao().selectCartByIdUser1(user.getId(),session2);
 		}
+		for(ChiTietGioHang c : cart) {
+			c.setStatus(false);
+		}
+		session.setAttribute("cart", cart);
 		GsonBuilder gb = new GsonBuilder();
     	gb.registerTypeAdapter(model.ChiTietGioHang.class, new ChiTietGioHangSerializer());
     	Gson gson = gb.create();
@@ -259,6 +263,7 @@ public class apiUser extends HttpServlet {
 		HttpSession session = request.getSession();
 		Session session2 = null;
 		List<ChiTietGioHang> cart = (List<ChiTietGioHang>) session.getAttribute("cart");
+		boolean check =true;
 		if(cart == null) {
 			User user = (User) session.getAttribute("khachHang");
 			session2 = HibernateUtil.getSessionFactory().openSession();
@@ -267,8 +272,16 @@ public class apiUser extends HttpServlet {
 		for(ChiTietGioHang c : cart) {
 			if(c.getSach().getId().equals(id)) {
 				c.setSoLuong(c.getSoLuong() + soluong);
+				check = false;
 				break;
 			}
+		}
+		if(check) {
+			User user = (User) session.getAttribute("khach-hang");
+			Sach s = new Sach();
+			s.setId(id);
+			ChiTietGioHang ctgh = new ChiTietGioHang(user, s, 1);
+			cart.add(ctgh);
 		}
 		for(ChiTietGioHang c : cart) {
 			System.out.println(c.getSach().getTen() + " " + c.getSoLuong());
@@ -328,14 +341,16 @@ public class apiUser extends HttpServlet {
 	
 	protected void countNumberByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String id = (String) request.getParameter("txt");
-		Integer sl = (Integer) session.getAttribute("category"+id);
+		String id = (String) request.getParameter("id");
+		Integer sl = (Integer) session.getAttribute("category_number"+id);
 //		System.out.println(txt);
+		System.out.println(id);
 		if(sl == null) {
 			Session session2 = HibernateUtil.getSessionFactory().openSession();
 			sl = SachDao.getSachDao().countAllByCategory(session2, id);
-			session.setAttribute("category" + id, sl);
+			session.setAttribute("category_number" + id, sl);
 		}
+		System.out.println(sl);
 		Gson gson = new Gson();
 		String json = gson.toJson(sl);
     	response.setContentType("application/json");

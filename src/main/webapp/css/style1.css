@@ -690,6 +690,7 @@
   padding-right: 0.5rem;
 }
 .product-item {
+  text-decoration: none;
   display: block;
   background-color: var(--white-color);
   padding: 0.8rem 1.2rem;

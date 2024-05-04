@@ -1,6 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<link rel="stylesheet" type="text/css" href="../css/styles.css">
+<link rel="stylesheet" type="text/css" href="../css/main.css">
+<link rel="stylesheet" type="text/css" href="../css/signin.css">
+<script src="../js/"></script>
+<script src="../js/header.js"></script>
+<script src="../js/product.js"></script>
+<script src="../js/toast.js"></script>
+<script src="../js/main.js"></script>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <fmt:setLocale value="vi_VN" />
 <!DOCTYPE html>
 <html lang="vi">
@@ -17,7 +27,7 @@
 </head>
 
 <body>
-	<jsp:include page="customer/header.jsp" />
+	<jsp:include page="customer/header1.jsp" />
 
 	<section class="section-pagetop-2 bg-light">
 		<div class="container">
@@ -387,7 +397,7 @@
 	</section> --%>
 	<!-- section-content.// -->
 
-	<jsp:include page="customer/footer.jsp" />
+	<jsp:include page="customer/footer1.jsp" />
 
 	<div class="toast-container position-fixed bottom-0 start-0 p-3"></div>
 	<!-- toast-container.// -->

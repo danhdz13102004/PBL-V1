@@ -23,6 +23,8 @@ import util.HibernateUtil;
 public class Home extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String textSearch = request.getParameter("text");
+		if(textSearch != null) request.setAttribute("textsearch", textSearch);
 		HttpSession session = request.getSession();
 		SachDao sachDao = SachDao.getSachDao();
 		Session session2 = HibernateUtil.getSessionFactory().openSession();

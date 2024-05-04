@@ -28,7 +28,6 @@ public class ChiTietDonHangSerializer implements JsonSerializer<ChiTietDonHang>
 		
 		jsonObject.addProperty("giaBan", src.getGiaBan());
 		jsonObject.addProperty("soLuong", src.getSoLuong());
-		jsonObject.addProperty("thanhTien", src.getThanhTien());
 		return jsonObject;
 	}
 }

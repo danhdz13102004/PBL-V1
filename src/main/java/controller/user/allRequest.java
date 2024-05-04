@@ -54,15 +54,24 @@ public class allRequest extends HttpServlet {
 		String password = request.getParameter("password");
 		String fullName = request.getParameter("fullname");
 		String phoneNumber = request.getParameter("phonenumber");
+		String confirmPassword = request.getParameter("confirmPassword");
 		
 		String loiEmail = "";
 		String loiPass = "";
 		String loiPhone = "";
+		String loiPassConfirm = "";
 		
 		String urlRedirect = "";
 		
+		if(!password.equals(confirmPassword)) {
+			loiPassConfirm += "Mật khẩu không khớp!";
+		}
+		
 		if(!EmailValidation.isEmailValid(email)) {
 			loiEmail += "Email không hợp lệ!";
+		}
+		else if(userDao.checkEmailIsContain(email)) {
+			loiEmail += "Email đã tồn tại!";
 		}
 		
 		if(password.length() < 8) {
@@ -73,11 +82,14 @@ public class allRequest extends HttpServlet {
 			loiPhone += "Số điện thoại không hợp lệ!";
 		}
 		
-		if(loiEmail.length() > 0 || loiPass.length() > 0 || loiPhone.length() > 0) {
-			urlRedirect = "/customer/signupView.jsp";
-			request.setAttribute("loiEmail",loiEmail);
-			request.setAttribute("loiPass",loiPass);
-			request.setAttribute("loiPhone",loiPhone);
+		if(loiEmail.length() > 0 || loiPass.length() > 0 || loiPhone.length() > 0 || loiPassConfirm.length() > 0) {
+			urlRedirect = "/customer/signup.jsp";
+			if(loiEmail.length() > 0) request.setAttribute("loiEmail",loiEmail);
+			if(loiPass.length() > 0) request.setAttribute("loiPass",loiPass);
+			if(loiPhone.length() > 0) request.setAttribute("loiPhone",loiPhone);
+			if(loiPassConfirm.length() > 0) request.setAttribute("loiPassConfirm", loiPassConfirm);
+			System.out.println(loiEmail + " " + loiPass + " " + loiPhone + " " + loiPassConfirm);
+			
 			
 			request.setAttribute("email",email);
 			request.setAttribute("password",password);
@@ -121,12 +133,14 @@ public class allRequest extends HttpServlet {
 			else {
 				System.out.println(user);
 				if(user.getStatus().getStatusName().equals("Active")) {
-					urlRedirect += "/index.jsp";
+					urlRedirect += "/home";
 					HttpSession session = request.getSession();
 					session.setAttribute("khachHang", user);
 					Cookie cookie = new Cookie("status","dang-nhap");
 					cookie.setMaxAge(24 * 60 * 60);
+					cookie.setPath("/");
 			        response.addCookie(cookie);
+//			        response.sendRedirect("/home");
 				}
 				else if(user.getStatus().getStatusName().equals("Cho xac thuc")){
 					urlRedirect += "/customer/confirm.jsp";
@@ -166,6 +180,7 @@ public class allRequest extends HttpServlet {
 		String urlRedirect = "/index.jsp";
 		RequestDispatcher rq = getServletContext().getRequestDispatcher(urlRedirect);
 		Cookie cookie = new Cookie("status","dang-nhap");
+		cookie.setPath("/");
 		cookie.setMaxAge(0);
         response.addCookie(cookie);
 		rq.forward(request, response);	

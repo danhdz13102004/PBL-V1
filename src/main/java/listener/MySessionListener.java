@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -26,6 +27,7 @@ public class MySessionListener implements HttpSessionListener {
 		for(ChiTietGioHang c : cart) {
 			GioHangDAO.getGioHangDao().updateCart(c.getSach().getId(), user.getId(), c.getSoLuong(), session2);
 		}
+		
     }
 
 	@Override

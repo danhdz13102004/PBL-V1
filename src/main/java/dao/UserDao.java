@@ -108,6 +108,26 @@ public class UserDao  {
 	    }
 	    return user;
 	}
+	
+	public boolean checkEmailIsContain(String email) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+	    try {
+	        String hql = "FROM User u WHERE u.email = :email";
+	        
+	        List<User> userList = session.createQuery(hql)
+	        		.setParameter("email", email)
+	        		.list();
+	        
+	        if (!userList.isEmpty()) {
+	            return true;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        session.close();
+	    }
+	    return false;
+	}
 
 	public static void main(String[] args) {
 		try {

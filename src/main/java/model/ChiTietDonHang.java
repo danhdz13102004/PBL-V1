@@ -20,13 +20,11 @@ public class ChiTietDonHang {
     private Sach sach;
 	
 	@Column(name = "Gia_ban")
-    private int giaBan;
+    private Double giaBan;
     
     @Column(name = "So_luong")
     private int soLuong;
     
-    @Column(name = "Thanh_tien")
-    private double thanhTien;
 
     public ChiTietDonHang() {
     }
@@ -47,20 +45,15 @@ public class ChiTietDonHang {
         this.donHang = donHang;
     }
     
-    
-    
-
-    public int getGiaBan() {
+   
+    public Double getGiaBan() {
 		return giaBan;
 	}
 
-	public void setGiaBan(int giaBan) {
+	public void setGiaBan(Double giaBan) {
 		this.giaBan = giaBan;
 	}
 
-	public void setThanhTien(double thanhTien) {
-		this.thanhTien = thanhTien;
-	}
 
 	public Sach getSach() {
         return this.sach;
@@ -79,10 +72,6 @@ public class ChiTietDonHang {
     }
 
     
-    public double getThanhTien() {
-        return this.soLuong*this.sach.getGiaBan();
-    }
-
     
 }
 
