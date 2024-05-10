@@ -5,10 +5,16 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 @Entity
 public class DanhGia {
 
 	@Id
+    @GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "DG"), 
+      strategy = "model.MyIDGenerator")
 	@Column(name = "Id")
 	private String id;
 	
@@ -22,12 +28,15 @@ public class DanhGia {
 	@Column(name = "Binh_luan")
     private String binhLuan;
 	
+    @Column(name = "Trang_thai")
+	boolean status = false;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="Id_khach_hang", referencedColumnName = "Id")
     private User khachHang;
 	
 	@Column(name = "Thoi_gian_danh_gia")
-    private LocalDateTime thoiGian;
+    private Timestamp thoiGian;
     
     public DanhGia() {
     }
@@ -74,16 +83,24 @@ public class DanhGia {
     }
 
 
-	public LocalDateTime getThoiGian() {
+	public Timestamp getThoiGian() {
 		return thoiGian;
 	}
 
 
-	public void setThoiGian(LocalDateTime thoiGian) {
+	public void setThoiGian(Timestamp thoiGian) {
 		this.thoiGian = thoiGian;
 	}
 
-   
+    public boolean isStatus()
+    {
+        return this.status;
+    }
+
+    public void setStatus(boolean status)
+    {
+        this.status = status;
+    }
 
 }
 

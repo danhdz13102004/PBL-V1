@@ -17,9 +17,9 @@ public class ChiTietDonHangDao  {
 		return chiTietDonHangDao;
 	}
 	
-	public void addChiTietDonHang(ChiTietDonHang c) {
+	public void addChiTietDonHang(ChiTietDonHang c, Session s) {
 		try {
-			HQLutil.getInstance().doInsert(c);
+			HQLutil.getInstance().doInsert(c,s);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

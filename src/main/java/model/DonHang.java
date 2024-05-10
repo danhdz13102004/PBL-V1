@@ -6,10 +6,17 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 public class DonHang {
     
 	@Id
+	@GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "DH"), 
+      strategy = "model.MyIDGenerator")
 	@Column(name="Id")
 	private String id;
 	
@@ -162,16 +169,17 @@ public class DonHang {
     	DAHUY("Đã hủy"),
     	DANGGIAOHANG("Đang giao hàng"),
     	THANHCONG("Thành công"),
-    	DATRAHANG("Đã trả hàng");
+    	DATRAHANG("Đã trả hàng"),
+		DAXOA("Đã xóa");
     	private String message;
     	private Status(String mess) {
 			// TODO Auto-generated constructor stub
     		this.message=mess;
     	}
-    	public String getMessage()
-    	{
-    		return this.message;
-    	}
-    	
+		@Override
+		public String toString() 
+		{
+			return this.message;
+		}
     }
 }

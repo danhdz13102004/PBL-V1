@@ -30,6 +30,7 @@ public class ChiTietGioHang {
 
     private int soLuong;
     
+	@Column(name = "Trang_thai")
     private boolean status = false;
     
     

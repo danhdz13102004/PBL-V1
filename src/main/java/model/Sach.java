@@ -6,10 +6,17 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;;
+
 @Entity
 public class Sach {
 	
     @Id
+    @GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "SA"), 
+      strategy = "model.MyIDGenerator")
     @Column(name = "Id")
 	private String id;
     
@@ -49,6 +56,9 @@ public class Sach {
     @Column(name = "Phan_tram_giam_gia")
     private Double phanTramGiamGia;
     
+    @Column(name = "Trang_thai")
+	boolean status = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Id_the_loai", referencedColumnName = "Id")
     private TheLoai theLoai;
@@ -178,6 +188,16 @@ public class Sach {
 	public List<DanhGia> getListDanhGia() {
 		return listDanhGia;
 	}
+
+    public boolean isStatus()
+    {
+        return this.status;
+    }
+
+    public void setStatus(boolean status)
+    {
+        this.status = status;
+    }
 
 	public void setListDanhGia(List<DanhGia> listDanhGia) {
 		this.listDanhGia = listDanhGia;

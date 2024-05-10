@@ -4,10 +4,16 @@ package model;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 @Entity
 public class ChiTietDonHang {
 	
 	@Id
+    @GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "DO"), 
+      strategy = "model.MyIDGenerator")
 	@Column(name = "Id")
 	private String id;
 	
@@ -25,6 +31,8 @@ public class ChiTietDonHang {
     @Column(name = "So_luong")
     private int soLuong;
     
+    @Column(name = "Trang_thai")
+	boolean status = false;
 
     public ChiTietDonHang() {
     }
@@ -71,7 +79,15 @@ public class ChiTietDonHang {
         this.soLuong = soLuong;
     }
 
-    
+    public boolean isStatus()
+    {
+        return this.status;
+    }
+
+    public void setStatus(boolean status)
+    {
+        this.status = status;
+    }
     
 }
 

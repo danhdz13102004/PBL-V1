@@ -5,10 +5,17 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 @Table(name = "NguoiDung")
 public class User {
 	@Id
+	@GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "US"), 
+      strategy = "model.MyIDGenerator")
 	@Column(name = "Id")
 	private String id;
 	
@@ -89,7 +96,7 @@ public class User {
 		return this.SDT;
 	}
 
-	public void setSoDienThoai(String sdt) {
+	public void setSDT(String sdt) {
 		this.SDT = sdt;
 	}
 
@@ -132,7 +139,34 @@ public class User {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
+	public void setDiaChiGiaoHang(List<DiaChiGiaoHang> list)
+	{
+		if (this.role == Role.KH)
+		{
+			this.listDiaChi = list;
+		}
+	}
+	public void setListDanhGia(List<DanhGia> list)
+	{
+		if (this.role == Role.KH)
+		{
+			this.listDanhGia = list;
+		}
+	}
+	public void setListDonHang(List<DonHang> list)
+	{
+		if (this.role == Role.KH)
+		{
+			this.listDonHang = list;
+		}
+	}
+	public void setChiTietGioHang(List<ChiTietGioHang> list)
+	{
+		if (this.role == Role.KH)
+		{
+			this.listChiTietGioHang = list;
+		}
+	}
 	public List<DiaChiGiaoHang> getDiaChiGiaoHang() {
 		if (this.role == Role.KH)
 		{
@@ -175,22 +209,26 @@ public class User {
 		{
 			this.roleName=rname;
 		}
-		public String getRoleName()
+		@Override
+		public String toString() 
 		{
 			return this.roleName;
 		}
+		
 	}
 	public static enum Status
 	{
 		PR("Cho xac thuc"),
 		AC("Active"),
-		BL("Khoa tai khoan");
+		BL("Khoa tai khoan"),
+		DC("Deactive");
 		private String statusName;
 		private Status(String sname)
 		{
 			this.statusName=sname;
 		}
-		public String getStatusName()
+		@Override
+		public String toString()
 		{
 			return this.statusName;
 		}

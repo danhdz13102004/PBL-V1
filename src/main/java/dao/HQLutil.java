@@ -7,6 +7,7 @@ import javax.persistence.criteria.*;
 
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 
 import util.*;	
 public class HQLutil {
@@ -59,10 +60,9 @@ public class HQLutil {
 		HibernateUtil.close();
 		return res;
 	}
-	public <T> boolean doDeleteById (T ob)
+	public <T> boolean doDeleteById (T ob,Session s)
 	{
 		boolean isSuccess = true;
-		Session s= HibernateUtil.getSessionFactory().openSession();
 		Transaction ts = s.getTransaction();
 		try
 		{
@@ -75,19 +75,14 @@ public class HQLutil {
 			ts.rollback();
 			isSuccess= false;
 		}
-		finally
-		{
-			s.close();
-			HibernateUtil.close();
-		}
 		return isSuccess;
 	}
-	public <T> int doDeleteRange (List<T> obs) 
+	public <T> int doDeleteRange (List<T> obs, Session s) 
 	{
 		int res=0;
 		for (T o:obs)
 		{
-			if (doDeleteById(o)) res++; 
+			if (doDeleteById(o,s)) res++; 
 		}
 		return res;
 	}
@@ -102,10 +97,9 @@ public class HQLutil {
 	}
 	
 	
-	public <T> boolean doInsert (T ob)
+	public <T> T doInsert (T ob, Session s)
 	{
-		boolean isSuccess = true;
-		Session s= HibernateUtil.getSessionFactory().openSession();
+		
 		Transaction ts = s.getTransaction();
 		try
 		{
@@ -115,55 +109,79 @@ public class HQLutil {
 		}
 		catch (Exception ex)
 		{
+			System.out.println(ex.getMessage());
 			ts.rollback();
-			isSuccess= false;
+			return null;
 		}
-		finally
-		{
-			s.close();
-			HibernateUtil.close();
-		}
-		return isSuccess;
+		return ob;
+		
 	}
-	public <T> int doInsertRange (List<T> obs)
+	public <T> int doInsertRange (List<T> obs, Session s)
 	{
 		int res=0;
 		for (T o:obs)
 		{
-			if (doInsert(o)) res++; 
+			if (doInsert(o,s)!=null) res++; 
 		}
 		return res;
 	}
-	public <T> boolean doUpdate (T ob)
+	public <T> T doUpdate (T ob, Session s)
 	{
-		boolean isSuccess = true;
-		Session s= HibernateUtil.getSessionFactory().openSession();
+		T updateOb;
 		Transaction ts = s.getTransaction();
 		try
 		{
 			ts.begin();
-			s.merge(ob);
+			updateOb = (T)s.merge(ob);
 			ts.commit();
 		}
 		catch (Exception ex)
 		{
+			ex.printStackTrace();
 			ts.rollback();
-			isSuccess= false;
-		}
-		finally
-		{
-			s.close();
-			HibernateUtil.close();
-		}
-		return isSuccess;
+			updateOb = null;
+		}	
+		return updateOb;
 	}
-	public <T> int doUpdateRange (List<T> obs)
+	public <T> int doUpdateRange (List<T> obs,Session s)
 	{
 		int res=0;
 		for (T o:obs)
 		{
-			if (doUpdate(o)) res++; 
+			if (doUpdate(o,s)!=null) res++; 
 		}
+		return res;
+	}
+	public long doCountRecordOf (String hql, Session s, Object... params)
+	{
+		Query<Long> query = s.createQuery(hql,Long.class);
+		for (int i=0;i<params.length;i++)
+		{
+			query.setParameter(i+1, params[i]);
+		}
+		Long res = query.getSingleResult();
+		return res;
+	}
+	public <T> List<T> doQuery (String hql, Class<T> c, Session s,int offset,int limit, Object... params)
+	{
+		if (offset<0) offset = 0;
+		if (limit<0) limit = 1000;
+		Query<T> query = s.createQuery(hql,c).setFirstResult(offset).setMaxResults(limit);
+		for (int i=0;i<params.length;i++)
+		{
+			query.setParameter(i+1, params[i]);
+		}
+		List<T> res = query.list();
+		return res;
+	}
+	public <T> int doUpdateQuery(String hql, Class<T> c, Session s, Object... params)
+	{
+		Query<T> query = s.createQuery(hql,c);
+		for (int i=0;i<params.length;i++)
+		{
+			query.setParameter(i+1, params[i]);
+		}
+		int res = query.executeUpdate();
 		return res;
 	}
 }

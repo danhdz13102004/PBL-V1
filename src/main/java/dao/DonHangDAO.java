@@ -17,11 +17,13 @@ public class DonHangDAO {
 	}
 	
 	public void addDonHang(DonHang donHang) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
 		try {
-			HQLutil.getInstance().doInsert(donHang);
+			HQLutil.getInstance().doInsert(donHang,s);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		s.close();
 	}
 	
 	public void updateStatus(String id,DonHang.Status status,Session session) {

@@ -23,7 +23,7 @@ public class ChiTietGioHangSerializer implements JsonSerializer<ChiTietGioHang>{
 		jsonSach.addProperty("giaBan", src.getSach().getGiaBan());
 		jsonObject.add("sach", jsonSach);
 		jsonObject.addProperty("status", src.isStatus());;
-		jsonObject.addProperty("soLuong", src.getSoLuong());;
+		jsonObject.addProperty("soLuong", src.getSoLuong());
 		return jsonObject;
 	}
 

@@ -12,10 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Session;
+
 import dao.UserDao;
 import model.User;
 import util.Email;
 import util.EmailValidation;
+import util.HibernateUtil;
 import util.MaHoa;
 import util.PhoneNumberValidation;
 import util.RandomNumber;
@@ -97,17 +100,22 @@ public class allRequest extends HttpServlet {
 			request.setAttribute("phonenumber",phoneNumber);
 		}
 		else {
+			Session s = HibernateUtil.getSessionFactory().openSession();
 			try {
 				String maXacThuc = RandomNumber.getNumber();
 				Random rd = new Random();
 				String maKH = System.currentTimeMillis() + rd.nextInt(1000) + "";
 				User user = new User(maKH,fullName,phoneNumber,email,MaHoa.Encode(password),User.Role.KH,maXacThuc,User.Status.PR);
-				userDao.insert(user);
+				userDao.insert(user,s);
 				Email.sendEmail(user.getEmail(), "Email xác thực", "Mã xác thực của bạn là " + maXacThuc+ ".Vui lòng nhập mã này để hoàn thành đăng kí");
 				request.setAttribute("maKhachHang", maKH);
 				urlRedirect = "/customer/confirm.jsp";					
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+			finally
+			{
+				s.close();
 			}
 		}
 		RequestDispatcher rq = getServletContext().getRequestDispatcher(urlRedirect);
@@ -132,7 +140,7 @@ public class allRequest extends HttpServlet {
 			}
 			else {
 				System.out.println(user);
-				if(user.getStatus().getStatusName().equals("Active")) {
+				if(user.getStatus().toString().equals("Active")) {
 					urlRedirect += "/home";
 					HttpSession session = request.getSession();
 					session.setAttribute("khachHang", user);
@@ -142,7 +150,7 @@ public class allRequest extends HttpServlet {
 			        response.addCookie(cookie);
 //			        response.sendRedirect("/home");
 				}
-				else if(user.getStatus().getStatusName().equals("Cho xac thuc")){
+				else if(user.getStatus().toString().equals("Cho xac thuc")){
 					urlRedirect += "/customer/confirm.jsp";
 					request.setAttribute("maKhachHang", user.getId());
 					request.setAttribute("baoLoi", "Vui lòng xác thực để tiếp tục");

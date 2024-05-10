@@ -17,7 +17,7 @@ public class TheLoaiSerializer implements JsonSerializer<TheLoai> {
 		
 		jsonObject.addProperty("id",theLoai.getId());
 		jsonObject.addProperty("ten", theLoai.getTenTheLoai());
-		
+		jsonObject.addProperty("status", theLoai.isStatus());
 		return jsonObject;
 	}
 	

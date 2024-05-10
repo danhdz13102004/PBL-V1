@@ -19,7 +19,7 @@ import model.NhaXuatBan;
 import model.Sach;
 import model.TacGia;
 import util.HibernateUtil;
-import util.HibernateUtil1;
+import util.HibernateUtil;
 @WebServlet(urlPatterns = "/product/*")
 public class allRequest extends HttpServlet {
 	SachDao sachDao = SachDao.getSachDao();

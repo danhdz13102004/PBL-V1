@@ -1,6 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<link rel="stylesheet" type="text/css" href="../css/styles.css">
+<link rel="stylesheet" type="text/css" href="../css/main.css">
+<link rel="stylesheet" type="text/css" href="../css/signin.css">
+<script src="../js/"></script>
+<script src="../js/header.js"></script>
+<script src="../js/product.js"></script>
+<script src="../js/toast.js"></script>
+<script src="../js/main.js"></script>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <fmt:setLocale value="vi_VN" />
 <!DOCTYPE html>
 <html lang="vi">
@@ -17,7 +27,7 @@
 </head>
 
 <body>
-	<jsp:include page="customer/header.jsp" />
+	<jsp:include page="customer/header1.jsp" />
 
 	<section class="section-pagetop-2 bg-light">
 		<div class="container">
@@ -26,7 +36,7 @@
 					<li class="breadcrumb-item" aria-current="page"><a
 						href="${pageContext.request.contextPath}/">Trang chủ</a></li>
 					<li class="breadcrumb-item" aria-current="page"><a
-						href="${pageContext.request.contextPath}/category?id=${requestScope.product.idTheLoai}">${requestScope.product.tenTheLoai}</a>
+						href="${pageContext.request.contextPath}/category?id=${requestScope.product.theLoai.id}">${requestScope.product.theLoai.tenTheLoai}</a>
 					</li>
 					<li class="breadcrumb-item active" aria-current="page">${requestScope.product.ten}</li>
 				</ol>
@@ -60,7 +70,7 @@
 						</span> <small class="label-rating text-muted me-2">${requestScope.totalProductReviews}
 							đánh giá</small> <small class="label-rating text-success"> <i
 							class="bi bi-bag-check-fill"></i>
-							10 đã mua
+							${requestScope.soLuongBan} đã mua
 						</small>
 					</div>
 
@@ -88,29 +98,28 @@
 
 					<dl class="row mb-4">
 						<dt class="col-xl-4 col-sm-5 col-6">Tác giả</dt>
-						<dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.tenTacGia}</dd>
+						<dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.tacGia.ten}</dd>
 
-						<dt class="col-xl-4 col-sm-5 col-6">Số trang</dt>
-						<dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.soTrang}</dd>
+<%-- 						<dt class="col-xl-4 col-sm-5 col-6">Số trang</dt>
+						<dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.soTrang}</dd> --%>
 
 						<dt class="col-xl-4 col-sm-5 col-6">Nhà xuất bản</dt>
-						<dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.tenNxb}</dd>
+						<dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.nxb.tenNxb}</dd>
 
 						<dt class="col-xl-4 col-sm-5 col-6">Số lượng</dt>
 						<dd class="col-xl-8 col-sm-7 col-6">
 							<input type="number" id="cart-item-quantity"
-								class="form-control w-50" value="1" min="1"
-								max="10" step="1" />
+								class="form-control w-50 val-add" value="1" min="1"
+								max="${requestScope.product.soLuongNhap - requestScope.product.soLuongBan}" step="1" />
 						</dd>
 					</dl>
 
 					<div>
 						<button type="button" class="btn btn-primary ms-2" id="buy-now">Mua
 							ngay</button>
-						<button type="button" class="btn btn-light ms-2"
+						<button onclick ="addToCart(${requestScope.product.id})" type="button" class="btn btn-light ms-2"
 							id="add-cart-item">Thêm vào giỏ hàng</button>
 					</div>
-
 				</main>
 
 			</div>
@@ -124,7 +133,7 @@
 			<div class="row">
 				<div class="col">
 					<h3 class="pb-2">Mô tả sản phẩm</h3>
-					<div>${requestScope.product.moTaSach}</div>
+					<div>${requestScope.product.moTa}</div>
 				</div>
 			</div>
 		</div>
@@ -388,7 +397,7 @@
 	</section> --%>
 	<!-- section-content.// -->
 
-	<jsp:include page="customer/footer.jsp" />
+	<jsp:include page="customer/footer1.jsp" />
 
 	<div class="toast-container position-fixed bottom-0 start-0 p-3"></div>
 	<!-- toast-container.// -->

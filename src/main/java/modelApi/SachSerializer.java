@@ -48,7 +48,7 @@ public class SachSerializer implements JsonSerializer<Sach> {
         jsonObject.add("listDanhGia",context.serialize(sach.getListDanhGia()));
 //        jsonObject.add("listChiTietGioHang", context.serialize(sach.getListChiTietGioHang()));
 //        jsonObject.add("listChiTietDonHang", context.serialize(sach.getListChiTietDonHang()));
- 
+        jsonObject.addProperty("status", sach.isStatus());
         return jsonObject;
     }
 }

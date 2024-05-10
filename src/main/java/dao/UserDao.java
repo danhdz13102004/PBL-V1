@@ -10,8 +10,13 @@ import javax.persistence.*;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import model.User;
+
+import com.google.protobuf.Method;
+
+import model.DiaChiGiaoHang;
+import model.*;
 import util.HibernateUtil;
+import util.JsonUtil;
 
 public class UserDao  {
 	private static UserDao userDao = null;
@@ -31,25 +36,137 @@ public class UserDao  {
 		return res;
 	}
 
-	public User selectById(User t,Session s) {
+	public User selectById(String id,Session s) {
 		User user = null;
 		try {
-			user = HQLutil.getInstance().doSelectById(User.class, t.getId(),s);
+			user = HQLutil.getInstance().doSelectById(User.class, id,s);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return user;
 	}
 
-	public int insert(User user) {
+	public User insert(User user,Session s) {
+		User newu = null;
 		try {
-			HQLutil.getInstance().doInsert(user);
-			return 1;
+			List<DiaChiGiaoHang> list = user.getDiaChiGiaoHang();
+			if (list!=null)
+			{
+				for (DiaChiGiaoHang dc: list)
+				{
+					dc.setKhachHang(user);
+				}
+			}
+			newu = HQLutil.getInstance().doInsert(user,s);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return newu;
 	}
+	public void deleteUser(String userId, Session s)
+	{
+		User delUser = this.selectById(userId, s);
+		List<DiaChiGiaoHang> listDC = delUser.getDiaChiGiaoHang();
+		if (listDC!=null)
+		{
+			for (int i=0;i<listDC.size();i++)
+			{
+				listDC.get(i).setStatus(true);
+			}
+		}
+		List<DanhGia> listDG = delUser.getlistDanhGia();
+		if (listDG!=null)
+		{
+			for (int i=0;i<listDG.size();i++)
+			{
+				listDG.get(i).setStatus(true);
+			}
+		}
+		List<ChiTietGioHang> listCTGH = delUser.getChiTietGioHang();
+		if (listDC!=null)
+		{
+			for (int i=0;i<listCTGH.size();i++)
+			{
+				listCTGH.get(i).setStatus(true);
+			}
+		}
+		List<DonHang> listDH = delUser.getlistDonHang();
+		if (listDH!=null)
+		{
+			for (int i=0;i<listDH.size();i++)
+			{
+				listDH.get(i).setTinhTrang(DonHang.Status.DAXOA);
+			}
+		}
+		delUser.setStatus(User.Status.DC);
+		HQLutil.getInstance().doUpdate(delUser,s);
+	}
+	public void deleteRangeUser(String[] ids, Session s)
+	{
+		for (String id : ids) {
+			deleteUser(id, s);
+		}
+	}
+	public void deleteDiaChi(String dcId, Session s)
+	{
+		DiaChiGiaoHang delDC = HQLutil.getInstance().doSelectById(DiaChiGiaoHang.class, dcId, s);
+		delDC.setStatus(true);
+		HQLutil.getInstance().doUpdate(delDC,s);
+	}
+	public void deleteRangeDiaChi(String[] ids, Session s)
+	{
+		for (String id : ids) {
+			deleteDiaChi(id, s);
+		}
+	}
+	public User updateUser(User updateUser, Session s)
+	{
+		User oldUser = selectById(updateUser.getId(), s);
+		if (updateUser.getTen()!=null)
+		{
+			oldUser.setTen(updateUser.getTen());
+		}
+		if (updateUser.getSDT()!=null)
+		{
+			oldUser.setSDT(updateUser.getSDT());
+		}if (updateUser.getEmail()!=null)
+		{
+			oldUser.setEmail(updateUser.getEmail());
+		}
+		if (updateUser.getStatus()!=null)
+		{
+			oldUser.setStatus(updateUser.getStatus());
+		}
+		List<DiaChiGiaoHang> oldListDC = oldUser.getDiaChiGiaoHang();
+		List<DiaChiGiaoHang> updatedListDC = updateUser.getDiaChiGiaoHang();
+		if (updatedListDC != null)
+		{
+			for (DiaChiGiaoHang dc: updatedListDC)
+			{
+				boolean finded = false;
+				if (oldListDC!=null)
+				{
+					for (int i=0;i<oldListDC.size();i++)
+					{
+						if (dc.getId().equals(oldListDC.get(i).getId()))
+						{
+							oldListDC.get(i).setDiaChi(dc.getDiaChi());
+							finded = true;
+							break;
+						} 
+					}
+				}
+				if (!finded)
+				{
+					dc.setKhachHang(oldUser);
+					oldListDC.add(dc);
+				}
+			}
+		}
+		return HQLutil.getInstance().doUpdate(oldUser,s);
+		
+	}
+	
 	public String getMaXacThuc(String userId) {
 		try {
 			Session session = HibernateUtil.getSessionFactory().openSession();
@@ -128,14 +245,94 @@ public class UserDao  {
 	    }
 	    return false;
 	}
-
-	public static void main(String[] args) {
-		try {
-			User user = UserDao.getUserDao().checkEmailPassAndStatus("danh@gmail.com", "123");
-			System.out.println(user.getStatus().getStatusName());
-		} catch (Exception e) {
-			e.printStackTrace();
+	public List<User> searchUsers (String ten, String sdt, String email, String role, String status, String diachi,int curPage, int size, Session s)
+	{
+		ten = "%"+ten+"%";
+		sdt = "%"+sdt+"%";
+		email = "%"+email+"%";
+		diachi = "%"+diachi+"%";
+		ArrayList<Object> params = new ArrayList<>();
+		params.add(ten);params.add(sdt);params.add(email);params.add(diachi);
+		StringBuilder hql =new StringBuilder("Select distinct u from User u join u.listDiaChi dc Where u.ten LIKE ?1 AND u.SDT LIKE ?2 AND u.email LIKE ?3 AND dc.diaChi LIKE ?4");
+		User.Role enumRole;
+		if (!role.equals("All"))
+		{
+			enumRole = User.Role.valueOf(role);
+			params.add(enumRole);
+			hql.append(" AND u.role = ?5");
 		}
-		
+		User.Status enumStatus;
+		if (!status.equals("All"))
+		{
+			enumStatus = User.Status.valueOf(status);
+			params.add(enumStatus);
+			hql.append(" AND u.status = ?6");
+		}
+		List<User> res = HQLutil.getInstance().doQuery(hql.toString(), User.class, s, (curPage-1)*size, size, params.toArray());
+		return res;
 	}
+	public long countNumberUserHas(String ten, String sdt, String email, String role, String status, String diachi, Session s)
+	{
+		ten = "%"+ten+"%";
+		sdt = "%"+sdt+"%";
+		email = "%"+email+"%";
+		diachi = "%"+diachi+"%";
+		ArrayList<Object> params = new ArrayList<>();
+		params.add(ten);params.add(sdt);params.add(email);params.add(diachi);
+		StringBuilder hql =new StringBuilder("Select count(distinct u) from User u join u.listDiaChi dc Where u.ten LIKE ?1 AND u.SDT LIKE ?2 AND u.email LIKE ?3 AND dc.diaChi LIKE ?4");
+		User.Role enumRole;
+		if (!role.equals("All"))
+		{
+			enumRole = User.Role.valueOf(role);
+			params.add(enumRole);
+			hql.append(" AND u.role = ?5");
+		}
+		User.Status enumStatus;
+		if (!status.equals("All"))
+		{
+			enumStatus = User.Status.valueOf(status);
+			params.add(enumStatus);
+			hql.append(" AND u.status = ?6");
+		}
+		long res = HQLutil.getInstance().doCountRecordOf(hql.toString(), s, params.toArray());
+		return res;
+	} 
+
+	private boolean hasDiaChi(User u, String diachi)
+	{
+		for (DiaChiGiaoHang dc : u.getDiaChiGiaoHang()) {
+			if (dc.getDiaChi().contains(diachi)) return true;
+		}
+		return false;
+	}
+	public static void main(String[] args) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        String sdtFilter = "";
+        String tenFilter = "";
+        String emailFilter = "";
+        String roleFilter = "KH";
+        String statusFilter = "AC";
+        String diachiFilter = "";
+        //List<User> list = UserDao.getUserDao().searchUsers(tenFilter, sdtFilter, emailFilter,roleFilter,statusFilter,diachiFilter,1,2,s);
+        Long res = UserDao.getUserDao().countNumberUserHas(tenFilter, sdtFilter, emailFilter,roleFilter,statusFilter,diachiFilter,s);
+        // User u = new User();
+		// u.setId("US00000005");
+		// u.setTen("Minh Le");
+		// u.setRole(User.Role.KH);
+		// u.setStatus(User.Status.AC);
+		// DiaChiGiaoHang dc = new DiaChiGiaoHang();
+		// dc.setDiaChi("NgoSiLien");
+		// List<DiaChiGiaoHang> listdc = new ArrayList<DiaChiGiaoHang>();
+		// listdc.add(dc);
+		// dc.setKhachHang(u);
+		// u.setDiaChiGiaoHang(listdc);
+		// u = UserDao.getUserDao().updateUser(u, s);
+		String json = JsonUtil.getInstance().jsonToString(res);
+		System.out.println(json);
+		// UserDao.getUserDao().deleteUser("US00000004", s);
+
+
+        s.close();
+        HibernateUtil.close();
+    }
 }

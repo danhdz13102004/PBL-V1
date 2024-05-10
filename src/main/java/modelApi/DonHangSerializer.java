@@ -24,7 +24,7 @@ public class DonHangSerializer implements JsonSerializer<DonHang>{
 		
 //		jsonObject.add("khachHang", jsonKhachHang);
 		
-		jsonObject.addProperty("tinhTrang", src.getTinhTrang().getMessage());
+		jsonObject.addProperty("tinhTrang", src.getTinhTrang().toString());
 		
 		final JsonPrimitive jsonDate = new JsonPrimitive(sdf.format(src.getThoiGianDatHang()));
         jsonObject.add("thoiGianDatHang", jsonDate);
@@ -32,7 +32,6 @@ public class DonHangSerializer implements JsonSerializer<DonHang>{
         jsonObject.addProperty("tongTien", src.getTongTien());
         
         jsonObject.addProperty("diaChiGiaoHang", src.getDiaChiGiaoHang());
-        
 //        jsonObject.add("listCTDH", context.serialize(src.getListCTDH()));
         return jsonObject;
 	}

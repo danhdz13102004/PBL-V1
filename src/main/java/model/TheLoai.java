@@ -5,16 +5,26 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 public class TheLoai {
 	
 	@Id
+	@GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "TL"), 
+      strategy = "model.MyIDGenerator")
 	@Column(name ="Id")
 	String id;
 	
 	@Column(name = "Ten_the_loai")
 	String tenTheLoai;
 	
+	@Column(name = "Trang_thai")
+	boolean status = false;
+
 	@OneToMany(mappedBy = "theLoai", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Sach> listSach;
 	
@@ -37,6 +47,16 @@ public class TheLoai {
 	public void setTenTheLoai(String tenTheLoai) {
 		this.tenTheLoai = tenTheLoai;
 	}
+
+	public boolean isStatus()
+    {
+        return this.status;
+    }
+
+    public void setStatus(boolean status)
+    {
+        this.status = status;
+    }
 
 	@Override
 	public String toString() {

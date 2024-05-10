@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <link rel="stylesheet" type="text/css" href="../css/styles.css">
 <link rel="stylesheet" type="text/css" href="../css/main.css">
+<link rel="stylesheet" type="text/css" href="../css/signin.css">
+<script src="../js/"></script>
 <script src="../js/header.js"></script>
 <script src="../js/product.js"></script>
 <script src="../js/toast.js"></script>

@@ -1,0 +1,340 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+:root {
+  font-family: "Roboto", sans-serif;
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --gray-color: #f5f5f5;
+  --blue-color: #0396ff;
+  --darkblue-color: #024fb4;
+  --cyan-color: #27e4f0;
+  --yellow-color: #feb10d;
+  --orange-color: #f7941e;
+
+  --text-color: #333333;
+  --text-gray-color: #808088;
+  --text-darkblue-color: #0c47a5;
+
+  --shadow-gray-color: #808088;
+  --shadow-color: #c3c2c2;
+}
+html {
+  font-size: 62.5%; /* 10px */
+  line-height: 1.6rem;
+  font-family: var(--font);
+  color: var(--color-text);
+  box-sizing: border-box;
+}
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+.display-block {
+  display: block;
+}
+.display-text--center {
+  text-align: center;
+}
+.display-self--center {
+  margin: 0 auto;
+}
+
+/** Responsive  */
+.container {
+  width: 1230px;
+  max-width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 0 auto;
+}
+.container-fluid {
+  width: 100%;
+}
+.row {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-9,
+.col-lg-10 {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.col-lg-2 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: calc(100% / 12 * 2);
+}
+.col-lg-3 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: 25%;
+}
+.col-lg-4 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: calc(100% / 12 * 4);
+}
+.col-lg-5 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: calc(100% / 12 * 5);
+}
+.col-lg-6 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: 50%;
+}
+.col-lg-9 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: 75%;
+}
+.col-lg-10 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: calc(100% / 12 * 10);
+}
+/** End of Responsive */
+/** Button */
+.button {
+  position: relative;
+  border: none;
+  outline: none;
+
+  text-decoration: none;
+  text-transform: capitalize;
+  line-height: 1.6;
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-weight: 500;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0.6rem 1.2rem;
+  background-color: transparent;
+}
+.btnSignIn {
+  background-color: var(--blue-color);
+  border: 0.2rem solid var(--blue-color);
+  border-radius: 0.6rem;
+  color: var(--white-color);
+  width: 11rem;
+  transition: opacity 0.3s ease;
+}
+.btnSignUp {
+  background-color: var(--white);
+  border: 0.2rem solid var(--blue-color);
+  border-radius: 0.6rem;
+  color: var(--blue-color);
+  width: 11rem;
+  transition: opacity 0.3s ease;
+}
+.btnSignIn:hover,
+.btnSignUp:hover {
+  opacity: 0.8;
+}
+.btnPrev,
+.btnNext {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.4rem;
+  -moz-transition: filter 0.2s ease-in-out, stroke 1s ease-in-out;
+  -o-transition: filter 0.2s ease-in-out, stroke 1s ease-in-out;
+  -webkit-transition: filter 0.2s ease-in-out, stroke 1s ease-in-out;
+  transition: filter 0.2s ease-in-out, stroke 1s ease-in-out;
+}
+.btnPrev > .btn__icon,
+.btnNext > .btn__icon {
+  overflow: visible;
+  width: 1.8rem;
+  height: 1.8rem;
+  stroke: var(--text-color);
+  stroke-width: 3rem;
+  fill: var(--text-color);
+}
+.btnNext:hover,
+.btnPrev:hover {
+  filter: brightness(0) saturate(100%) invert(48%) sepia(67%) saturate(4582%)
+    hue-rotate(186deg) brightness(104%) contrast(107%);
+}
+#btnEllipsis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+  user-select: none;
+  pointer-events: none;
+  transform: translateY(-10%);
+}
+.pagination__item {
+  min-width: 4rem;
+  height: 3.6rem;
+  line-height: 3.6rem;
+  font-size: 1.6rem;
+  margin-right: 0.5rem;
+  border-radius: 0.4rem;
+  position: relative;
+  cursor: pointer;
+  .button {
+    color: var(--text-gray-color);
+    position: absolute;
+    z-index: 10;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--cyan-color);
+    border-radius: 0.4rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 0;
+  }
+  &:hover::after {
+    opacity: 0.3;
+  }
+  /* disabled select ellipsis */
+/*  c &#btnEllipsis {
+    pointer-events: none;
+    user-select: none;
+  }*/
+}
+.pagination__item .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 4rem;
+  height: 3.6rem;
+  line-height: 3.6rem;
+  margin: 0rem;
+  border-radius: 0.4rem;
+}
+.pagination__item--active .button {
+  background-color: var(--blue-color);
+  color: var(--white-color);
+}
+#btnViewCartDetail {
+  min-width: 16rem;
+  background-color: var(--blue-color);
+  border: 0.2rem solid var(--blue-color);
+  border-radius: 0.6rem;
+  color: var(--white-color);
+  transition: opacity 0.3s ease;
+  font-weight: 500;
+}
+#btnDelete {
+  font-size: 1.4rem;
+  font-weight: 400;
+  text-align: right;
+  padding-right: 0rem;
+  color: var(--text-gray-color);
+  transition: color 0.25s ease;
+  &:hover {
+    color: var(--blue-color);
+  }
+  &:focus{
+    font-weight: bold;
+    color: var(--blue-color);
+  }
+}
+/** End of Button */
+/** Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#btnToPaymentPage{
+  width: 100%;
+  height: 4.6rem;
+  background-color: var(--blue-color);
+  border: 0.2rem solid var(--blue-color);
+  border-radius: 0.6rem;
+  color: var(--white-color);
+  font-size: 1.6rem;
+  font-weight: 600;
+  transition: opacity 0.3s ease;
+}
+
+#btnLogin {
+  background-color: var(--blue-color);
+  border: 0.2rem solid var(--blue-color);
+  border-radius: 0.6rem;
+  color: var(--white-color);
+  width: 10rem;
+  transition: opacity 0.3s ease;
+}
+
+.col-lg-1,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-lg-10,
+.col-lg-12 {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+#btnReturnHome, #btnReturnCart {
+  min-width: 20rem;
+  background-color: var(--white-color);
+  border: 0.2rem solid var(--blue-color);
+  border-radius: 0.6rem;
+  color: var(--blue-color);
+  font-size: 1.6rem;
+  font-weight: 600;
+  transition: opacity 0.3s ease;
+}
+
+
+#btnToPaymentPage, #btnSubmitPayment{
+  width: 100%;
+  height: 4.6rem;
+  background-color: var(--blue-color);
+  border: 0.2rem solid var(--blue-color);
+  border-radius: 0.6rem;
+  color: var(--white-color);
+  font-size: 1.6rem;
+  font-weight: 600;
+  transition: opacity 0.3s ease;
+  opacity: 1;
+  &:hover, &:focus {
+    opacity: 0.825;
+  }
+}
+/** End Animation */
