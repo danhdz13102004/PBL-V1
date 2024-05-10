@@ -13,7 +13,6 @@ import org.hibernate.Transaction;
 
 import com.google.protobuf.Method;
 
-import model.DiaChiGiaoHang;
 import model.*;
 import util.HibernateUtil;
 import util.JsonUtil;
@@ -247,52 +246,110 @@ public class UserDao  {
 	}
 	public List<User> searchUsers (String ten, String sdt, String email, String role, String status, String diachi,int curPage, int size, Session s)
 	{
-		ten = "%"+ten+"%";
-		sdt = "%"+sdt+"%";
-		email = "%"+email+"%";
-		diachi = "%"+diachi+"%";
 		ArrayList<Object> params = new ArrayList<>();
-		params.add(ten);params.add(sdt);params.add(email);params.add(diachi);
-		StringBuilder hql =new StringBuilder("Select distinct u from User u join u.listDiaChi dc Where u.ten LIKE ?1 AND u.SDT LIKE ?2 AND u.email LIKE ?3 AND dc.diaChi LIKE ?4");
+		int cnt = 0;
+		StringBuilder hql =new StringBuilder("Select distinct u from User u left join u.listDiaChi dc");
+		List<String> criteria = new ArrayList<String>();
+		if (ten != null)
+		{
+			ten = "%"+ten+"%";
+			params.add(ten);
+			criteria.add(" u.ten LIKE ?"+Integer.toString(++cnt));
+		}
+		if (sdt != null)
+		{
+			sdt = "%"+sdt+"%";
+			params.add(sdt);
+			criteria.add("u.SDT LIKE ?"+Integer.toString(++cnt));
+		}
+		if (email != null)
+		{
+			email = "%"+email+"%";
+			params.add(email);
+			criteria.add("u.email LIKE ?"+Integer.toString(++cnt));
+		}
+		if (diachi != null)
+		{
+			diachi = "%"+diachi+"%";
+			params.add(diachi);
+			criteria.add("dc.diaChi LIKE ?"+Integer.toString(++cnt));
+		}
 		User.Role enumRole;
 		if (!role.equals("All"))
 		{
 			enumRole = User.Role.valueOf(role);
 			params.add(enumRole);
-			hql.append(" AND u.role = ?5");
+			criteria.add("u.role = ?"+Integer.toString(++cnt));
 		}
 		User.Status enumStatus;
 		if (!status.equals("All"))
 		{
 			enumStatus = User.Status.valueOf(status);
 			params.add(enumStatus);
-			hql.append(" AND u.status = ?6");
+			criteria.add("u.status = ?"+Integer.toString(++cnt));
+		}
+		if (cnt != 0)
+		{
+			hql.append(" where "+criteria.get(0));
+			for (int i=1;i<cnt;i++)
+			{
+				hql.append(" AND "+criteria.get(i));
+			}
 		}
 		List<User> res = HQLutil.getInstance().doQuery(hql.toString(), User.class, s, (curPage-1)*size, size, params.toArray());
 		return res;
 	}
 	public long countNumberUserHas(String ten, String sdt, String email, String role, String status, String diachi, Session s)
 	{
-		ten = "%"+ten+"%";
-		sdt = "%"+sdt+"%";
-		email = "%"+email+"%";
-		diachi = "%"+diachi+"%";
 		ArrayList<Object> params = new ArrayList<>();
-		params.add(ten);params.add(sdt);params.add(email);params.add(diachi);
-		StringBuilder hql =new StringBuilder("Select count(distinct u) from User u join u.listDiaChi dc Where u.ten LIKE ?1 AND u.SDT LIKE ?2 AND u.email LIKE ?3 AND dc.diaChi LIKE ?4");
+		int cnt = 0;
+		StringBuilder hql =new StringBuilder("Select count(distinct u) from User u left join u.listDiaChi dc");
+		List<String> criteria = new ArrayList<String>();
+		if (ten != null)
+		{
+			ten = "%"+ten+"%";
+			params.add(ten);
+			criteria.add(" u.ten LIKE ?"+Integer.toString(++cnt));
+		}
+		if (sdt != null)
+		{
+			sdt = "%"+sdt+"%";
+			params.add(sdt);
+			criteria.add("u.SDT LIKE ?"+Integer.toString(++cnt));
+		}
+		if (email != null)
+		{
+			email = "%"+email+"%";
+			params.add(email);
+			criteria.add("u.email LIKE ?"+Integer.toString(++cnt));
+		}
+		if (diachi != null)
+		{
+			diachi = "%"+diachi+"%";
+			params.add(diachi);
+			criteria.add("dc.diaChi LIKE ?"+Integer.toString(++cnt));
+		}
 		User.Role enumRole;
 		if (!role.equals("All"))
 		{
 			enumRole = User.Role.valueOf(role);
 			params.add(enumRole);
-			hql.append(" AND u.role = ?5");
+			criteria.add("u.role = ?"+Integer.toString(++cnt));
 		}
 		User.Status enumStatus;
 		if (!status.equals("All"))
 		{
 			enumStatus = User.Status.valueOf(status);
 			params.add(enumStatus);
-			hql.append(" AND u.status = ?6");
+			criteria.add("u.status = ?"+Integer.toString(++cnt));
+		}
+		if (cnt != 0)
+		{
+			hql.append(" where "+criteria.get(0));
+			for (int i=1;i<cnt;i++)
+			{
+				hql.append(" AND "+criteria.get(i));
+			}
 		}
 		long res = HQLutil.getInstance().doCountRecordOf(hql.toString(), s, params.toArray());
 		return res;
@@ -308,12 +365,12 @@ public class UserDao  {
 	public static void main(String[] args) {
         Session s = HibernateUtil.getSessionFactory().openSession();
         String sdtFilter = "";
-        String tenFilter = "";
+        String tenFilter = null;
         String emailFilter = "";
         String roleFilter = "KH";
         String statusFilter = "AC";
-        String diachiFilter = "";
-        //List<User> list = UserDao.getUserDao().searchUsers(tenFilter, sdtFilter, emailFilter,roleFilter,statusFilter,diachiFilter,1,2,s);
+        String diachiFilter = null;
+        // List<User> list = UserDao.getUserDao().searchUsers(tenFilter, sdtFilter, emailFilter,roleFilter,statusFilter,diachiFilter,1,2,s);
         Long res = UserDao.getUserDao().countNumberUserHas(tenFilter, sdtFilter, emailFilter,roleFilter,statusFilter,diachiFilter,s);
         // User u = new User();
 		// u.setId("US00000005");
