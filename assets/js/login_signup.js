@@ -1,10 +1,11 @@
-import * as HeaderUtitls from './header.js';
-document.querySelector(`header-component`).addEventListener(`headerReady`, ()=>
-{
+import * as HeaderUtils from "./header.js";
+document
+  .querySelector(`header-component`)
+  .addEventListener(`headerReady`, () => {
     let shadowRoot = document.querySelector(`header-component`).shadowRoot;
-    HeaderUtitls.setIsUserLogin(false);
-    HeaderUtitls.initHeader(shadowRoot, HeaderUtitls.isUserLogin);
-});
+    HeaderUtils.setIsUserLogin(false);
+  });
+
 // Warning CapsLock
 const passwordInputs = document.querySelectorAll('input[type="password"]');
 passwordInputs.forEach((passwordInput) => {
@@ -24,18 +25,19 @@ passwordInputs.forEach((passwordInput) => {
 
   // Hide/Show password
   const eyeOpen = passwordInput.parentNode.querySelector(
-    `#form__eye-hide-password`
+    ".form__eye-hide-password"
   );
+  console.log(eyeOpen);
   const eyeClose = passwordInput.parentNode.querySelector(
-    `#form__eye-show-password`
+    ".form__eye-show-password"
   );
   const eyeWrap = eyeOpen.parentNode;
   const switchOpenClosePassword = () => {
     const type =
-      passwordInput.getAttribute(`type`) === `password` ? `text` : `password`;
-    passwordInput.setAttribute(`type`, type);
+      passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
     eyeOpen.classList.toggle("hidden");
     eyeClose.classList.toggle("hidden");
   };
-  eyeWrap.addEventListener(`click`, switchOpenClosePassword);
+  eyeWrap.addEventListener("click", switchOpenClosePassword);
 });

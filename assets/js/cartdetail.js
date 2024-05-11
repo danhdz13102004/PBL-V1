@@ -86,4 +86,4 @@ btnDecreaseList.forEach(btnDecrease => {
 const btnToPaymentPage = document.getElementById(`btnToPaymentPage`);
 btnToPaymentPage.addEventListener(`click`, () => {
     window.location.href = `/checkout.html`;
-})
+});

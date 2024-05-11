@@ -3,7 +3,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 1px 1.5px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1.5px 0px rgba(0, 0, 0, 0.12);
   }
   .header .header-inner {
     padding: 2rem 0rem;

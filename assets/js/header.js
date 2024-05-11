@@ -38,10 +38,10 @@ export const initHeader = (shadowRoot, isUserLogin) => {
 
   // Change Searchbar size and position if path isn't homepage (index.html)
   const headerSearchBarColumn = shadowRoot.querySelector(
-    `.header .row div:is(.col-lg-5)`
+    `.header .row .col-lg-5`
   );
   const headerMenuColumn = shadowRoot.querySelector(
-    `.header .row div:is(.col-lg-4)`
+    `.header .row .col-lg-4`
   );
   if (currentPath !== `/index.html`) {
     headerSearchBarColumn.removeAttribute(`class`);
@@ -93,7 +93,7 @@ class Header extends HTMLElement {
     this.shadowRoot.appendChild(linkBase);
     this.fetchCSSFile("assets/css/header.css").then(() => {
       this.fetchHTMLFile("header.html").then(() => {
-        initHeader(this.shadowRoot, isUserLogin);
+        this.addEventListener(`headerReady`, initHeader(this.shadowRoot, isUserLogin));
       });
     });
   }

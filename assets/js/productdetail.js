@@ -1,2 +1,4 @@
-import * as HeaderUtils from './utils.js';
-HeaderUtils.fillPartitiallyStar(3.6);
+import * as Utils from './utils.js';
+const rating = document.querySelector(`.product-detail__rating-star-average`).textContent;
+console.log(rating);
+Utils.fillPartialStar(parseFloat(rating));

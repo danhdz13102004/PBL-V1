@@ -1,10 +1,10 @@
-import * as HeaderUtitls from "./header.js";
+import * as HeaderUtils from "./header.js";
 document
   .querySelector(`header-component`)
   .addEventListener(`headerReady`, () => {
     let shadowRoot = document.querySelector(`header-component`).shadowRoot;
-    HeaderUtitls.setIsUserLogin(false);
-    HeaderUtitls.initHeader(shadowRoot, HeaderUtitls.isUserLogin);
+    HeaderUtils.setIsUserLogin(false);
+    HeaderUtils.initHeader(shadowRoot, HeaderUtils.isUserLogin);
   });
 const otpInput = document.getElementById(`form__input-otp`);
 otpInput.addEventListener(`keydown`, (event) => {

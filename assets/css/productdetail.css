@@ -61,17 +61,20 @@
   line-height: 2rem;
   display: grid;
   row-gap: 1rem;
-  grid-template-rows: 4rem 2.5rem 2.5rem 4.5rem 3.5rem 6rem auto;
+  column-gap: 2rem;
+  grid-template-rows: 4rem 2rem 3.75rem 3rem 5rem 5rem auto;
   grid-template-areas:
-    "title title titl"
-    "author publisher x-are"
-    "category page-number x-are"
+    "title title title"
+    "author publisher x-area"
+    "category page-number x-area"
     "rating rating rating"
     "price price price"
     "quantity quantity quantity"
     "action action action";
 }
 .product-detail__info-wrap .product-detail__name {
+  grid-area: title;
+
   margin: 0rem;
   font-size: 2.2rem;
   font-weight: 600;
@@ -79,21 +82,6 @@
   color: var(--text-color);
   line-height: 3rem;
   overflow-wrap: break-word;
-  grid-area: title;
-}
-.product-detail__author,
-.product-detail__publisher,
-.product-detail__category,
-.product-detail__page-number {
-  & > :first-child {
-    color: var(--text-color);
-    margin-right: 0.6rem;
-  }
-  & > :not(:first-child) {
-    line-height: 2rem;
-    font-weight: 600;
-    color: var(--text-color);
-  }
 }
 .product-detail__info-wrap .product-detail__author {
   grid-area: author;
@@ -107,50 +95,26 @@
 .product-detail__info-wrap .product-detail__page-number {
   grid-area: page-number;
 }
+.product-detail__author,
+.product-detail__publisher,
+.product-detail__category,
+.product-detail__page-number {
+  & > :first-child {
+    color: var(--text-color);
+    margin-right: 0.8rem;
+  }
+  & > :not(:first-child) {
+    line-height: 2rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+}
 .product-detail__info-wrap .product-detail__rating {
   grid-area: rating;
 }
 .product-detail__rating .product-detail__rating--star-average {
   font-weight: 500;
   color: var(--blue-color);
-}
-
-.product-detail__info-wrap .product-detail__price {
-  grid-area: price;
-}
-.product-detail__price {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-start;
-  position: relative;
-  min-height: 2.4rem;
-}
-.product-detail__new-price {
-  color: var(--blue-color);
-  font-size: 3rem;
-  line-height: 3rem;
-  font-weight: 700;
-  position: relative;
-  padding-right: 1.5rem;
-}
-.product-detail__old-price {
-  color: var(--text-gray-color);
-  text-decoration: line-through;
-  font-size: 1.5rem;
-  margin-right: 1rem;
-  position: relative;
-  padding-right: 1.5rem;
-}
-.product-detail__discount {
-  color: var(--white-color);
-  padding: 0.4rem 0.8rem;
-  font-size: 1.5rem;
-  font-weight: 500;
-  letter-spacing: 0.02rem;
-  transform: translateY(-18%);
-  border-radius: 0.4rem;
-  line-height: 2rem;
-  background-color: var(--blue-color);
 }
 .product-detail__rating {
   display: flex;
@@ -164,6 +128,7 @@
 .product-detail__rating-star-average {
   font-size: 1.6rem;
   font-weight: 500;
+  line-height: 2rem;
   padding-right: 0.4rem;
   color: var(--blue-color);
 }
@@ -181,6 +146,44 @@
     stroke: var(--blue-color);
     stroke-width: 0.14rem;
   }
+}
+.product-detail__info-wrap .product-detail__price {
+  grid-area: price;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  position: relative;
+  min-height: 2.4rem;
+}
+.product-detail__new-price {
+  color: var(--blue-color);
+  min-width: 14rem;
+  font-size: 3rem;
+  line-height: 3rem;
+  font-weight: 700;
+  position: relative;
+  padding-right: 1.5rem;
+}
+.product-detail__old-price {
+  color: var(--text-gray-color);
+  min-width: 8.2rem;
+  text-decoration: line-through;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  position: relative;
+  padding-right: 1.5rem;
+}
+.product-detail__discount {
+  color: var(--white-color);
+  padding: 0.4rem 0.8rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.02rem;
+  transform: translateY(-18%);
+  border-radius: 0.4rem;
+  line-height: 2rem;
+  height: 2.8rem;
+  background-color: var(--blue-color);
 }
 .product-detail__review-count {
   border-right: 0.12rem solid var(--border-gray-color);
@@ -207,7 +210,6 @@
   font-size: 1.3rem;
   align-self: flex-end;
 }
-
 .product-detail__item-quantity {
   grid-area: quantity;
   display: flex;
