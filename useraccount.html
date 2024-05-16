@@ -13,6 +13,7 @@
   <link rel="shortcut icon" href="assets/image/logo.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/css/normalize.css">
   <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/useraccount.css">
   <script type="module" src="assets/js/header.js" defer></script>
   <script type="module" src="assets/js/footer.js" defer></script>
 </head>
@@ -20,22 +21,106 @@
 <body>
   <div class="webapp">
     <!-- * Header -->
-    <!-- <header-component></header-component> -->
+    <header-component></header-component>
     <!-- * Detail Cart -->
-    <main class="main-cart-detail">
-      <div class="container-fluid">
+    <main class="main-user-account" id="main-user-account">
+      <div class="container">
         <div class="row">
           <div class="col-lg-3">
-            Tài khoản
+            <div class="account-sidebar-function">
+              <div class="account-sidebar-function__title">
+                <h1 class="account-sidebar-function__title-content">
+                  Tài khoản
+                  <!-- <div>Tài khoản của</div>
+                  <strong>nguyenphuc</strong> -->
+                </h1>
+              </div>
+              <ul class="account-function__list">
+                <li class="account-function__item">
+                  <a href="useraccount.html" class="account-function__link">
+                    <span>Thông tin tài khoản</span>
+                  </a>
+                </li>
+                <li class="account-function__item">
+                  <a href="order.html" class="account-function__link">
+                    <span>Đơn hàng của tôi</span>
+                  </a>
+                </li>
+                <li class="account-function__item">
+                  <div href="logout.html" class="account-function__link">
+                    <span>Đăng xuất</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="col-lg-9">
-            Thông tin tài khoản
+            <div class="account-management" id="account-information-management">
+              <div class="account-form-title">Thông tin tài khoản</div>
+              <form action="" method="post" id="account-form-info">
+                <div class="form-field">
+                  <label for="form__input-fullname" class="form__label">Họ và tên</label>
+                  <input class="form__input" id="form__input-fullname" type="text" name="fullname" required
+                    placeholder=" " autocomplete="" value="Nguyễn Phúc">
+                  <div class="form__alert">
+                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                    </svg>
+                    <div class="form__alert-message"></div>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="form__input-username" class="form__label">Tên người dùng</label>
+                  <input class="form__input" id="form__input-username" type="text" name="username" required
+                    placeholder=" " autocomplete="" value="puckpuck2205">
+                  <div class="form__alert">
+                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                    </svg>
+                    <div class="form__alert-message"></div>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="form__input-phone-number" class="form__label">Số điện thoại</label>
+                  <input class="form__input" id="form__input-phone-number" type="tel" name="phonenumber" required
+                    placeholder=" " autocomplete="" value="0383431907">
+                  <div class="form__alert">
+                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                    </svg>
+                    <div class="form__alert-message"></div>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="form__input-email" class="form__label">Số điện thoại</label>
+                  <input class="form__input" id="form__input-email" type="email" name="email" required placeholder=" "
+                    autocomplete="" value="phuc11b3ntdn@gmail.com">
+                  <div class="form__alert">
+                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                    </svg>
+                    <div class="form__alert-message"></div>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
     </main>
     <!-- * Footer -->
-    <!-- <footer-component></footer-component> -->
+    <footer-component></footer-component>
   </div>
 </body>
 

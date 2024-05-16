@@ -1,4 +1,5 @@
-import * as HeaderUtils from "./header.js";
+import {Validator} from './validator.js';
+import * as HeaderUtils from './header.js';
 document
   .querySelector(`header-component`)
   .addEventListener(`headerReady`, () => {
@@ -27,7 +28,6 @@ passwordInputs.forEach((passwordInput) => {
   const eyeOpen = passwordInput.parentNode.querySelector(
     ".form__eye-hide-password"
   );
-  console.log(eyeOpen);
   const eyeClose = passwordInput.parentNode.querySelector(
     ".form__eye-show-password"
   );
@@ -40,4 +40,36 @@ passwordInputs.forEach((passwordInput) => {
     eyeClose.classList.toggle("hidden");
   };
   eyeWrap.addEventListener("click", switchOpenClosePassword);
+});
+
+Validator({
+  form: `#signup #form`,
+  formField: `#signup .form-field`,
+  rules: [
+    Validator.isRequired(`#signup #form__input-email`,`Vui lòng nhập vào trường email`),
+    Validator.isEmail(`#signup #form__input-email`),
+    Validator.isRequired(`#signup #form__input-username`, `Vui lòng nhập đầy đủ họ tên của bạn`),
+    Validator.isFullName(`#signup #form__input-username`),
+    Validator.isRequired(`#signup #form__input-phone-number`,`Vui lòng nhập vào số điện thoại của bạn`),
+    Validator.isPhoneNumber(`#signup #form__input-phone-number`),
+    Validator.isRequired(`#signup #form__input-password`,`Vui lòng nhập mật khẩu`),
+    Validator.isRequired(`#signup #form__input-confirm-password`),
+    Validator.isConfirmed(`#signup #form__input-confirm-password`, () => { return document.querySelector(`#signup #form__input-password`).value;}, `Mật khẩu nhập lại không khớp`)
+  ],
+  alertMessage: `.form__alert-message`,
+  onSubmit: function (data) {
+    let datas = {...data};
+    console.log(datas);
+  }
+})
+
+Validator({
+  form: `#login #form`,
+  formField: `#login .form-field`,
+  rules: [
+    Validator.isRequired(`#login #form__input-email`,`Vui lòng nhập vào trường email`),
+    Validator.isEmail(`#login #form__input-email`),
+    Validator.isRequired(`#login #form__input-password`,`Vui lòng nhập mật khẩu`),
+  ],
+  alertMessage: `.form__alert-message`,
 });

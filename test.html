@@ -33,14 +33,22 @@
     }
   </style>
 </body>
-<div class="container">
+<label for="browser">Choose a browser, or enter your own:</label>
 
-  <div class="item">Phần tử con 1</div>
+<input list="browsers" name="browser" id="browser">
 
-  <div class="item">Phần tử con 2</div>
+<datalist id="browsers">
 
-  <div class="item">Phần tử con 3</div>
+  <option value="Chrome">
 
-</div>
+  <option value="Firefox">
+
+  <option value="Safari">
+
+  <option value="Opera">
+
+  <option value="Edge">
+
+</datalist>
 
 </html>

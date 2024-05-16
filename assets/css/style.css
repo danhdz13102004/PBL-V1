@@ -64,7 +64,7 @@
   position: relative;
   height: fit-content;
   background-color: var(--white-color);
-  padding: 1rem 1.5rem;
+  padding: 0.6rem 1.5rem;
 }
 .main .filter {
   width: 100%;
