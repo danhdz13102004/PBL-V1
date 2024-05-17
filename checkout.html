@@ -28,6 +28,127 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="checkout__decoration"></div>
+            <div class="checkout-new-info checkout-wrap">
+              <div class="checkout-info">
+                <div class="checkout-info__title">
+                  <h1 class="checkout-info__title-content">Thông tin thanh toán</h1>
+                </div>
+                <div class="checkout-info__content">
+                  <div class="checkout-info__field">
+                    <label class="checkout-info__label" for="checkout-info__fullname">
+                      Họ và tên người nhận
+                    </label>
+                    <input class="checkout-info__input" type="text" name="fullname" id="checkout-info__fullname"
+                      autofocus placeholder="Nhập họ tên người nhận">
+                    <div class="form__alert">
+                      <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                          stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                      </svg>
+                      <div class="form__alert-message"></div>
+                    </div>
+                  </div>
+                  <div class="checkout-info__field">
+                    <label class="checkout-info__label" for="checkout-info__phone-number">
+                      Số điện thoại
+                    </label>
+                    <input class="checkout-info__input" type="tel" name="phoneNumber" id="checkout-info__phone-number"
+                      placeholder="Nhập số điện thoại">
+                    <div class="form__alert">
+                      <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                          stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                      </svg>
+                      <div class="form__alert-message"></div>
+                    </div>
+                  </div>
+                  <div class="checkout-info__field">
+                    <label class="checkout-info__label" for="checkout-info__country">Quốc gia</label>
+                    <input class="checkout-info__input" type="text" name="country" id="checkout-info__country"
+                      value="Việt Nam" readonly>
+                  </div>
+                  <div class="checkout-info__field">
+                    <label class="checkout-info__label" for="checkout-info__province">Tỉnh/Thành phố</label>
+                    <div class="checkout-info__input checkout-select__wrap">
+                      <select class="checkout-info__select checkout-info__province" name="province"
+                        id="checkout-info__province">
+                        <option value="">Chọn tỉnh/ thành phố</option>
+                      </select>
+                    </div>
+                    <div class="form__alert">
+                      <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                          stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                      </svg>
+                      <div class="form__alert-message"></div>
+                    </div>
+                  </div>
+                  <div class="checkout-info__field">
+                    <label class="checkout-info__label" for="checkout-info__district">Quận/Huyện</label>
+                    <div class="checkout-info__input checkout-select__wrap">
+                      <select class="checkout-info__select checkout-info__district" name="district"
+                        id="checkout-info__district">
+                        <option value="">Chọn quận/ huyện</option>
+                      </select>
+                    </div>
+                    <div class="form__alert">
+                      <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                          stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                      </svg>
+                      <div class="form__alert-message"></div>
+                    </div>
+                  </div>
+                  <div class="checkout-info__field">
+                    <label class="checkout-info__label" for="checkout-info__ward">Xã/Phường</label>
+                    <div class="checkout-info__input checkout-select__wrap">
+                      <select class="checkout-info__select checkout-info__ward" name="ward" id="checkout-info__ward">
+                        <option value="">Chọn xã/ phường</option>
+                      </select>
+                    </div>
+                    <div class="form__alert">
+                      <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                          stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                      </svg>
+                      <div class="form__alert-message"></div>
+                    </div>
+                  </div>
+                  <div class="checkout-info__field">
+                    <label class="checkout-info__label" for="checkout-info__address">Địa chỉ nhận hàng</label>
+                    <input list="address" class="checkout-info__input checkout-info__address" name="address"
+                      id="checkout-info__address" value="" placeholder="Ví dụ: số 54 đường Nguyễn Lương Bằng">
+                    <div class="form__alert">
+                      <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                          stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                      </svg>
+                      <div class="form__alert-message"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="button__wrap">
+                <button class="button btnCloseModal" id="btnReturnSwitchInfo">
+                  Quay lại
+                </button>
+                <button class="button" id="btnUpdateInfo">
+                  Hoàn thành
+                </button>
+              </div>
+            </div>
             <!--* Display 1 default checkout info -->
             <div class="checkout-default-wrap" id="checkout-default">
               <div class="checkout-default__title">
@@ -253,8 +374,8 @@
                           <label class="checkout-info__label" for="checkout-info__fullname">
                             Họ và tên người nhận
                           </label>
-                          <input class="checkout-info__input checkout-info__fullname" type="text" name="fullname" id="checkout-info__fullname"
-                            autofocus placeholder="Nhập họ tên người nhận">
+                          <input class="checkout-info__input checkout-info__fullname" type="text" name="fullname"
+                            id="checkout-info__fullname" autofocus placeholder="Nhập họ tên người nhận">
                           <div class="form__alert">
                             <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -285,14 +406,17 @@
                         </div>
                         <div class="checkout-info__field">
                           <label class="checkout-info__label" for="checkout-info__country">Quốc gia</label>
-                          <input class="checkout-info__input checkout-info__country" type="text" name="country" id="checkout-info__country"
-                            value="Việt Nam" readonly>
+                          <input class="checkout-info__input checkout-info__country" type="text" name="country"
+                            id="checkout-info__country" value="Việt Nam" readonly>
                         </div>
                         <div class="checkout-info__field">
                           <label class="checkout-info__label" for="checkout-info__province">Tỉnh/Thành phố</label>
-                          <select class="checkout-info__input checkout-info__province" name="province" id="checkout-info__province">
-                            <option value="">Chọn tỉnh/ thành phố</option>
-                          </select>
+                          <div class="checkout-info__input checkout-select__wrap">
+                            <select class="checkout-info__select checkout-info__province" name="province"
+                              id="checkout-info__province">
+                              <option value="">Chọn tỉnh/ thành phố</option>
+                            </select>
+                          </div>
                           <div class="form__alert">
                             <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -306,9 +430,12 @@
                         </div>
                         <div class="checkout-info__field">
                           <label class="checkout-info__label" for="checkout-info__district">Quận/Huyện</label>
-                          <select class="checkout-info__input checkout-info__district" name="district" id="checkout-info__district">
-                            <option value="">Chọn quận/ huyện</option>
-                          </select>
+                          <div class="checkout-info__input checkout-select__wrap">
+                            <select class="checkout-info__select checkout-info__district" name="district"
+                              id="checkout-info__district">
+                              <option value="">Chọn quận/ huyện</option>
+                            </select>
+                          </div>
                           <div class="form__alert">
                             <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -322,9 +449,12 @@
                         </div>
                         <div class="checkout-info__field">
                           <label class="checkout-info__label" for="checkout-info__ward">Xã/Phường</label>
-                          <select class="checkout-info__input checkout-info__ward" name="ward" id="checkout-info__ward">
-                            <option value="">Chọn xã/ phường</option>
-                          </select>
+                          <div class="checkout-info__input checkout-select__wrap">
+                            <select class="checkout-info__select checkout-info__ward" name="ward"
+                              id="checkout-info__ward">
+                              <option value="">Chọn xã/ phường</option>
+                            </select>
+                          </div>
                           <div class="form__alert">
                             <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -338,8 +468,8 @@
                         </div>
                         <div class="checkout-info__field">
                           <label class="checkout-info__label" for="checkout-info__address">Địa chỉ nhận hàng</label>
-                          <input list="address" class="checkout-info__input checkout-info__address" name="address" id="checkout-info__address" value=""
-                            placeholder="Ví dụ: số 54 đường Nguyễn Lương Bằng">
+                          <input list="address" class="checkout-info__input checkout-info__address" name="address"
+                            id="checkout-info__address" value="" placeholder="Ví dụ: số 54 đường Nguyễn Lương Bằng">
                           <div class="form__alert">
                             <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -418,9 +548,12 @@
                         </div>
                         <div class="checkout-info__field">
                           <label class="checkout-info__label" for="checkout-info__province">Tỉnh/Thành phố</label>
-                          <select class="checkout-info__input checkout-info__province" name="province" id="checkout-info__province">
-                            <option value="">Chọn tỉnh/ thành phố</option>
-                          </select>
+                          <div class="checkout-info__input checkout-select__wrap">
+                            <select class="checkout-info__select checkout-info__province" name="province"
+                              id="checkout-info__province">
+                              <option value="">Chọn tỉnh/ thành phố</option>
+                            </select>
+                          </div>
                           <div class="form__alert">
                             <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -434,9 +567,12 @@
                         </div>
                         <div class="checkout-info__field">
                           <label class="checkout-info__label" for="checkout-info__district">Quận/Huyện</label>
-                          <select class="checkout-info__input checkout-info__district" name="district" id="checkout-info__district">
-                            <option value="">Chọn quận/ huyện</option>
-                          </select>
+                          <div class="checkout-info__input checkout-select__wrap">
+                            <select class="checkout-info__select checkout-info__district" name="district"
+                              id="checkout-info__district">
+                              <option value="">Chọn quận/ huyện</option>
+                            </select>
+                          </div>
                           <div class="form__alert">
                             <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -450,9 +586,12 @@
                         </div>
                         <div class="checkout-info__field">
                           <label class="checkout-info__label" for="checkout-info__ward">Xã/Phường</label>
-                          <select class="checkout-info__input checkout-info__ward" name="ward" id="checkout-info__ward">
-                            <option value="">Chọn xã/ phường</option>
-                          </select>
+                          <div class="checkout-info__input checkout-select__wrap">
+                            <select class="checkout-info__select checkout-info__ward" name="ward"
+                              id="checkout-info__ward">
+                              <option value="">Chọn xã/ phường</option>
+                            </select>
+                          </div>
                           <div class="form__alert">
                             <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -466,8 +605,8 @@
                         </div>
                         <div class="checkout-info__field">
                           <label class="checkout-info__label" for="checkout-info__address">Địa chỉ nhận hàng</label>
-                          <input list="address" class="checkout-info__input checkout-info__address" name="address" id="checkout-info__address" value=""
-                            placeholder="Ví dụ: số 54 đường Nguyễn Lương Bằng">
+                          <input list="address" class="checkout-info__input checkout-info__address" name="address"
+                            id="checkout-info__address" value="" placeholder="Ví dụ: số 54 đường Nguyễn Lương Bằng">
                           <div class="form__alert">
                             <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none"
                               xmlns="http://www.w3.org/2000/svg">

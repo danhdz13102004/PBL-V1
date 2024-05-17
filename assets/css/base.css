@@ -313,7 +313,8 @@ html {
 #btnChooseDefaultInfo,
 #btnCreateNewInfo,
 #btnSubmitInfo,
-#btnUpdateInfo {
+#btnUpdateInfo,
+#btnSaveUserInfo {
   height: 4.6rem;
   background-color: var(--blue-color);
   border: 0.2rem solid var(--blue-color);

@@ -283,6 +283,7 @@ input[type="radio"]:checked,
   grid-template-columns: 1fr;
   row-gap: 2.8rem;
 }
+.checkout-new-info .checkout-info__content,
 #modal__addNewInfo .checkout-info__content,
 #modal__addUpdateInfo .checkout-info__content {
   margin-bottom: 2.6rem;
@@ -362,34 +363,65 @@ input[type="radio"]:checked,
 .checkout-info__input:is(:focus) {
   border-color: var(--blue-color);
 }
-select.checkout-info__input {
+.checkout-select__wrap {
+  padding: 0rem;
+  border-radius: 0.4rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.checkout-select__wrap::after {
+  position: absolute;
+  right: 0rem;
+  z-index: 10;
+  content: "";
+  width: 3rem;
+  height: 3rem;
+  background-image: url("data:image/svg+xml,%3Csvg width='24px' height='24px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' transform='rotate(180)'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'/%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cg id='SVGRepo_iconCarrier'%3E %3Cpath d='M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z' fill='%230F0F0F'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: center right;
+  background-position-x: calc(100% - 0.45rem);
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease;
+}
+.checkout-select__wrap:focus-within::after {
+  transform: rotate(90deg);
+}
+select.checkout-info__select {
   cursor: pointer;
 }
-select#xyz {
-  -webkit-appearance: button;
+.checkout-info__select {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+  outline: none;
+  padding: 0rem 1.2rem;
+  border-radius: 0.4rem;
+}
+.checkout-info__input.checkout-select__wrap:focus-within {
+  border-color: var(--blue-color);
+}
+select {
+  appearance: none;
+  -webkit-appearance: none;
   -webkit-border-radius: 2px;
   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
   -webkit-padding-end: 20px;
   -webkit-padding-start: 2px;
   -webkit-user-select: none;
-  background-image: url(../images/select-arrow.png),
-    -webkit-linear-gradient(#fafafa, #f4f4f4 40%, #e5e5e5);
-  background-position: center right;
-  background-repeat: no-repeat;
   border: none;
   outline: none;
   scroll-behavior: smooth;
-  color: #555;
   font-size: inherit;
   margin: 0;
   overflow: hidden;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  padding: 0.2rem 0rem;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background-color: none;
 }
 select:not(:-internal-select-author-button) {
-  border: 0.15rem solid var(--text-gray-color);
   outline: none;
 }
 .checking-order {
@@ -411,7 +443,8 @@ select:not(:-internal-select-author-button) {
   width: 100%;
   background-color: var(--white-color);
   border-radius: 0.6rem;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0.1rem 0.1rem 0.1rem 0 rgba(0, 0, 0, 0.1),
+    -0.1rem -0.1rem 0.1rem 0 rgba(0, 0, 0, 0.1);
 }
 .checking-order-wrap {
   display: grid;
@@ -531,6 +564,8 @@ select:not(:-internal-select-author-button) {
   width: 100%;
   height: 5rem;
   align-self: center;
+  text-transform: uppercase;
+  font-size: 2rem;
 }
 #btnChooseDefaultInfo,
 #btnReturn {

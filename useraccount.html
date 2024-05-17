@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tài khoản của bạn</title>
+  <title>Tài khoản của tôi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -56,12 +56,13 @@
           </div>
           <div class="col-lg-9">
             <div class="account-management" id="account-information-management">
-              <div class="account-form-title">Thông tin tài khoản</div>
+              <div class="account-form__title">Thông tin tài khoản</div>
               <form action="" method="post" id="account-form-info">
+                <!--* Full name -->
                 <div class="form-field">
                   <label for="form__input-fullname" class="form__label">Họ và tên</label>
-                  <input class="form__input" id="form__input-fullname" type="text" name="fullname" required
-                    placeholder=" " autocomplete="" value="Nguyễn Phúc">
+                  <input class="form__input" id="form__input-fullname" type="text" name="fullname" placeholder=" "
+                    autocomplete="" value="Nguyễn Phúc">
                   <div class="form__alert">
                     <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -72,10 +73,11 @@
                     <div class="form__alert-message"></div>
                   </div>
                 </div>
+                <!--* Email -->
                 <div class="form-field">
-                  <label for="form__input-username" class="form__label">Tên người dùng</label>
-                  <input class="form__input" id="form__input-username" type="text" name="username" required
-                    placeholder=" " autocomplete="" value="puckpuck2205">
+                  <label for="form__input-email" class="form__label">Email</label>
+                  <input class="form__input" id="form__input-email" type="email" name="email" placeholder=" "
+                    autocomplete="" value="phuc11b3ntdn@gmail.com" readonly>
                   <div class="form__alert">
                     <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -86,10 +88,11 @@
                     <div class="form__alert-message"></div>
                   </div>
                 </div>
+                <!--* Phone number  -->
                 <div class="form-field">
                   <label for="form__input-phone-number" class="form__label">Số điện thoại</label>
-                  <input class="form__input" id="form__input-phone-number" type="tel" name="phonenumber" required
-                    placeholder=" " autocomplete="" value="0383431907">
+                  <input class="form__input" id="form__input-phone-number" type="tel" name="phonenumber" placeholder=" "
+                    autocomplete="" value="0383431907">
                   <div class="form__alert">
                     <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -100,10 +103,24 @@
                     <div class="form__alert-message"></div>
                   </div>
                 </div>
+                <!--* Gender -->
                 <div class="form-field">
-                  <label for="form__input-email" class="form__label">Số điện thoại</label>
-                  <input class="form__input" id="form__input-email" type="email" name="email" required placeholder=" "
-                    autocomplete="" value="phuc11b3ntdn@gmail.com">
+                  <label for="male" class="form__label">Giới tính</label>
+                  <label class="form__input-gender-wrap" for="male">
+                    <input class="form__input-gender" id="male" type="radio" name="gender" placeholder=" "
+                      autocomplete="" value="male" checked>
+                    <span>Nam</span>
+                  </label>
+                  <label class="form__input-gender-wrap" for="female">
+                    <input class="form__input-gender" id="female" type="radio" name="gender" placeholder=" "
+                      autocomplete="" value="female">
+                    <span>Nữ</span>
+                  </label>
+                  <label class="form__input-gender-wrap" for="other">
+                    <input class="form__input-gender" id="other" type="radio" name="gender" placeholder=" "
+                      autocomplete="" value="other">
+                    <span>Khác</span>
+                  </label>
                   <div class="form__alert">
                     <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -114,6 +131,50 @@
                     <div class="form__alert-message"></div>
                   </div>
                 </div>
+                <!--* Dob -->
+                <div class="form-field">
+                  <label for="form__input-dob" class="form__label form__label-dob">Ngày sinh</label>
+                  <div class="form__input form__select-wrap">
+                    <select class="form__input-dob" name="day" id="">
+                      <option value="">Ngày</option>
+                    </select>
+                  </div>
+                  <div class="form__input form__select-wrap">
+                    <select class="form__input-dob" name="month" id="">
+                      <option value="">Tháng</option>
+                    </select>
+                  </div>
+                  <div class="form__input form__select-wrap">
+                    <select class="form__input-dob" name="year" id="">
+                      <option value="">Năm</option>
+                    </select>
+                  </div>
+                  <div class="form__alert">
+                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                    </svg>
+                    <div class="form__alert-message"></div>
+                  </div>
+                </div>
+                <!--* Account status -->
+                <div class="form-field">
+                  <label for="form__input-status" class="form__label">Trạng thái tài khoản</label>
+                  <input class="form__input" id="form__input-status" type="email" name="status" placeholder=" "
+                    autocomplete="" value="Bình thường" readonly>
+                  <div class="form__alert">
+                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+                    </svg>
+                    <div class="form__alert-message"></div>
+                  </div>
+                </div>
+                <button class="button" id="btnSaveUserInfo">Lưu thay đổi</button>
               </form>
             </div>
           </div>

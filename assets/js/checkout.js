@@ -790,3 +790,8 @@ btnUpdateInfo.addEventListener(`click`, async () => {
     );
   }
 });
+
+let addressOption = 0;
+const boxNewCheckoutInfo = document.querySelector(`.checkout-new-info`);
+checkoutDefault.classList.toggle(`hidden`,addressOption === 0);
+boxNewCheckoutInfo.classList.toggle(`hidden`,addressOption !== 0);

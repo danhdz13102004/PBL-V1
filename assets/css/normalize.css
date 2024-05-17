@@ -390,7 +390,12 @@ input{
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
+input:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active
+{
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 /**
