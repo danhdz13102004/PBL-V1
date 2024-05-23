@@ -31,7 +31,7 @@ public class HibernateUtil {
 
                  // Hibernate settings equivalent to hibernate.cfg.xml's properties
                  Properties settings = new Properties();
-                 settings.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
+                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
                  settings.put(Environment.URL, "jdbc:mysql://localhost:3306/web_ban_sach");
                  settings.put(Environment.USER, "root");
                  settings.put(Environment.PASS, "MinhMYSQLlvn0112");
@@ -54,6 +54,7 @@ public class HibernateUtil {
                  configuration.addAnnotatedClass(model.DiaChiGiaoHang.class);
                  configuration.addAnnotatedClass(model.ChiTietDonHang.class);
                  configuration.addAnnotatedClass(model.ChiTietGioHang.class);
+                 configuration.addAnnotatedClass(model.ChuongTrinhGiamGia.class);
                 
                  ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                  .applySettings(configuration.getProperties()).build();

@@ -136,6 +136,7 @@ public class UserDao  {
 		{
 			oldUser.setStatus(updateUser.getStatus());
 		}
+		oldUser.setGioiTinh(updateUser.isGioiTinh());
 		List<DiaChiGiaoHang> oldListDC = oldUser.getDiaChiGiaoHang();
 		List<DiaChiGiaoHang> updatedListDC = updateUser.getDiaChiGiaoHang();
 		if (updatedListDC != null)
@@ -244,7 +245,7 @@ public class UserDao  {
 	    }
 	    return false;
 	}
-	public List<User> searchUsers (String ten, String sdt, String email, String role, String status, String diachi,int curPage, int size, Session s)
+	public List<User> searchUsers (String ten, String sdt, String email,String gioitinh, String role, String status, String diachi,int curPage, int size, Session s)
 	{
 		ArrayList<Object> params = new ArrayList<>();
 		int cnt = 0;
@@ -274,6 +275,13 @@ public class UserDao  {
 			params.add(diachi);
 			criteria.add("dc.diaChi LIKE ?"+Integer.toString(++cnt));
 		}
+		boolean gioiTinh;
+		if (!gioitinh.equals("All"))
+		{
+			gioiTinh=Boolean.parseBoolean(gioitinh);
+			params.add(gioiTinh);
+			criteria.add("u.gioiTinh = ?"+Integer.toString(++cnt));
+		}
 		User.Role enumRole;
 		if (!role.equals("All"))
 		{
@@ -299,7 +307,7 @@ public class UserDao  {
 		List<User> res = HQLutil.getInstance().doQuery(hql.toString(), User.class, s, (curPage-1)*size, size, params.toArray());
 		return res;
 	}
-	public long countNumberUserHas(String ten, String sdt, String email, String role, String status, String diachi, Session s)
+	public long countNumberUserHas(String ten, String sdt, String email,String gioitinh, String role, String status, String diachi, Session s)
 	{
 		ArrayList<Object> params = new ArrayList<>();
 		int cnt = 0;
@@ -328,6 +336,13 @@ public class UserDao  {
 			diachi = "%"+diachi+"%";
 			params.add(diachi);
 			criteria.add("dc.diaChi LIKE ?"+Integer.toString(++cnt));
+		}
+		boolean gioiTinh;
+		if (!gioitinh.equals("All"))
+		{
+			gioiTinh=Boolean.parseBoolean(gioitinh);
+			params.add(gioiTinh);
+			criteria.add("u.gioiTinh = ?"+Integer.toString(++cnt));
 		}
 		User.Role enumRole;
 		if (!role.equals("All"))
@@ -370,8 +385,9 @@ public class UserDao  {
         String roleFilter = "KH";
         String statusFilter = "AC";
         String diachiFilter = null;
-        // List<User> list = UserDao.getUserDao().searchUsers(tenFilter, sdtFilter, emailFilter,roleFilter,statusFilter,diachiFilter,1,2,s);
-        Long res = UserDao.getUserDao().countNumberUserHas(tenFilter, sdtFilter, emailFilter,roleFilter,statusFilter,diachiFilter,s);
+        String gioitinhFilter = "All";
+         //List<User> list = UserDao.getUserDao().searchUsers(tenFilter, sdtFilter, emailFilter,gioitinhFilter,roleFilter,statusFilter,diachiFilter,1,2,s);
+        Long res = UserDao.getUserDao().countNumberUserHas(tenFilter, sdtFilter, emailFilter,gioitinhFilter, roleFilter,statusFilter,diachiFilter,s);
         // User u = new User();
 		// u.setId("US00000005");
 		// u.setTen("Minh Le");

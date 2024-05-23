@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,12 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "Vai_tro")
 	private Role role;
+	
+	@Column(name = "Gioi_tinh")
+	private boolean gioiTinh;
+	
+	@Column(name = "Ngay_sinh")
+	private Timestamp ngaySinh;
 	
 	@Column(name = "Ma_xac_thuc")
 	private String maXacThuc;
@@ -124,6 +132,21 @@ public class User {
 		this.role = role;
 	}
 
+	public boolean isGioiTinh() {
+		return this.gioiTinh;
+	}
+
+	public void setGioiTinh(boolean gt) {
+		this.gioiTinh = gt;
+	}
+	
+	public Timestamp getNgaySinh() {
+		return this.ngaySinh;
+	}
+
+	public void setNgaySinh(Timestamp ns) {
+		this.ngaySinh = ns;
+	}
 	public String getMaXacThuc() {
 		return maXacThuc;
 	}
@@ -218,7 +241,7 @@ public class User {
 	}
 	public static enum Status
 	{
-		PR("Cho xac thuc"),
+		AU("Cho xac thuc"),
 		AC("Active"),
 		BL("Khoa tai khoan"),
 		DC("Deactive");

@@ -105,7 +105,7 @@ public class allRequest extends HttpServlet {
 				String maXacThuc = RandomNumber.getNumber();
 				Random rd = new Random();
 				String maKH = System.currentTimeMillis() + rd.nextInt(1000) + "";
-				User user = new User(maKH,fullName,phoneNumber,email,MaHoa.Encode(password),User.Role.KH,maXacThuc,User.Status.PR);
+				User user = new User(maKH,fullName,phoneNumber,email,MaHoa.Encode(password),User.Role.KH,maXacThuc,User.Status.AU);
 				userDao.insert(user,s);
 				Email.sendEmail(user.getEmail(), "Email xác thực", "Mã xác thực của bạn là " + maXacThuc+ ".Vui lòng nhập mã này để hoàn thành đăng kí");
 				request.setAttribute("maKhachHang", maKH);

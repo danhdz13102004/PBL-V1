@@ -30,7 +30,8 @@ public class DonHang {
     private Status tinhTrang;
 	
 	@Column(name = "Thoi_gian_dat_hang")
-    private Timestamp  thoiGianDatHang;
+	@Temporal(TemporalType.TIMESTAMP)
+    private Date  thoiGianDatHang;
 	
 	@Column(name = "SDT_Nguoi_Nhan")
 	private String sdtNguoiNhan;
@@ -138,13 +139,13 @@ public class DonHang {
     
 
 
-	public Timestamp getThoiGianDatHang() {
+	public Date getThoiGianDatHang() {
 		return thoiGianDatHang;
 	}
 
 
 
-	public void setThoiGianDatHang(Timestamp thoiGianDatHang) {
+	public void setThoiGianDatHang(Date thoiGianDatHang) {
 		this.thoiGianDatHang = thoiGianDatHang;
 	}
 

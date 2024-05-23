@@ -44,6 +44,12 @@ public class SachSerializer implements JsonSerializer<Sach> {
         jsonNxb.addProperty("tenTacGia", sach.getNxb().getTenNxb());
         jsonObject.add("nxb", jsonNxb);
         
+        final JsonObject jsonCtGiamGia = new JsonObject();
+        jsonCtGiamGia.addProperty("idCtGiamGia", sach.getCtGiamGia().getId());
+        jsonCtGiamGia.addProperty("tenCtGiamGia", sach.getCtGiamGia().getName());
+        jsonCtGiamGia.addProperty("mucGiam", sach.getCtGiamGia().getMucGiam());
+        jsonObject.add("ctGiamGia", jsonCtGiamGia);
+        
         // Write custom Array Serializer
         jsonObject.add("listDanhGia",context.serialize(sach.getListDanhGia()));
 //        jsonObject.add("listChiTietGioHang", context.serialize(sach.getListChiTietGioHang()));

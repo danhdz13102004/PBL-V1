@@ -5,10 +5,17 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 public class NhaXuatBan {
 	
 	@Id
+	@GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "BP"), 
+      strategy = "model.MyIDGenerator")
 	@Column (name = "Id")
 	String id;
 	

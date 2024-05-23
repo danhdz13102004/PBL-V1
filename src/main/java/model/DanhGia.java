@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -36,7 +37,8 @@ public class DanhGia {
     private User khachHang;
 	
 	@Column(name = "Thoi_gian_danh_gia")
-    private Timestamp thoiGian;
+	@Temporal(TemporalType.TIMESTAMP)
+    private Date thoiGian;
     
     public DanhGia() {
     }
@@ -83,12 +85,12 @@ public class DanhGia {
     }
 
 
-	public Timestamp getThoiGian() {
+	public Date getThoiGian() {
 		return thoiGian;
 	}
 
 
-	public void setThoiGian(Timestamp thoiGian) {
+	public void setThoiGian(Date thoiGian) {
 		this.thoiGian = thoiGian;
 	}
 

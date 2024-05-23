@@ -23,7 +23,7 @@ import model.*;
 import modelApi.*;
 
 import java.util.List;
-@WebServlet(urlPatterns = "/api/admin")
+@WebServlet(urlPatterns = "/api/admin/*")
 public class apiAdmin extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -99,16 +99,17 @@ public class apiAdmin extends HttpServlet{
 
     private void doSelect(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        String sdtFilter = (String)req.getParameter("SDT");
-        String tenFilter = (String)req.getParameter("ten");
-        String emailFilter = (String)req.getParameter("email");
-        String roleFilter = (String)req.getParameter("role");
-        String statusFilter = (String)req.getParameter("status");
-        String diachiFilter = (String)req.getParameter("diachi");
-        int curPage = Integer.parseInt((String)req.getParameter("curPage"));
-        int size = Integer.parseInt((String)req.getParameter("size"));
+        String sdtFilter = req.getParameter("SDT");
+        String tenFilter = req.getParameter("ten");
+        String gioitinhFilter = req.getParameter("gioitinh");
+        String emailFilter = req.getParameter("email");
+        String roleFilter = req.getParameter("role");
+        String statusFilter = req.getParameter("status");
+        String diachiFilter = req.getParameter("diachi");
+        int curPage = Integer.parseInt(req.getParameter("curPage"));
+        int size = Integer.parseInt(req.getParameter("size"));
         Session s = HibernateUtil.getSessionFactory().openSession();
-        List<User> list = UserDao.getUserDao().searchUsers(tenFilter, sdtFilter, emailFilter,roleFilter,statusFilter,diachiFilter,curPage,size,s);
+        List<User> list = UserDao.getUserDao().searchUsers(tenFilter, sdtFilter, emailFilter, gioitinhFilter, roleFilter,statusFilter,diachiFilter,curPage,size,s);
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         String json = JsonUtil.getInstance().jsonToString(list);
@@ -118,16 +119,15 @@ public class apiAdmin extends HttpServlet{
 
     private void doCount(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        String sdtFilter = (String)req.getParameter("SDT");
-        String tenFilter = (String)req.getParameter("ten");
-        String emailFilter = (String)req.getParameter("email");
-        String roleFilter = (String)req.getParameter("role");
-        String statusFilter = (String)req.getParameter("status");
-        String diachiFilter = (String)req.getParameter("diachi");
-        int curPage = Integer.parseInt((String)req.getParameter("curPage"));
-        int size = Integer.parseInt((String)req.getParameter("size"));
+        String sdtFilter = req.getParameter("SDT");
+        String tenFilter = req.getParameter("ten");
+        String gioitinhFilter = req.getParameter("gioitinh");
+        String emailFilter = req.getParameter("email");
+        String roleFilter = req.getParameter("role");
+        String statusFilter = req.getParameter("status");
+        String diachiFilter = req.getParameter("diachi");
         Session s = HibernateUtil.getSessionFactory().openSession();
-        long cnt = UserDao.getUserDao().countNumberUserHas(tenFilter, sdtFilter, emailFilter,roleFilter,statusFilter,diachiFilter,s);
+        long cnt = UserDao.getUserDao().countNumberUserHas(tenFilter, sdtFilter, emailFilter, gioitinhFilter, roleFilter,statusFilter,diachiFilter,s);
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         HttpUtil.getInstance().writeToResp(resp, Long.toString(cnt));

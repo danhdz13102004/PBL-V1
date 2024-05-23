@@ -9,6 +9,7 @@ import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
+import model.Sach;
 import util.*;	
 public class HQLutil {
 	private static HQLutil Instance;
@@ -164,9 +165,15 @@ public class HQLutil {
 	}
 	public <T> List<T> doQuery (String hql, Class<T> c, Session s,int offset,int limit, Object... params)
 	{
-		if (offset<0) offset = 0;
-		if (limit<0) limit = 1000;
-		Query<T> query = s.createQuery(hql,c).setFirstResult(offset).setMaxResults(limit);
+		Query<T> query;
+		if (offset>=0 && limit>=0)
+		{
+			query = s.createQuery(hql,c).setFirstResult(offset).setMaxResults(limit);
+		}
+		else
+		{
+			query = s.createQuery(hql,c);
+		}
 		for (int i=0;i<params.length;i++)
 		{
 			query.setParameter(i+1, params[i]);
@@ -176,12 +183,25 @@ public class HQLutil {
 	}
 	public <T> int doUpdateQuery(String hql, Class<T> c, Session s, Object... params)
 	{
-		Query<T> query = s.createQuery(hql,c);
+		Query query = s.createQuery(hql);
 		for (int i=0;i<params.length;i++)
 		{
 			query.setParameter(i+1, params[i]);
 		}
+		Transaction ts = s.beginTransaction();
 		int res = query.executeUpdate();
+		ts.commit();
 		return res;
+	}
+	public static void main(String[] args) {
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		for (int i=0;i<=20;i++)
+		{
+			Sach sa = new Sach();
+			sa.setTen(Integer.toString(i));
+			HQLutil.getInstance().doInsert(sa, s);
+		}
+		s.close();
+		HibernateUtil.close();
 	}
 }

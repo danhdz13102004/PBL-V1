@@ -28,7 +28,7 @@ public class JsonUtil {
         gb.registerTypeAdapter(model.ChiTietDonHang.class, new ChiTietDonHangSerializer());
         gb.registerTypeAdapter(model.DiaChiGiaoHang.class, new DiaChiGiaoHangSerializer());
         gb.registerTypeAdapter(model.DanhGia.class, new DanhGiaSerializer());
-        
+        gb.setDateFormat("yyyy-MM-dd");
         gson = gb.create();
     }
     public String jsonToString (Object ob)
@@ -37,6 +37,6 @@ public class JsonUtil {
     }
     public <T> T toModel(Class<T> c, String json)
     {
-        return new Gson().fromJson(json, c);
+        return gson.fromJson(json, c);
     }
 }

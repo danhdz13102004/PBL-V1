@@ -42,7 +42,8 @@ public class Sach {
     private Integer lanXuatBan;
     
     @Column(name = "Ngay_them")
-    public Timestamp ngayThem;
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date ngayThem;
     
     @Column(name = "Url_image")
     private String urlImage;
@@ -70,6 +71,10 @@ public class Sach {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Id_nxb", referencedColumnName = "Id")
     private NhaXuatBan nxb;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Id_ct_giam_gia", referencedColumnName = "Id")
+    private ChuongTrinhGiamGia ctGiamGia;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sach", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DanhGia> listDanhGia;
@@ -180,8 +185,12 @@ public class Sach {
         return nxb;
     }
     
+    public ChuongTrinhGiamGia getCtGiamGia()
+    {
+    	return this.ctGiamGia;
+    }
   
-	public Timestamp getNgayThem() {
+	public Date getNgayThem() {
 		return ngayThem;
 	}
 
@@ -253,7 +262,7 @@ public class Sach {
         this.lanXuatBan = lanXuatBan;
     }
 
-    public void setNgayThem(Timestamp ngayThem) {
+    public void setNgayThem(Date ngayThem) {
         this.ngayThem = ngayThem;
     }
 
@@ -283,6 +292,11 @@ public class Sach {
 
     public void setNxb(NhaXuatBan nxb) {
         this.nxb = nxb;
+    }
+    
+    public void setCtGiamGia(ChuongTrinhGiamGia ctgg)
+    {
+    	this.ctGiamGia = ctgg;
     }
 
 	@Override
