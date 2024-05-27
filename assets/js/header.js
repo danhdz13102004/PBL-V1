@@ -253,5 +253,5 @@ document
   });
 
 const gotoAccountPage = (option) => {
-  window.location.href = `useraccount.html?pagestatus=${option}`;
+  window.location.href = `useraccount.html?${option}`;
 };

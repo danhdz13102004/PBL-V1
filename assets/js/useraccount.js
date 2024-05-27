@@ -291,18 +291,17 @@ initiallizeMainOption();
 initiallizeSubOptions();
 
 //* Tạo param trên path của url
-const urlParams = new URLSearchParams(window.location.search);
-const pageStatus = urlParams.get(`pagestatus`);
-const loadingPage = (pageStatus) => {
-  if (pageStatus === `info`) {
+const loadingPage = (mainKey, subKey) => {
+  if(mainKey && subKey){
+    handleSubOptionClick(mainKey, functionMapping[mainKey].subOptions.find(option => option.urlParamValue === subKey));
+  }
+  else if(mainKey){
+    handleSidebarClick(mainKey);
+  }
+  else{
     handleSidebarClick(`info`);
-  } else if (pageStatus === `order`) {
-    handleSidebarClick(`order`);
-  } else if (pageStatus === `review`) {
-    handleSidebarClick(`review`);
   }
 };
-loadingPage(pageStatus);
 
 //* Kích vào phần đăng xuất
 const logout = sidebarFunction.querySelector(`#account-logout`);
@@ -803,3 +802,12 @@ btnSubmitDeleteAccount.addEventListener(`click`, (e) => {
 btnCloseModalConfirmDelete.addEventListener(`click`, () => {
   modalConfirmDeleteAccount.style.display = `none`;
 });
+
+//* Fix
+window.onload = () => {
+  const urlParamsString = window.location.search;
+  const arrParams = urlParamsString.substring(1).split(`&`);
+  const mainKey = arrParams[0];
+  const subKey = arrParams[1];
+  loadingPage(mainKey,subKey);
+};
