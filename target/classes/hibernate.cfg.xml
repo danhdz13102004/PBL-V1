@@ -21,5 +21,6 @@
        	<mapping class="model.DanhGia"/>
        	<mapping class="model.ChiTietGioHang"/>
        	<mapping class="model.ChiTietDonHang"/> 
+       	<mapping class="model.ChuongTrinhGiamGia"/> 
     </session-factory>
 </hibernate-configuration>

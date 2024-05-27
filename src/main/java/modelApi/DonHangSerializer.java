@@ -8,6 +8,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import model.ChiTietDonHang;
 import model.DonHang;
 
 public class DonHangSerializer implements JsonSerializer<DonHang>{
@@ -33,6 +34,22 @@ public class DonHangSerializer implements JsonSerializer<DonHang>{
         
         jsonObject.addProperty("diaChiGiaoHang", src.getDiaChiGiaoHang());
         
+        
+        JsonObject listChiTietDonHang= new JsonObject();
+        JsonObject ctdh;  
+        int cnt = 0;
+        for(ChiTietDonHang c : src.getListCTDH()) {
+        	cnt++;
+        	ctdh = new JsonObject();
+        	ctdh.addProperty("tenSach", c.getSach().getTen());
+        	ctdh.addProperty("soLuong", c.getSoLuong());   	
+        	listChiTietDonHang.add("ChiTietDonHang" + cnt, ctdh);
+        }
+        System.out.println(cnt);
+        jsonObject.add("listChiTietDonHang", listChiTietDonHang);
+        jsonObject.addProperty("soDienThoai", src.getSdtNguoiNhan());
+        jsonObject.addProperty("tenNguoiNhan", src.getTenNguoiNhan());
+        jsonObject.addProperty("trangThai", src.getTinhTrang().getMessage());
 //        jsonObject.add("listCTDH", context.serialize(src.getListCTDH()));
         return jsonObject;
 	}

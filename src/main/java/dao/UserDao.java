@@ -23,8 +23,10 @@ public class UserDao  {
 	public List<User> selectAll() {
 		List<User> res = new ArrayList<User>();
 		HQLutil hqLutil = HQLutil.getInstance();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
-			res = hqLutil.doSelectAll(User.class);
+			res = hqLutil.doSelectAll(User.class,session);
+			session.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -43,7 +45,9 @@ public class UserDao  {
 
 	public int insert(User user) {
 		try {
-			HQLutil.getInstance().doInsert(user);
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			HQLutil.getInstance().doInsert(user,session);
+			session.close();
 			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,6 +64,44 @@ public class UserDao  {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public String getMaXacThucByEmail(String email) {
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			String hql = "SELECT user.maXacThuc FROM User user WHERE user.email = :email";
+			List<String> list = session.createQuery(hql).setParameter("email", email).list();
+			if(list.size() > 0) return list.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public void changeMaXacThuc(String maXacThuc,String email) {
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+			String hql = "UPDATE User u SET u.maXacThuc = :newMaXacThuc WHERE u.email = :email";
+			session.createQuery(hql).setParameter("newMaXacThuc", maXacThuc).setParameter("email", email).executeUpdate();
+			transaction.commit();
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void changeMatKhau(String matKhau,String email) {
+		try {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+			String hql = "UPDATE User u SET u.matKhau = :matKhau WHERE u.email = :email";
+			session.createQuery(hql).setParameter("matKhau", matKhau).setParameter("email", email).executeUpdate();
+			transaction.commit();
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setTrangThaiXacThucTrue(String userId) {
@@ -87,6 +129,34 @@ public class UserDao  {
 	        session.close();
 	    }
 	}
+	
+	public void setTrangThaiXacThucTrueByEmail(String email) {
+	    Session session = HibernateUtil.getSessionFactory().openSession();
+	    Transaction transaction = null;
+	    try {
+	        transaction = session.beginTransaction();
+
+	        String hql = "UPDATE User u SET u.status = :status WHERE u.email = :email";
+	        
+	        Query query = session.createQuery(hql);
+	        query.setParameter("status", User.Status.AC);
+	        query.setParameter("email", email);
+	        
+	        int result = query.executeUpdate();
+	        System.out.println("Rows affected: " + result);
+
+	        transaction.commit();
+	    } catch (Exception e) {
+	        if (transaction != null) {
+	            transaction.rollback();
+	        }
+	        e.printStackTrace();
+	    } finally {
+	        session.close();
+	    }
+	}
+	
+	
 	public User checkEmailPassAndStatus(String email, String password) {
 	    Session session = HibernateUtil.getSessionFactory().openSession();
 	    User user = null;

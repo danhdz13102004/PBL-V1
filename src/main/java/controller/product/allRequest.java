@@ -39,7 +39,7 @@ public class allRequest extends HttpServlet {
 			showInfor(request, response);
 		}
 
-		RequestDispatcher rq = getServletContext().getRequestDispatcher("/productDetail.jsp");
+		RequestDispatcher rq = getServletContext().getRequestDispatcher("/productDetail1.jsp");
 		rq.forward(request, response);
 		
 	}
@@ -55,6 +55,7 @@ public class allRequest extends HttpServlet {
 		sach = sachDao.selectById(id,session);
 //		System.out.println(sach);
 		System.out.println(sach.getTheLoai() + " " + sach.getTacGia() + " " + sach.getNxb());
+		System.out.println(sach.getCtGiamGia());
 		request.setAttribute("product", sach);
 		session.close();
 	}

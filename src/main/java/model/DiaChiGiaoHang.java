@@ -2,10 +2,17 @@ package model;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 public class DiaChiGiaoHang {
 	
 	@Id
+	@GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "DC"), 
+      strategy = "model.MyIDGenerator")
 	@Column(name="Id")
 	private String id;
 	
@@ -13,14 +20,34 @@ public class DiaChiGiaoHang {
 	@JoinColumn(name = "Id_khach_hang")	
 	private User khachHang;
 	
+	@Column(name = "Ten_nguoi_nhan")
+	private String tenNguoiNhan;
+	
+	@Column(name = "So_dien_thoai")
+	private String soDienThoai;
+	
 	@Column(name = "Dia_chi")
 	private String diaChi;
+	
+	
 	
 	public DiaChiGiaoHang()
 	{
 		
 	}
 	
+	
+	
+	public DiaChiGiaoHang(User khachHang, String tenNguoiNhan, String soDienThoai, String diaChi) {
+		super();
+		this.khachHang = khachHang;
+		this.tenNguoiNhan = tenNguoiNhan;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+	}
+
+
+
 	public String getId()
 	{
 		return this.id;
@@ -48,4 +75,30 @@ public class DiaChiGiaoHang {
 	{
 		this.diaChi = diaChi;
 	}
+
+
+
+	public String getTenNguoiNhan() {
+		return tenNguoiNhan;
+	}
+
+
+
+	public void setTenNguoiNhan(String tenNguoiNhan) {
+		this.tenNguoiNhan = tenNguoiNhan;
+	}
+
+
+
+	public String getSoDienThoai() {
+		return soDienThoai;
+	}
+
+
+
+	public void setSoDienThoai(String soDienThoai) {
+		this.soDienThoai = soDienThoai;
+	}
+	
+	
 }

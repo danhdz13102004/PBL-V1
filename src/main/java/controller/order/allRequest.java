@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,11 +16,14 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
+import dao.ChiTietDonHangDao;
 import dao.DonHangDAO;
 import dao.GioHangDAO;
+import dao.SachDao;
 import model.ChiTietDonHang;
 import model.ChiTietGioHang;
 import model.DonHang;
+import model.Sach;
 import model.User;
 import util.HibernateUtil;
 @WebServlet(urlPatterns = "/order/*")
@@ -35,6 +39,9 @@ public class allRequest extends HttpServlet {
 		if(url.contains("/addNewOrder")) {
 			addNewOrder(request, response);
 		}
+		else if(url.contains("/prepareOrder")) {
+			prepareOrder(request, response);
+		}
 	}
 	
 	@Override
@@ -44,32 +51,39 @@ public class allRequest extends HttpServlet {
 	}
 	
 	protected void addNewOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		String fullname = request.getParameter("fullname");
 		String phonenumber = request.getParameter("phonenumber");
-		String province = request.getParameter("province");
-		String district = request.getParameter("district");
-		String ward = request.getParameter("ward");
-		String detailAddress = request.getParameter("detailAddress");
+//		String province = request.getParameter("province");
+//		String district = request.getParameter("district");
+//		String ward = request.getParameter("ward");
+//		String detailAddress = request.getParameter("detail-address");
+		String address = request.getParameter("address");
 		Double totalPrice = Double.parseDouble(request.getParameter("totalprice"));
-
+		System.out.println("Tong tien: " + totalPrice);
 		DonHang dh =  new DonHang();
-		Random rd = new Random();
-		String id = System.currentTimeMillis() + rd.nextInt(1000) + "";
+		/*
+		 * Random rd = new Random(); String id = System.currentTimeMillis() +
+		 * rd.nextInt(1000) + "";
+		 */
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("khachHang");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		dh.setId(id);
+		Session session2 = HibernateUtil.getSessionFactory().openSession();
+//		dh.setId(id);
 		dh.setKhachHang(user);
 		dh.setThoiGianDatHang(timestamp);
-		dh.setDiaChiGiaoHang(detailAddress + ", " +  ward + ", " + district + ", " + province);
+		dh.setDiaChiGiaoHang(address);
 		dh.setTenNguoiNhan(fullname);
 		dh.setSdtNguoiNhan(phonenumber);
 		dh.setTinhTrang(DonHang.Status.DANGXULY);
 		dh.setTongTien(totalPrice);
-		DonHangDAO.getDonHangDao().addDonHang(dh);
+		DonHangDAO.getDonHangDao().addDonHang(dh,session2);
 		
 	    List<ChiTietGioHang> cart = (List<ChiTietGioHang>) session.getAttribute("cart");
-		Session session2 = null;
 		if(cart == null) {
 			session2 = HibernateUtil.getSessionFactory().openSession();
 			cart = GioHangDAO.getGioHangDao().selectCartByIdUser1(user.getId(),session2);
@@ -82,10 +96,65 @@ public class allRequest extends HttpServlet {
 				ctdh.setSach(c.getSach());
 				ctdh.setGiaBan(c.getSach().getGiaBan());
 				ctdh.setSoLuong(c.getSoLuong());
-				
+				ChiTietDonHangDao.getChiTietDonHangDao().addChiTietDonHang(ctdh,session2);
 			}
 		}
 		
+		for(ChiTietGioHang c : cart) {
+			if(c.isStatus() && c.getSoLuong() > 0) {
+				SachDao.getSachDao().updateSoluong(c.getSach().getId(), session2, c.getSoLuong());
+			}
+		}
+		
+		session2.close();
+			
+	}
+	
+	protected void prepareOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("khachHang");
+		String urlRedirect = "";
+		if(user == null) {
+			urlRedirect += "/customer/sigin.jsp";
+		}
+		else {
+			urlRedirect += "/customer/checkout.jsp";
+			List<ChiTietGioHang> cart = (List<ChiTietGioHang>) session.getAttribute("cart");
+			Session session2 = HibernateUtil.getSessionFactory().openSession();;
+			if(cart == null) {
+				cart = GioHangDAO.getGioHangDao().selectCartByIdUser1(user.getId(),session2);
+			}
+			String id = request.getParameter("id");
+			Integer sl = Integer.parseInt(request.getParameter("soluong"));
+			boolean check = true;
+			for(ChiTietGioHang c : cart) {
+				if(c.getSach().getId().equals(id)) {
+					check = false;
+					c.setSoLuong(sl);
+					c.setStatus(true);
+				}
+				else {
+					c.setStatus(false);
+				}
+			}
+			if(check) {
+//				System.out.println(id + " " + sl);
+				Sach s = new Sach();
+				s = SachDao.getSachDao().selectById(id, session2);
+//				System.out.println(s.getTen() + " " + s.getId());
+				ChiTietGioHang c = new ChiTietGioHang();
+				c.setKhachHang(user);
+				c.setSach(s);
+				c.setSoLuong(sl);
+				c.setStatus(true);
+				cart.add(c);
+			}
+			session.setAttribute("cart", cart);
+			if(session2 != null) session2.close();
+		}
+		
+		RequestDispatcher rq = getServletContext().getRequestDispatcher(urlRedirect);
+		rq.forward(request, response);
 		
 	}
 }

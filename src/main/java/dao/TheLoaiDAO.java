@@ -24,10 +24,12 @@ public class TheLoaiDAO {
 		return null;
 	}
 	
+	
 	public static void main(String[] args) {
-		List<TheLoai> list = TheLoaiDAO.getTheLoaiDAO().selectAll(HibernateUtil.getSessionFactory().openSession());
-		for(TheLoai t : list) {
-			System.out.println(t.getId() + " " + t.getTenTheLoai());
-		}
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		TheLoai theLoai = new TheLoai();
+		theLoai.setTenTheLoai("Sách Hay");
+		System.out.println(HQLutil.getInstance().doInsert(theLoai, session));
+		session.close();
 	}
 }

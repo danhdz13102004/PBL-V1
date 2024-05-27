@@ -21,22 +21,28 @@ import com.google.gson.GsonBuilder;
 import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 import dao.ChiTietDonHangDao;
+import dao.DiaChiGiaoHangDAO;
 import dao.DonHangDAO;
 import dao.GioHangDAO;
+import dao.HQLutil;
 import dao.SachDao;
 import dao.TheLoaiDAO;
+import dao.UserDao;
 import model.ChiTietDonHang;
 import model.ChiTietGioHang;
+import model.DiaChiGiaoHang;
 import model.DonHang;
 import model.Sach;
-import model.SachAPI;
 import model.TheLoai;
 import model.User;
 import modelApi.ChiTietGioHangSerializer;
+import modelApi.DiaChiGiaoHangSerializer;
 import modelApi.DonHangSerializer;
 import modelApi.SachSerializer;
 import modelApi.TheLoaiSerializer;
+import util.Email;
 import util.HibernateUtil;
+import util.RandomNumber;
 
 
 
@@ -53,39 +59,53 @@ public class apiUser extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			String[] arr = url.split("/");
+			url = arr[arr.length - 1];
 			System.out.println(url);
-			if(url.contains("/getNewestItem")) {
+			if(url.equals("getNewestItem")) {
 				getNewestItems(request, response);
 			}
-			else if(url.contains("/selectByText")) {
+			else if(url.equals("selectByText")) {
 				selectByText(request, response);
 			}
-			else if(url.contains("/selectByKindOfBook")) {
+			else if(url.equals("selectByKindOfBook")) {
 				selectByKindOfBook(request, response);
 			}
-			else if(url.contains("/selectCart")) {
+			else if(url.equals("selectCart")) {
 				selectCart(request, response);
 			}
-			else if(url.contains("/selectOrder")) {
+			else if(url.equals("selectOrder")) {
 				selectOrder(request, response);
 			}
-			else if(url.contains("/selectOrderDesciption")) {
+			else if(url.equals("selectOrderDesciption")) {
 				selectOrderDesciption(request, response);
 			}
-			else if(url.contains("/updateCart")) {
+			else if(url.equals("updateCart")) {
 				updateCart(request, response);
 			}
-			else if(url.contains("/deleteAndShow")) {
+			else if(url.equals("deleteAndShow")) {
 				deleteAndShow(request, response);
 			}
-			else if(url.contains("/countNumberByCategory")) {
+			else if(url.equals("countNumberByCategory")) {
 				countNumberByCategory(request, response);
 			}
-			else if(url.contains("/countNumber")) {
+			else if(url.equals("countNumber")) {
 				countNumber(request, response);
 			}
-			else if(url.contains("/getAllTheLoai")) {
+			else if(url.equals("getAllTheLoai")) {
 				getAllTheLoai(request, response);
+			}
+			else if(url.equals("requestSendEmail")) {
+				requestSendEmail(request, response);
+			}
+			else if(url.equals("addNewAddress")) {
+				addNewAddress(request, response);
+			}
+			else if(url.equals("selectAddress")) {
+				selectAddress(request, response);
+			}
+			else if(url.equals("updateAddress")) {
+				updateAddress(request, response);
 			}
 		}
 		
@@ -121,16 +141,18 @@ public class apiUser extends HttpServlet {
 		Integer page = Integer.parseInt(request.getParameter("page"));
 		Integer size = Integer.parseInt(request.getParameter("size"));
 		String sort = request.getParameter("sort");
+		String reload = request.getParameter("reload");
 		if(sort == null) sort = "";
 		String txt = request.getParameter("txt");
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		HttpSession session1 = request.getSession();
 		if(txt == null) txt = "";
 		txt = "%" + txt + "%";
-		List<Sach> list = (List<Sach>) session1.getAttribute("page" + page.toString() + txt);
-		if(list == null) {
+		List<Sach> list = (List<Sach>) session1.getAttribute("page" + page.toString() + txt + "s" + size.toString());
+		System.out.println("page" + page.toString() + txt + "s" + size.toString());
+		if(list == null || reload != null) {
 			list = sachDao.selectWithText(page, size, txt,session);
-			session1.setAttribute("page" + page.toString() + txt, list);
+			session1.setAttribute("page" + page.toString() + txt + "s" + size.toString(), list);
 		}
 //		System.out.println("sort: " + sort);
 		if(sort.equals("inc")) {
@@ -277,7 +299,7 @@ public class apiUser extends HttpServlet {
 			}
 		}
 		if(check) {
-			User user = (User) session.getAttribute("khach-hang");
+			User user = (User) session.getAttribute("khachHang");
 			Sach s = new Sach();
 			s.setId(id);
 			ChiTietGioHang ctgh = new ChiTietGioHang(user, s, 1);
@@ -378,6 +400,67 @@ public class apiUser extends HttpServlet {
         out.print(json);
         out.flush();	
         if(session2 != null) session2.close();
+	}
+	
+	protected void requestSendEmail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String email = request.getParameter("email");
+		String maXacThuc = RandomNumber.getNumber();
+		
+		Email.sendEmail(email, "Lấy lại mật khẩu", "Đây là mã xác thực để lấy lại mật khẩu: " + maXacThuc + ".Vui lòng sử dụng mã này để hoàn tất quá trình!");
+		UserDao.getUserDao().changeMaXacThuc(maXacThuc, email);
+	}
+	
+	protected void addNewAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("khachHang");
+		String tenNguoiNhan = request.getParameter("tenNguoiNhan");
+		String soDienThoai = request.getParameter("soDienThoai");
+		String province = request.getParameter("province");
+		String district = request.getParameter("district");
+		String ward = request.getParameter("ward");
+		String road = request.getParameter("road");
+		String address = road + ", " + ward  + ", " + district + ", " + province;
+		
+		DiaChiGiaoHang c = new DiaChiGiaoHang(user, tenNguoiNhan, soDienThoai, address);
+		Session session2 = HibernateUtil.getSessionFactory().openSession();
+		DiaChiGiaoHangDAO.getDiaChiGiaoHangDAO().insert(c, session2);
+		session2.close();
+		
+	}
+	
+	protected void selectAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("khachHang");
+		Session session2 = HibernateUtil.getSessionFactory().openSession();
+		List<DiaChiGiaoHang> list = (List<DiaChiGiaoHang>) session.getAttribute("listAddress");
+		if(list == null) {
+			list = DiaChiGiaoHangDAO.getDiaChiGiaoHangDAO().getAddressById(user.getId(), session2);
+			session.setAttribute("listAddress", list);
+		}
+		GsonBuilder gb = new GsonBuilder();
+    	gb.registerTypeAdapter(model.DiaChiGiaoHang.class, new DiaChiGiaoHangSerializer());
+    	Gson gson = gb.create();
+    	String json = gson.toJson(list);
+    	response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+        out.print(json);
+        out.flush();	
+        if(session2 != null) session2.close();	
+	}
+	
+	protected void updateAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("khachHang");
+		String name = request.getParameter("name");
+		String soDienThoai = request.getParameter("soDienThoai");
+		String address = request.getParameter("address");
+		String id = request.getParameter("id");
+		DiaChiGiaoHang d = new DiaChiGiaoHang(user, name, soDienThoai, address);
+		d.setId(id);
+		Session session2 = HibernateUtil.getSessionFactory().openSession();
+		HQLutil.getInstance().doUpdate(d, session2);
+		session2.close();
 	}
 	
 }

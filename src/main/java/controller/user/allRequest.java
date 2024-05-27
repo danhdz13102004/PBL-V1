@@ -43,6 +43,9 @@ public class allRequest extends HttpServlet {
 		else if(url.contains("/dang-xuat")) {
 			dangXuat(request, response);
 		}
+		else if(url.contains("/reset-password")) {
+			resetPassword(request, response);
+		}
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -103,9 +106,10 @@ public class allRequest extends HttpServlet {
 				String maKH = System.currentTimeMillis() + rd.nextInt(1000) + "";
 				User user = new User(maKH,fullName,phoneNumber,email,MaHoa.Encode(password),User.Role.KH,maXacThuc,User.Status.PR);
 				userDao.insert(user);
-				Email.sendEmail(user.getEmail(), "Email xác thực", "Mã xác thực của bạn là " + maXacThuc+ ".Vui lòng nhập mã này để hoàn thành đăng kí");
+//				Email.sendEmail(user.getEmail(), "Email xác thực", "Mã xác thực của bạn là " + maXacThuc+ ".Vui lòng nhập mã này để hoàn thành đăng kí");
 				request.setAttribute("maKhachHang", maKH);
-				urlRedirect = "/customer/confirm.jsp";					
+				request.setAttribute("email", email);
+				urlRedirect = "/customer/verifyemail.jsp";					
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -143,8 +147,8 @@ public class allRequest extends HttpServlet {
 //			        response.sendRedirect("/home");
 				}
 				else if(user.getStatus().getStatusName().equals("Cho xac thuc")){
-					urlRedirect += "/customer/confirm.jsp";
-					request.setAttribute("maKhachHang", user.getId());
+					urlRedirect += "/customer/verifyemail.jsp";
+					request.setAttribute("email", email);
 					request.setAttribute("baoLoi", "Vui lòng xác thực để tiếp tục");
 				}
 			}
@@ -154,21 +158,20 @@ public class allRequest extends HttpServlet {
 	}
 	
 	protected void xacThuc(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String maKhachHang = request.getParameter("maKhachHang");
-		String maXacThuc = request.getParameter("maXacThuc");
-		String maXacThucCheck = userDao.getMaXacThuc(maKhachHang);
-		System.out.println(maKhachHang + " " + maXacThuc + " " + maXacThucCheck);
+		String email = request.getParameter("email");
+		String otpCode = request.getParameter("otpCode");
+		String maXacThucCheck = userDao.getMaXacThucByEmail(email);
+		System.out.println(email + " " + email + " " + maXacThucCheck);
 		String urlRedirect = "";
-		if(maXacThuc.equals(maXacThucCheck)) {
-			userDao.setTrangThaiXacThucTrue(maKhachHang);
-			request.setAttribute("maKhachHang",maKhachHang);
+		if(otpCode.equals(maXacThucCheck)) {
+			userDao.setTrangThaiXacThucTrueByEmail(email);
 			request.setAttribute("thongBao", "Xác thực thành công. Đăng nhập để tiếp tục!");
-			urlRedirect += "/customer/signinView.jsp";
+			urlRedirect += "/customer/signin.jsp";
 		}
 		else {
-			urlRedirect += "/customer/confirm.jsp";
-			request.setAttribute("maKhachHang", maKhachHang);
-			request.setAttribute("baoLoi", "Mã xác thực không chính xác. Vui lòng thử lại");
+			urlRedirect += "/customer/verifyemail.jsp";
+			request.setAttribute("email", email);
+			request.setAttribute("loiOTP", "Mã xác thực không chính xác. Vui lòng thử lại");
 		}
 		RequestDispatcher rq = getServletContext().getRequestDispatcher(urlRedirect);
 		rq.forward(request, response);	
@@ -183,6 +186,40 @@ public class allRequest extends HttpServlet {
 		cookie.setPath("/");
 		cookie.setMaxAge(0);
         response.addCookie(cookie);
+		rq.forward(request, response);	
+	}
+	
+	protected void resetPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String email = request.getParameter("email");
+		String otpCode = request.getParameter("otpCode");
+		String password = request.getParameter("password");
+		String confirmPassword = request.getParameter("confirmPassword");
+		boolean c = true;
+		
+		String otpCheck = UserDao.getUserDao().getMaXacThucByEmail(email);
+		System.out.println(email + " " + otpCode + " " + password + " " + otpCheck + " " + confirmPassword);
+		if(otpCheck == null) {
+			System.out.println("loi mail");
+			request.setAttribute("loiEmail", "Email không tồn tại hoặc chưa được đăng kí"); c = false;
+		}
+		else if(!otpCheck.equals(otpCode)) {
+			System.out.println("loi otp");
+			request.setAttribute("loiOTP", "Mã xác thực không hợp lệ"); c = false;
+		}
+		
+		if(!password.equals(confirmPassword)) {
+			System.out.println("loi pass");
+			request.setAttribute("loiPass", "Mật khẩu không khớp"); c = false;
+		}
+		
+		String urlRedirect = "/customer/forgotpassword.jsp";
+		if(c) {
+			System.out.println("change mat khau");
+			urlRedirect = "/customer/signin.jsp";
+			UserDao.getUserDao().changeMatKhau(MaHoa.Encode(password), email);
+		}
+		request.setAttribute("thongBao", "Thay đổi mật khẩu thành công. Đăng nhập để tiếp tục");
+		RequestDispatcher rq = getServletContext().getRequestDispatcher(urlRedirect);
 		rq.forward(request, response);	
 	}
 }

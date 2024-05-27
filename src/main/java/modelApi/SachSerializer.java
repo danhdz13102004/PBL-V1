@@ -1,7 +1,9 @@
 package modelApi;
 
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.google.gson.*;
 
@@ -21,7 +23,6 @@ public class SachSerializer implements JsonSerializer<Sach> {
         jsonObject.addProperty("soSaoTB", sach.getSoSaoTB());
         jsonObject.addProperty("soTrang", sach.getSoTrang());
         jsonObject.addProperty("lanXuatBan", sach.getLanXuatBan());
-        jsonObject.addProperty("phanTramGiamGia", sach.getPhanTramGiamGia());
         jsonObject.addProperty("urlImage", sach.getUrlImage());
         jsonObject.addProperty("giaBan", sach.getGiaBan());
         jsonObject.addProperty("giaNhap", sach.getGiaNhap());
@@ -48,6 +49,26 @@ public class SachSerializer implements JsonSerializer<Sach> {
         jsonObject.add("listDanhGia",context.serialize(sach.getListDanhGia()));
 //        jsonObject.add("listChiTietGioHang", context.serialize(sach.getListChiTietGioHang()));
 //        jsonObject.add("listChiTietDonHang", context.serialize(sach.getListChiTietDonHang()));
+        if(sach.getCtGiamGia().getId().equals("123")) {
+        	jsonObject.addProperty("phanTramGiamGia",0);        	
+        }
+        else {
+        	Date t = new Date();
+        	Timestamp tm = new Timestamp(t.getTime());
+        	System.out.println(sach.getCtGiamGia().getNgayBatDau());
+        	System.out.println(t.compareTo(sach.getCtGiamGia().getNgayBatDau()));
+        	
+        	System.out.println(sach.getCtGiamGia().getNgayKetThuc());
+        	System.out.println(t.compareTo(sach.getCtGiamGia().getNgayKetThuc()));
+        	System.out.println(sach.getCtGiamGia().getMucGiam());
+        	if( (t.compareTo(sach.getCtGiamGia().getNgayBatDau()) >= 0) && (t.compareTo(sach.getCtGiamGia().getNgayKetThuc()) <=0) ) {
+        		jsonObject.addProperty("phanTramGiamGia",sach.getCtGiamGia().getMucGiam());  
+        	}
+        	else {
+        		jsonObject.addProperty("phanTramGiamGia",0); 
+        	}
+        	
+        }
  
         return jsonObject;
     }

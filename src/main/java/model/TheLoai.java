@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 @Entity
 public class TheLoai {
 	
 	@Id
+	@GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "TL"), 
+      strategy = "model.MyIDGenerator")
 	@Column(name ="Id")
 	String id;
 	
@@ -21,6 +26,14 @@ public class TheLoai {
 	public TheLoai() {
 		
 	}
+	
+
+	public TheLoai(String id, String tenTheLoai) {
+		super();
+		this.id = id;
+		this.tenTheLoai = tenTheLoai;
+	}
+
 
 	public String getId() {
 		return id;
@@ -37,6 +50,16 @@ public class TheLoai {
 	public void setTenTheLoai(String tenTheLoai) {
 		this.tenTheLoai = tenTheLoai;
 	}
+	
+	public List<Sach> getListSach() {
+		return listSach;
+	}
+
+
+	public void setListSach(List<Sach> listSach) {
+		this.listSach = listSach;
+	}
+
 
 	@Override
 	public String toString() {

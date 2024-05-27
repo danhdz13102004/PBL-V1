@@ -1,6 +1,7 @@
 package api.cart;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,10 +13,14 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import dao.GioHangDAO;
 import dao.SachDao;
 import model.ChiTietGioHang;
 import model.User;
+import modelApi.ChiTietGioHangSerializer;
 import util.HibernateUtil;
 @WebServlet(urlPatterns = "/api/cart/*")
 public class apiCart extends HttpServlet {
@@ -60,41 +65,63 @@ public class apiCart extends HttpServlet {
 	
 	 }
 
-	 @Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doGet(req, resp);
-	}
+		@Override
+		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			doGet(req, resp);
+		}
+
+		protected void setStatusTrue(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+			request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
+			String id = request.getParameter("id");
+			for (ChiTietGioHang c : cart) {
+				if (c.getSach().getId().equals(id)) {
+					c.setStatus(true);
+					break;
+				}
+			}
+			for (ChiTietGioHang c : cart) {
+				System.out.println(c.getSach().getTen() + " " + c.isStatus());
+			}
+			session.setAttribute("cart", cart);
+			GsonBuilder gb = new GsonBuilder();
+			gb.registerTypeAdapter(model.ChiTietGioHang.class, new ChiTietGioHangSerializer());
+			Gson gson = gb.create();
+			String json = gson.toJson(cart);
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print(json);
+			out.flush();
+		}
 	 
-	 protected void setStatusTrue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 request.setCharacterEncoding("UTF-8");
-		 response.setCharacterEncoding("UTF-8");
-		 response.setContentType("text/html; charset=UTF-8");
-		 String id = request.getParameter("id");
-		 for(ChiTietGioHang c : cart) {
-			 if(c.getSach().getId().equals(id)) {
-				 c.setStatus(true); break;
-			 }
-		 }
-		 for(ChiTietGioHang c : cart) {
-			 System.out.println(c.getSach().getTen() + " " + c.isStatus());
-		 }
-		 session.setAttribute("cart", cart);
-	}
-	 
-	 protected void setStatusFalse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 request.setCharacterEncoding("UTF-8");
-		 response.setCharacterEncoding("UTF-8");
-		 response.setContentType("text/html; charset=UTF-8");
-		 String id = request.getParameter("id");
-		 for(ChiTietGioHang c : cart) {
-			 if(c.getSach().getId().equals(id)) {
-				 c.setStatus(false); break;
-			 }
-		 }
-		 for(ChiTietGioHang c : cart) {
-			 System.out.println(c.getSach().getTen() + " " + c.isStatus());
-		 }
-		 session.setAttribute("cart", cart);
+	protected void setStatusFalse(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		String id = request.getParameter("id");
+		for (ChiTietGioHang c : cart) {
+			if (c.getSach().getId().equals(id)) {
+				c.setStatus(false);
+				break;
+			}
+		}
+		for (ChiTietGioHang c : cart) {
+			System.out.println(c.getSach().getTen() + " " + c.isStatus());
+		}
+		session.setAttribute("cart", cart);
+		GsonBuilder gb = new GsonBuilder();
+		gb.registerTypeAdapter(model.ChiTietGioHang.class, new ChiTietGioHangSerializer());
+		Gson gson = gb.create();
+		String json = gson.toJson(cart);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print(json);
+		out.flush();
 	}
 	 
 	 protected void setStatusTrueAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

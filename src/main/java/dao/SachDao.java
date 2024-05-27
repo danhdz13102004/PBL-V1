@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 
 import org.hibernate.*;
 
+import model.ChuongTrinhGiamGia;
 import model.Sach;
 import util.HibernateUtil;
 
@@ -37,7 +38,7 @@ public class SachDao  {
 	    List<Sach> arr = new ArrayList<>();
 	    try {
 //	    	Session session = HibernateUtil.getSessionFactory().openSession();
-	        String hql = "FROM Sach WHERE ten LIKE :txt ORDER BY id";
+	        String hql = "FROM Sach WHERE ten LIKE :txt AND trangThai = true ORDER BY ngayThem DESC";
 	        Query query = session.createQuery(hql);
 	        query.setParameter("txt", "%" + txt + "%");
 	        query.setFirstResult((page - 1) * size);
@@ -54,7 +55,7 @@ public class SachDao  {
 	    List<Sach> arr = new ArrayList<>();
 	    try {
 //	        Session session = HibernateUtil.getSessionFactory().openSession();
-	        String hql = "SELECT s FROM Sach s JOIN s.theLoai t WHERE t.id = :theloai ORDER BY s.id ASC";
+	        String hql = "SELECT s FROM Sach s JOIN s.theLoai t WHERE t.id = :theloai AND s.trangThai = true ORDER BY s.ngayThem DESC";
 	        Query query = session.createQuery(hql);
 	        query.setParameter("theloai", theloai);
 	        query.setFirstResult((page - 1) * size);
@@ -71,7 +72,7 @@ public class SachDao  {
 	public Integer countAllSach(Session session,String txt) {
 		try {
 			if(txt == null) txt ="";
-			String hqlQuery = "select count(*) from Sach where ten like :ten";
+			String hqlQuery = "select count(*) from Sach where ten like :ten AND trangThai = true";
 			Long kq = (Long) session.createQuery(hqlQuery).setParameter("ten","%" + txt + "%").uniqueResult();
 			return Integer.parseInt(kq.toString());
 		} catch (Exception e) {
@@ -82,7 +83,7 @@ public class SachDao  {
 	
 	public Integer countAllByCategory(Session session,String id) {
 		try {
-			String hql = "SELECT COUNT(s) FROM Sach s JOIN s.theLoai t WHERE t.id = :theloai";
+			String hql = "SELECT COUNT(s) FROM Sach s JOIN s.theLoai t WHERE t.id = :theloai AND s.trangThai = true";
 			Long kq = (Long) session.createQuery(hql).setParameter("theloai",id).uniqueResult();
 			return Integer.parseInt(kq.toString());
 		} catch (Exception e) {
@@ -101,11 +102,59 @@ public class SachDao  {
 		}
 		return null;
 	}
-
-
+	
+	
+	
+	public void deleteById(String id,Session session) {
+		try {
+			Transaction tr = session.beginTransaction();
+			String hql = "UPDATE Sach SET trangThai = :status WHERE id = :id";
+			session.createQuery(hql)
+			.setParameter("status", false)
+			.setParameter("id", id).executeUpdate();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateSoluong(String id,Session session,Integer soluong) {
+		
+		try {
+			Transaction tr = session.beginTransaction();
+			String hql = "UPDATE Sach SET soLuongBan = soLuongBan + :soluong WHERE id = :id";
+			session.createQuery(hql)
+			.setParameter("soluong", soluong)
+			.setParameter("id", id).executeUpdate();
+			tr.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	 public void updateGiamGia(String idTG,String idTL,String idNxb,ChuongTrinhGiamGia c,Session session) {
+		 try {
+				Transaction tr = session.beginTransaction();
+				String hql = "UPDATE Sach s " +
+			             "SET s.ctGiamGia = :newCtGiamGia " +
+			             "WHERE s.tacGia.id LIKE :idTacGia " +
+			             "AND s.theLoai.id LIKE :idTheLoai " +
+			             "AND s.nxb.id LIKE :idNxb";
+				session.createQuery(hql)
+				.setParameter("idTacGia", idTG)
+				.setParameter("idTheLoai", idTL)
+				.setParameter("idNxb", idNxb)
+				.setParameter("newCtGiamGia", c)
+				.executeUpdate();
+				tr.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	 }
+	
 	
 	public static void main(String[] args) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		System.out.println(SachDao.getSachDao().countAllByCategory(session, "1"));
+		ChuongTrinhGiamGia c = CtGiamGiaDAO.getInstance().selectById(session, "DE00000005");
+		getSachDao().updateGiamGia("1", "%%", "1",c , session);
 	}
 }

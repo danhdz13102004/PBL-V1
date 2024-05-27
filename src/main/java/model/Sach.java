@@ -5,11 +5,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Entity
 public class Sach {
 	
-    @Id
+	@Id
+    @GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "SA"), 
+      strategy = "model.MyIDGenerator")
     @Column(name = "Id")
 	private String id;
     
@@ -49,6 +55,9 @@ public class Sach {
     @Column(name = "Phan_tram_giam_gia")
     private Double phanTramGiamGia;
     
+    @Column(name = "Trang_thai")
+    private boolean trangThai = true;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Id_the_loai", referencedColumnName = "Id")
     private TheLoai theLoai;
@@ -60,6 +69,10 @@ public class Sach {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Id_nxb", referencedColumnName = "Id")
     private NhaXuatBan nxb;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Id_ct_giam_gia", referencedColumnName = "Id")
+    private ChuongTrinhGiamGia ctGiamGia;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sach", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DanhGia> listDanhGia;
@@ -75,6 +88,9 @@ public class Sach {
 
 
 	public Sach() {
+		ChuongTrinhGiamGia c = new ChuongTrinhGiamGia();
+		c.setId("DE0000000001");
+		ctGiamGia = c;
 	}
 	
 	
@@ -198,6 +214,18 @@ public class Sach {
 	public void setListChiTietDonHang(List<ChiTietDonHang> listChiTietDonHang) {
 		this.listChiTietDonHang = listChiTietDonHang;
 	}
+	
+	public ChuongTrinhGiamGia getCtGiamGia()
+    {
+    	return this.ctGiamGia;
+    }
+	
+	public void setCtGiamGia(ChuongTrinhGiamGia ctgg)
+    {
+    	this.ctGiamGia = ctgg;
+    }
+	
+	
 
 	// Setter methods
     public void setId(String id) {
@@ -264,6 +292,20 @@ public class Sach {
     public void setNxb(NhaXuatBan nxb) {
         this.nxb = nxb;
     }
+    
+    
+
+	public boolean isTrangThai() {
+		return trangThai;
+	}
+
+
+
+	public void setTrangThai(boolean trangThai) {
+		this.trangThai = trangThai;
+	}
+
+
 
 	@Override
 	public String toString() {
