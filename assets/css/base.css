@@ -294,7 +294,11 @@ html {
 #btnReturnLoginPage,
 #btnReturn,
 #btnReturnSwitchInfo,
-#btnAddNewInfo {
+#btnAddNewInfo,
+#logout__action-cancel,
+#btnCancelViewDetail,
+#btnCloseFeedbackForm,
+#confirm-delete-account__action-cancel {
   background-color: var(--white-color);
   border: 0.2rem solid var(--blue-color);
   border-radius: 0.6rem;
@@ -314,7 +318,16 @@ html {
 #btnCreateNewInfo,
 #btnSubmitInfo,
 #btnUpdateInfo,
-#btnSaveUserInfo {
+#btnSaveUserInfo,
+#logout__action-confirm,
+#btnCancelOrder,
+#btnRebuyOrder,
+#btnConfirmCompleteOrder,
+#btnRequestReturnOrder,
+#btnAnnouceProcess,
+#btnConfirmReturnOrder,
+#btnSaveFeedbackForm,
+#confirm-delete-account__action-confirm {
   height: 4.6rem;
   background-color: var(--blue-color);
   border: 0.2rem solid var(--blue-color);

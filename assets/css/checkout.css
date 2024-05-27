@@ -557,7 +557,7 @@ select:not(:-internal-select-author-button) {
   margin-top: 1.2rem;
 }
 #btnReturnCart {
-  width: 20rem;
+  width: 15rem;
   margin-right: 1rem;
 }
 #btnSubmitPayment {

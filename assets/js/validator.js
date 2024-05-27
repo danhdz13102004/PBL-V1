@@ -25,6 +25,7 @@ export const Validator = (options) => {
           errorMessage = rule[i](
             formElement.querySelector(rule.selector + ":checked")
           );
+          break;
         }
         default: {}
       }
@@ -59,7 +60,7 @@ export const Validator = (options) => {
             switch (input.type) {
               case `radio`: {
                 values[input.name] = formElement.querySelector(
-                  `input[name="` + input.name + `"]:checked`.value);
+                  `input[name="` + input.name + `"]:checked`).value;
                 break;
               }
               case `checkbox`: {
@@ -67,7 +68,7 @@ export const Validator = (options) => {
                 if(!Array.isArray(values[input.name])){
                   values[input.name] = [];
                 }
-                values[input.name].push();
+                values[input.name].push(input.value);
                 break;
               }
               case `file`: {

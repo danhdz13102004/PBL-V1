@@ -1,0 +1,79 @@
+//* Chọn ngày tháng năm và các thay đổi
+const day = infoSection.querySelector(`select[name="day"]`);
+const month = infoSection.querySelector(`select[name="month"]`);
+const year = infoSection.querySelector(`select[name="year"]`);
+let dayInMonth;
+const updateDays = () => {
+  const previousDay = parseInt(day.value);
+  if (month.value === `2`) {
+    if (year.value) {
+      if (
+        year.value % 400 === 0 ||
+        (year.value % 100 !== 0 && year.value % 4 === 0)
+      ) {
+        dayInMonth = 29;
+      } else {
+        dayInMonth = 28;
+      }
+    } else {
+      dayInMonth = 28;
+    }
+  } else if (
+    month.value == 4 ||
+    month.value == 6 ||
+    month.value == 9 ||
+    month.value == 11
+  ) {
+    dayInMonth = 30;
+  } else {
+    dayInMonth = 31;
+  }
+  day.innerHTML = `<option value="">Ngày</option>`;
+  for (let i = 1; i <= dayInMonth; ++i) {
+    const option = document.createElement(`option`);
+    option.value = i;
+    option.textContent = i;
+    day.appendChild(option);
+  }
+  // Nếu ngày hiện tại (đã chọn) nằm trong phạm vi của tháng thì vẫn giữ nguyên
+  if (previousDay && previousDay <= dayInMonth) {
+    day.value = previousDay;
+  } else {
+    day.value = ``;
+  }
+};
+for (let i = 1; i <= 31; ++i) {
+  const option = document.createElement(`option`);
+  option.value = i;
+  option.textContent = i;
+  day.appendChild(option);
+}
+for (let i = 1; i <= 12; ++i) {
+  const option = document.createElement(`option`);
+  option.value = i;
+  option.textContent = i;
+  month.appendChild(option);
+}
+const currentYear = new Date().getFullYear();
+for (let i = currentYear; i >= 1900; --i) {
+  const option = document.createElement(`option`);
+  option.value = i;
+  option.textContent = i;
+  year.appendChild(option);
+}
+month.addEventListener(`change`, updateDays);
+year.addEventListener(`change`, updateDays);
+
+
+Validator.isRequired(
+      `#account-information-management select[name="year"]`,
+      `Vui lòng chọn năm sinh của bạn`
+    ),
+    Validator.isRequired(
+      `#account-information-management select[name="month"]`,
+      `Vui lòng chọn tháng sinh của bạn`
+    ),
+    Validator.isRequired(
+      `#account-information-management select[name="day"]`,
+      `Vui lòng chọn ngày sinh của bạn`
+    ),
