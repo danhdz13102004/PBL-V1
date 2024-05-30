@@ -40,7 +40,7 @@ public class DonHang {
 	private String tenNguoiNhan;
 	
 	@Column(name = "Tong_tien")
-	private double tongTien;
+	private Double tongTien;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "donHang", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietDonHang> listCTDH ;
@@ -97,7 +97,7 @@ public class DonHang {
 
 
 
-	public void setTongTien(double tongTien) {
+	public void setTongTien(Double tongTien) {
 		this.tongTien = tongTien;
 	}
 
@@ -152,7 +152,7 @@ public class DonHang {
 
 
 	//tongtien
-    public double getTongTien() {
+    public Double getTongTien() {
     	return this.tongTien;	
     }
 

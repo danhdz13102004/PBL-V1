@@ -23,7 +23,7 @@ public class TheLoai {
 	String tenTheLoai;
 	
 	@Column(name = "Trang_thai")
-	boolean status = false;
+	Boolean status = false;
 
 	@OneToMany(mappedBy = "theLoai", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Sach> listSach;
@@ -48,12 +48,12 @@ public class TheLoai {
 		this.tenTheLoai = tenTheLoai;
 	}
 
-	public boolean isStatus()
+	public Boolean isStatus()
     {
         return this.status;
     }
 
-    public void setStatus(boolean status)
+    public void setStatus(Boolean status)
     {
         this.status = status;
     }

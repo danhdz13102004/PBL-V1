@@ -8,6 +8,7 @@ import model.ChiTietDonHang;
 import model.DonHang;
 import model.Sach;
 import util.HibernateUtil;
+import util.JsonUtil;
 
 public class ChiTietDonHangDao  {
 	public static ChiTietDonHangDao chiTietDonHangDao = null;
@@ -36,11 +37,26 @@ public class ChiTietDonHangDao  {
 		}
 		return null;
 	}
-	 
+	public List<ChiTietDonHang> getUnratedChiTietDonHangOf(String userID, int page, int size, Session s)
+	{
+		String hql = "Select ctdh "
+				+ "from "
+				+" User u "
+				+ "inner join u.listDonHang dh "
+				+ "inner join dh.listCTDH ctdh "
+				+ "where u.id = ?1 AND not exists (from User u1 inner join u1.listDanhGia dg "
+												+ "where dg.sach.id = ctdh.sach.id "
+												+ "AND u1.id = u.id)";
+		List<ChiTietDonHang> res = HQLutil.getInstance().doQuery(hql, ChiTietDonHang.class, s, (page-1)*size, size, userID);
+		return res;
+	}
 	public static void main(String[] args) {
-		List<ChiTietDonHang> list = ChiTietDonHangDao.getChiTietDonHangDao().getChiTietDonHangByOrderId("123", HibernateUtil.getSessionFactory().openSession());
-		for(ChiTietDonHang c : list) {
-			System.out.println(c.getId() +  " " + c.getDonHang().getId());
-		}
+		List<ChiTietDonHang> list;
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		list = ChiTietDonHangDao.getChiTietDonHangDao().getUnratedChiTietDonHangOf("US00000001", 1, 100, s);
+		System.out.println(JsonUtil.getInstance().jsonToString(list));
+		HibernateUtil.close();
+		
+		
 	}
 }

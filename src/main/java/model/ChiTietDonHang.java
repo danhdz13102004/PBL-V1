@@ -29,10 +29,10 @@ public class ChiTietDonHang {
     private Double giaBan;
     
     @Column(name = "So_luong")
-    private int soLuong;
+    private Integer soLuong;
     
     @Column(name = "Trang_thai")
-	boolean status = false;
+    private Boolean status = false;
 
     public ChiTietDonHang() {
     }
@@ -71,20 +71,20 @@ public class ChiTietDonHang {
         this.sach = sach;
     }
 
-    public int getSoLuong() {
+    public Integer getSoLuong() {
         return this.soLuong;
     }
 
-    public void setSoLuong(int soLuong) {
+    public void setSoLuong(Integer soLuong) {
         this.soLuong = soLuong;
     }
 
-    public boolean isStatus()
+    public Boolean isStatus()
     {
         return this.status;
     }
 
-    public void setStatus(boolean status)
+    public void setStatus(Boolean status)
     {
         this.status = status;
     }

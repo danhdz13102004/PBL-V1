@@ -23,7 +23,7 @@ public class TacGia {
 	String ten;
 	
 	@Column(name = "Trang_thai")
-	boolean status = false;
+	Boolean status = false;
 
 	@OneToMany(mappedBy = "tacGia", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Sach> listSach;
@@ -50,12 +50,12 @@ public class TacGia {
 		this.ten = ten;
 	}
 
-	public boolean isStatus()
+	public Boolean isStatus()
     {
         return this.status;
     }
 
-    public void setStatus(boolean status)
+    public void setStatus(Boolean status)
     {
         this.status = status;
     }

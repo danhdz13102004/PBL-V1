@@ -23,7 +23,7 @@ public class NhaXuatBan {
 	String tenNxb;
 	
 	@Column(name = "Trang_thai")
-	boolean status = false;
+	Boolean status = false;
 
 	@OneToMany(mappedBy = "nxb", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Sach> listSach;
@@ -45,12 +45,12 @@ public class NhaXuatBan {
 		this.tenNxb = tenNxb;
 	}
 
-	public boolean isStatus()
+	public Boolean isStatus()
     {
         return this.status;
     }
 
-    public void setStatus(boolean status)
+    public void setStatus(Boolean status)
     {
         this.status = status;
     }

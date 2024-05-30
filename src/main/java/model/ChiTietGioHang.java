@@ -28,10 +28,10 @@ public class ChiTietGioHang {
 
     @Column(name = "So_luong")
 
-    private int soLuong;
+    private Integer soLuong;
     
 	@Column(name = "Trang_thai")
-    private boolean status = false;
+    private Boolean status = false;
     
     
     
@@ -70,22 +70,22 @@ public class ChiTietGioHang {
 	}
 
 
-	public int getSoLuong() {
+	public Integer getSoLuong() {
 		return soLuong;
 	}
 
 
-	public void setSoLuong(int soLuong) {
+	public void setSoLuong(Integer soLuong) {
 		this.soLuong = soLuong;
 	}
 
 
-	public boolean isStatus() {
+	public Boolean isStatus() {
 		return status;
 	}
 
 
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 

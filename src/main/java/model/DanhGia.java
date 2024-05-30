@@ -24,13 +24,13 @@ public class DanhGia {
     private Sach sach;
 	
 	@Column(name = "So_sao")
-    private int soSao;
+    private Integer soSao;
 	
 	@Column(name = "Binh_luan")
     private String binhLuan;
 	
     @Column(name = "Trang_thai")
-	boolean status = false;
+	Boolean status = false;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="Id_khach_hang", referencedColumnName = "Id")
@@ -60,11 +60,11 @@ public class DanhGia {
         this.sach = sach;
     }
 
-    public int getSoSao() {
+    public Integer getSoSao() {
         return soSao;
     }
 
-    public void setSoSao(int soSao) {
+    public void setSoSao(Integer soSao) {
         this.soSao = soSao;
     }
 
@@ -94,12 +94,12 @@ public class DanhGia {
 		this.thoiGian = thoiGian;
 	}
 
-    public boolean isStatus()
+    public Boolean isStatus()
     {
         return this.status;
     }
 
-    public void setStatus(boolean status)
+    public void setStatus(Boolean status)
     {
         this.status = status;
     }

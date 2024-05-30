@@ -32,7 +32,7 @@ public class ChuongTrinhGiamGia {
 	private String name;
 	
 	@Column(name = "Trang_thai")
-	private boolean status = false;
+	private Boolean status = false;
 	
 	@Column(name = "Ngay_bat_dau")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -43,7 +43,7 @@ public class ChuongTrinhGiamGia {
 	private Date ngayKetThuc;
 	
 	@Column(name = "Muc_giam")
-	private double mucGiam;
+	private Double mucGiam;
 	
 	@OneToMany(mappedBy = "ctGiamGia", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Sach> listSach;
@@ -64,11 +64,11 @@ public class ChuongTrinhGiamGia {
 		this.name = name;
 	}
 
-	public boolean isStatus() {
+	public Boolean isStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 
@@ -88,11 +88,11 @@ public class ChuongTrinhGiamGia {
 		this.ngayKetThuc = ngayKetThuc;
 	}
 
-	public double getMucGiam() {
+	public Double getMucGiam() {
 		return mucGiam;
 	}
 
-	public void setMucGiam(double mucGiam) {
+	public void setMucGiam(Double mucGiam) {
 		this.mucGiam = mucGiam;
 	}
 

@@ -38,7 +38,7 @@ public class User {
 	private Role role;
 	
 	@Column(name = "Gioi_tinh")
-	private boolean gioiTinh;
+	private Boolean gioiTinh;
 	
 	@Column(name = "Ngay_sinh")
 	private Timestamp ngaySinh;
@@ -132,11 +132,11 @@ public class User {
 		this.role = role;
 	}
 
-	public boolean isGioiTinh() {
+	public Boolean isGioiTinh() {
 		return this.gioiTinh;
 	}
 
-	public void setGioiTinh(boolean gt) {
+	public void setGioiTinh(Boolean gt) {
 		this.gioiTinh = gt;
 	}
 	

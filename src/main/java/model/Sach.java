@@ -33,7 +33,7 @@ public class Sach {
     private String moTa;
     
     @Column(name = "So_sao_tb")
-    private double soSaoTB;
+    private Double soSaoTB;
     
     @Column(name = "So_trang")
     private Integer soTrang;
@@ -58,7 +58,7 @@ public class Sach {
     private Double phanTramGiamGia;
     
     @Column(name = "Trang_thai")
-	boolean status = false;
+	private Boolean status = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Id_the_loai", referencedColumnName = "Id")
@@ -143,7 +143,7 @@ public class Sach {
         return moTa;
     }
 
-    public double getSoSaoTB()
+    public Double getSoSaoTB()
     {
     	return this.soSaoTB;
     }
@@ -198,7 +198,7 @@ public class Sach {
 		return listDanhGia;
 	}
 
-    public boolean isStatus()
+    public Boolean isStatus()
     {
         return this.status;
     }
@@ -249,7 +249,7 @@ public class Sach {
         this.moTa = moTa;
     }
 
-    public void setSoSaoTB(double sosaotb)
+    public void setSoSaoTB(Double sosaotb)
     {
     	this.soSaoTB=sosaotb;
     }
