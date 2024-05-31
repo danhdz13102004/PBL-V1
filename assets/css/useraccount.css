@@ -643,8 +643,7 @@ select:not(:-internal-select-author-button) {
 #account-review-management .review-list__body .review-list__row:hover::after {
   opacity: 0.8;
 }
-#account-order-management .order-list__cell,
-#account-review-management .review-list__cell {
+#account-order-management .order-list__cell {
   display: table-cell;
   padding: 1rem 0.5rem;
   word-wrap: break-word;
@@ -654,7 +653,13 @@ select:not(:-internal-select-author-button) {
   vertical-align: middle;
 }
 #account-review-management .review-list__cell{
+  display: table-cell;
   padding: 0.5rem 0.5rem;
+  word-wrap: break-word;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
 #account-order-management .order-list__cell.order-id {
   max-width: 12.5rem;
@@ -694,16 +699,33 @@ select:not(:-internal-select-author-button) {
   cursor: pointer;
   user-select: none;
 }
-
 #account-order-management #account-order-info {
   padding-top: 2rem;
 }
-#account-review-management .review-name{
-  max-width: 16rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+#account-review-management .review-list__cell.review-id{
+  max-width: 11rem;
+  width: 11rem;
+}
+#account-review-management .review-list__cell.review-name{
+  max-width: 20rem;
+  width: 20rem;
   padding-right: 1rem;
+}
+#account-review-management .review-list__cell.review-unit-price{
+  max-width: 10rem;
+  width: 10rem;
+}
+#account-review-management .review-list__cell.review-invoice-date{
+  max-width: 16rem;
+  width: 16rem;
+}
+#account-review-management .review-list__cell.review-average-star{
+  max-width: 10rem;
+  width: 10rem;
+}
+#account-review-management .review-list__cell.review-my-star{
+  max-width: 12rem;
+  width: 12rem;
 }
 /** Detail order, Detail Feedback */
 #account-order-management .order-detail__container {
