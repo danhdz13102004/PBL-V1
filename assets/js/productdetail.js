@@ -1,4 +1,219 @@
-import * as Utils from './utils.js';
-const rating = document.querySelector(`.product-detail__rating-star-average`).textContent;
-console.log(rating);
-Utils.fillPartialStar(parseFloat(rating));
+const fillPartialStar = (rating, starArray) => {
+  // 2 layer (path), front layer clip and show remain part of back layer.
+  const fullFillStar = Math.floor(rating);
+  const partialFillStar = (rating % 1) * 100;
+  starArray.forEach((star, index) => {
+    const paths = star.querySelectorAll("path");
+    if (index < fullFillStar) {
+      paths.forEach((path) => {
+        path.style.fill = "var(--blue-color)";
+      });
+    } else if (index === fullFillStar && partialFillStar !== 0) {
+      paths[0].style.fill = "var(--gray-color)";
+      paths[0].style.clipPath = `polygon(${partialFillStar}% 0%, 100% 0%, 100% 100%, ${partialFillStar}% 100%)`;
+      paths[1].style.fill = "var(--blue-color)";
+      paths[1].style.clipPath = `polygon(0 0, ${partialFillStar}% 0, ${partialFillStar}% 100%, 0 100%)`;
+    } else {
+      paths.forEach((path) => {
+        path.style.fill = "var(--gray-color)";
+      });
+    }
+  });
+};
+const rating = document.querySelector(
+  `.product-detail__rating-star-average`
+).textContent;
+const starArray = document.querySelectorAll(
+  `.product-detail__rating-star-icon`
+);
+fillPartialStar(parseFloat(rating), starArray);
+
+const reviewRating = document.querySelector(
+  `.review__rating-score`
+).textContent;
+const starReviewArray = document.querySelectorAll(`.review__rating-star-icon`);
+fillPartialStar(parseFloat(reviewRating), starReviewArray);
+
+//* Show empty review if review count = 0
+const emptyReviewList = document.querySelector(`.empty-review__row`);
+const reviewList = document.querySelector(`.review__list`);
+let reviewCount = 3;
+emptyReviewList.classList.toggle(`hidden`, reviewCount !== 0);
+reviewList.classList.toggle(`hidden`, reviewCount === 0);
+
+//* Open modal add my feedback
+const btnAddNewFeedback = document.querySelector(`#addNewFeedback`);
+btnAddNewFeedback.addEventListener(`click`, () => {
+  modalFeedback.style.display = `flex`;
+});
+
+//* Event of modal add feedback
+const modalFeedback = document.getElementById(`modal__feedback`);
+const btnOpenFeedbacks = document.querySelectorAll(
+  `.review-action .make__review`
+);
+const btnCloseFeedback = document.getElementById(`btnCloseFeedbackForm`);
+const btnSaveFeedbackForm = document.getElementById(`btnSaveFeedbackForm`);
+let parentRow, ratingCell;
+let currentRating;
+const ratingStars = [...document.getElementsByClassName(`star-icon`)];
+const loadingStars = (userRating) => {
+  ratingStars.forEach((star, index) => {
+    if (index < userRating) {
+      star.classList.add(`active-fill`);
+    } else {
+      star.classList.remove(`active-fill`);
+    }
+  });
+};
+btnOpenFeedbacks.forEach((btnFeedback) => {
+  btnFeedback.addEventListener(`click`, () => {
+    parentRow = btnFeedback.closest(`.review-list__row`);
+    ratingCell = parentRow.querySelector(`.review-my-star`);
+    loadingStars(parseInt(ratingCell.textContent.trim()));
+    modalFeedback.style.display = `flex`;
+  });
+});
+btnCloseFeedback.addEventListener(`click`, () => {
+  modalFeedback.style.display = `none`;
+});
+btnSaveFeedbackForm.addEventListener(`click`, () => {
+  ratingCell.innerHTML = ``;
+  const newRating = currentRating;
+  ratingCell.innerHTML = newRating;
+  modalFeedback.style.display = `none`;
+});
+
+const executeRating = (stars) => {
+  const starsListLength = stars.length;
+  let i;
+  Array.from(stars).map((star) => {
+    star.addEventListener(`click`, () => {
+      i = stars.indexOf(star);
+      currentRating = i + 1;
+      if (!stars[i].classList.contains(`active-fill`)) {
+        for (i; i >= 0; --i) {
+          stars[i].classList.add(`active-fill`);
+        }
+      } else {
+        for (let j = i + 1; j < starsListLength; ++j) {
+          stars[j].classList.remove(`active-fill`);
+        }
+      }
+    });
+  });
+};
+executeRating(ratingStars);
+
+//* Click in overlays
+const overlays = document.querySelectorAll(`.modal__overlay`);
+overlays.forEach((overlay) => {
+  overlay.addEventListener(`click`, () => {
+    const parentElement = overlay.parentNode;
+    parentElement.style.display = `none`;
+  });
+});
+
+//* Open modal delete my review
+const btnOpenDeleteReviewModal = document.getElementById(`btnDeleteMyReview`);
+const modalDeleteReview = document.getElementById(
+  `modal__confirm-delete-review`
+);
+
+btnOpenDeleteReviewModal.addEventListener(`click`, () => {
+  modalDeleteReview.style.display = `flex`;
+});
+
+//* Close modal delete my review
+
+const btnCloseDeleteReviewModal = document.getElementById(
+  `confirm-delete-review__action-cancel`
+);
+btnCloseDeleteReviewModal.addEventListener(`click`, () => {
+  modalDeleteReview.style.display = `none`;
+});
+
+//* Button filter
+const buttons = document.querySelectorAll(".review__filter .button");
+buttons.forEach((button) => {
+  button.addEventListener("click", function () {
+    buttons.forEach((btn) => btn.classList.remove("active"));
+    this.classList.add("active");
+    // Perform action based on the clicked button
+    switch (this.id) {
+      case "all-review":
+        // Code to display all reviews
+        console.log("Displaying all reviews");
+        break;
+      case "newest-review":
+        // Code to display newest reviews
+        console.log("Displaying newest reviews");
+        break;
+      case "five-star-review":
+        // Code to display 5-star reviews
+        console.log("Displaying 5-star reviews");
+        break;
+      case "four-star-review":
+        // Code to display 4-star reviews
+        console.log("Displaying 4-star reviews");
+        break;
+      case "three-star-review":
+        // Code to display 3-star reviews
+        console.log("Displaying 3-star reviews");
+        break;
+      case "two-star-review":
+        // Code to display 2-star reviews
+        console.log("Displaying 2-star reviews");
+        break;
+      case "one-star-review":
+        // Code to display 1-star reviews
+        console.log("Displaying 1-star reviews");
+        break;
+      default:
+        break;
+    }
+  });
+});
+
+//* Similar product
+const rows = document.querySelectorAll(`.product .row`);
+const btnViewMore = document.getElementById(`btnViewMore`);
+const btnViewLess = document.getElementById(`btnViewLess`);
+let visibleRows = 1;
+const initSimilarProductList = () => {
+  rows.forEach((row, index) => {
+    row.style.maxHeight = null; // để đưa phần nội dung có chiều cao của nó, không bị maxHeight hạn chế
+    const actualHeight = row.scrollHeight + `px`;
+    row.style.maxHeight = `0`;
+    row.dataset.maxHeight = actualHeight;
+    if (index >= visibleRows) {
+      row.style.maxHeight = `0rem`;
+    }
+    else{
+      row.style.maxHeight = actualHeight;
+    }
+  });
+};
+window.onload = () => {
+  initSimilarProductList();
+};
+btnViewMore.addEventListener(`click`, () => {
+  if (visibleRows < rows.length) {
+    rows[visibleRows].style.maxHeight = rows[visibleRows].dataset.maxHeight;
+    ++visibleRows;
+    btnViewMore.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    if (visibleRows === rows.length) {
+      btnViewMore.classList.add(`hidden`);
+      btnViewLess.classList.remove(`hidden`);
+    }
+  }
+});
+btnViewLess.addEventListener(`click`, () => {
+  while (visibleRows > 1) {
+    rows[visibleRows - 1].style.maxHeight = `0`;
+    --visibleRows;
+  }
+  btnViewLess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  btnViewLess.classList.add(`hidden`);
+  btnViewMore.classList.remove(`hidden`);
+});

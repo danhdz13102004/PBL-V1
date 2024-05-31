@@ -215,8 +215,6 @@
   line-height: 2rem;
   background-color: var(--blue-color);
 }
-.product-item__action {
-}
 /** Pagination */
 .filter-and-product .pagination {
   display: flex;

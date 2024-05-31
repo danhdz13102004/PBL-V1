@@ -293,7 +293,11 @@ initiallizeSubOptions();
 //* Tạo param trên path của url
 const loadingPage = (mainKey, subKey) => {
   if(mainKey && subKey){
-    handleSubOptionClick(mainKey, functionMapping[mainKey].subOptions.find(option => option.urlParamValue === subKey));
+    const subOptionObject = functionMapping[mainKey].subOptions.find(option => option.urlParamValue === subKey);
+    handleSidebarClick(mainKey);
+    if(subOptionObject){
+      handleSubOptionClick(mainKey, subOptionObject);
+    }
   }
   else if(mainKey){
     handleSidebarClick(mainKey);
@@ -654,13 +658,13 @@ const reviewPagination = document.querySelector(
 emptyProductList.classList.toggle(`hidden`, !isEmptyProductList);
 productList.classList.toggle(`hidden`, isEmptyProductList);
 reviewPagination.classList.toggle(`hidden`, isEmptyProductList);
-//* Mở modal feedback lên
 
+//* Mở modal feedback lên
 const modalFeedback = document.getElementById(`modal__feedback`);
-const btnFeedbacks = document.querySelectorAll(`.review-view-detail`);
+const btnOpenFeedbacks = document.querySelectorAll(`.review-action .make__review`);
 const btnCloseFeedback = document.getElementById(`btnCloseFeedbackForm`);
 const btnSaveFeedbackForm = document.getElementById(`btnSaveFeedbackForm`);
-let modalFeedbackRating = modalFeedback.querySelector(`review-my-star`);
+let modalFeedbackRating = modalFeedback.querySelector(`.review-my-star`);
 let parentRow, ratingCell;
 let currentRating;
 const ratingStars = [...document.getElementsByClassName(`star-icon`)];
@@ -674,9 +678,9 @@ const loadingStars = (userRating) => {
     }
   });
 };
-btnFeedbacks.forEach((btnFeedback) => {
+btnOpenFeedbacks.forEach((btnFeedback) => {
   btnFeedback.addEventListener(`click`, () => {
-    parentRow = btnFeedback.parentNode;
+    parentRow = btnFeedback.closest(`.review-list__row`);
     ratingCell = parentRow.querySelector(`.review-my-star`);
     loadingStars(parseInt(ratingCell.textContent.trim()));
     modalFeedback.style.display = `flex`;

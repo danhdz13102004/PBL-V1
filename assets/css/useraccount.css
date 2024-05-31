@@ -17,7 +17,7 @@
   padding: 0rem 1.6rem;
   box-shadow: 0.1rem 0.1rem 0.1rem 0 rgba(0, 0, 0, 0.1);
   border-radius: 0.6rem;
-  min-height: 58rem;
+  min-height: 60rem;
 }
 .account-management {
   background-color: var(--white-color);
@@ -603,14 +603,17 @@ select:not(:-internal-select-author-button) {
   border-collapse: collapse;
   position: relative;
   color: var(--text-color);
+  
 }
 #account-order-management .order-list__row,
 #account-review-management .review-list__row {
+  width: 100%;
   display: table-row;
   position: relative;
   border-bottom: 0.12rem solid var(--gray-color);
   position: relative;
   z-index: 10;
+  height: 5rem;
 }
 #account-order-management .order-list__header,
 #account-review-management .review-list__header {
@@ -643,14 +646,55 @@ select:not(:-internal-select-author-button) {
 #account-order-management .order-list__cell,
 #account-review-management .review-list__cell {
   display: table-cell;
-  padding: 1.5rem 0.5rem;
+  padding: 1rem 0.5rem;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+#account-review-management .review-list__cell{
+  padding: 0.5rem 0.5rem;
+}
+#account-order-management .order-list__cell.order-id {
+  max-width: 12.5rem;
+  width: 12.5rem;
+}
+#account-order-management .order-list__cell.order-invoice-date {
+  max-width: 16rem;
+  width:16rem;
+}
+#account-order-management .order-list__cell.order-fullname{
+  max-width: 18rem;
+  width: 18rem;
+}
+#account-order-management .order-list__cell.order-total-amount{
+  max-width: 13rem;
+  width: 13rem;
+}
+#account-order-management .order-list__cell.order-status{
+  width: 17rem;
+}
+#account-order-management .order-list__cell.order-view-detail{
+  width: auto;
+  word-wrap: break-word;
 }
 #account-order-management .order-view-detail,
-#account-review-management .review-view-detail {
+#account-review-management .review-action {
   color: var(--yellow-color);
+}
+#account-order-management .order-view-detail{
+  cursor: pointer;
+}
+#account-review-management .review-list__cell.review-action .make__review,
+#account-review-management .review-list__cell.review-action .delete__review {
+  margin: 0.5rem 0rem;
+  position: relative;
+  z-index: 10;
   cursor: pointer;
   user-select: none;
 }
+
 #account-order-management #account-order-info {
   padding-top: 2rem;
 }
@@ -1288,5 +1332,5 @@ select:not(:-internal-select-author-button) {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem 0rem 0rem;
+  padding: 2rem 0rem 0rem;
 }

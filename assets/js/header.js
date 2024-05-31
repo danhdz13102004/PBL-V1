@@ -251,7 +251,7 @@ document
       }
     });
   });
-
+        
 const gotoAccountPage = (option) => {
   window.location.href = `useraccount.html?${option}`;
 };
