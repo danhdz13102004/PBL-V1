@@ -37,7 +37,7 @@ fillPartialStar(parseFloat(reviewRating), starReviewArray);
 //* Show empty review if review count = 0
 const emptyReviewList = document.querySelector(`.empty-review__row`);
 const reviewList = document.querySelector(`.review__list`);
-let reviewCount = 3;
+let reviewCount = 0;
 emptyReviewList.classList.toggle(`hidden`, reviewCount !== 0);
 reviewList.classList.toggle(`hidden`, reviewCount === 0);
 

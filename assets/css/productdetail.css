@@ -443,18 +443,16 @@
 .empty-review__row {
   width: 75%;
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
   margin-top: 1rem;
 }
 .empty-review__content {
-  padding: 3rem 2rem;
+  padding: 3rem 2rem 3rem 0rem;
   font-size: 1.8rem;
   line-height: 2.2rem;
   color: var(--text-gray-color);
   display: flex;
-  justify-content: center;
   align-items: center;
   text-align: center;
 }
@@ -478,7 +476,9 @@
   justify-content: center;
   margin-top: 1.6rem;
 }
-.star-icon {
+#modal__feedback .star-icon {
+  width: 5.6rem;
+  height: 5.6rem;
   stroke-width: 0.1rem;
   overflow: visible;
   & path {
@@ -655,6 +655,10 @@
 }
 #btnCloseFeedbackForm {
   margin-right: 0.6rem;
+}
+.main__review .button__wrap{
+  width: 75%;
+  display: flex;
 }
 
 .main__review{
@@ -975,7 +979,7 @@
   line-height: 2rem;
   background-color: var(--blue-color);
 }
-.button__wrap{
+.similar-product .button__wrap{
   display: flex;
   align-items: center;
   justify-content: center;
