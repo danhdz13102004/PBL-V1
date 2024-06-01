@@ -48,3 +48,15 @@ dots.forEach((dot, index) => {
     reloadSlider();
   });
 });
+
+const sliderTemplate = document.createElement(`template`);
+sliderTemplate.innerHTML = `
+  
+`;
+class Slider extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+  
+  }
+}

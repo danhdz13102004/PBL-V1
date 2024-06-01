@@ -693,11 +693,13 @@ select:not(:-internal-select-author-button) {
 }
 #account-review-management .review-list__cell.review-action .make__review,
 #account-review-management .review-list__cell.review-action .delete__review {
-  margin: 0.5rem 0rem;
   position: relative;
   z-index: 10;
   cursor: pointer;
   user-select: none;
+}
+#account-review-management .review-list__cell.review-action .make__review{
+  margin-bottom: 0.5rem;
 }
 #account-order-management #account-order-info {
   padding-top: 2rem;
@@ -712,20 +714,20 @@ select:not(:-internal-select-author-button) {
   padding-right: 1rem;
 }
 #account-review-management .review-list__cell.review-unit-price{
-  max-width: 10rem;
-  width: 10rem;
+  max-width: 9.5rem;
+  width: 9.5rem;
 }
 #account-review-management .review-list__cell.review-invoice-date{
-  max-width: 16rem;
-  width: 16rem;
+  max-width: 15rem;
+  width: 15rem;
 }
 #account-review-management .review-list__cell.review-average-star{
   max-width: 10rem;
   width: 10rem;
 }
 #account-review-management .review-list__cell.review-my-star{
-  max-width: 12rem;
-  width: 12rem;
+  max-width: 11.5rem;
+  width: 11.5rem;
 }
 /** Detail order, Detail Feedback */
 #account-order-management .order-detail__container {
