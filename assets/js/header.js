@@ -157,8 +157,8 @@ document
         .logout__alert-icon{
           filter: brightness(0) saturate(100%) invert(61%) sepia(79%) saturate(3155%) hue-rotate(356deg) brightness(100%) contrast(98%);
           fill: var(--yellow-color);
-          width: 2.4rem;
-          height: 2.4rem;
+          width: 2.6rem;
+          height: 2.6rem;
           margin-right: 0.8rem;
         }
         #modal__account-logout .logout__content-wrap{
@@ -169,7 +169,7 @@ document
           margin-bottom: 2.4rem;
         }
         #modal__account-logout .logout__title{
-          font-size: 1.6rem;
+          font-size: 2rem;
           font-weight: 500;
           line-height: 2.4rem;
         }
@@ -197,18 +197,10 @@ document
         <div class="modal__inner logout__inner">
           <div class="logout__container">
             <div class="logout__head">
-              <svg class="modal__alert-icon logout__alert-icon" class="dialog-content__icon" viewBox="0 0 24 24"
-                fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M12 8.25C12.4142 8.25 12.75 8.58579 12.75 9V13.5C12.75 13.9142 12.4142 14.25 12 14.25C11.5858 14.25 11.25 13.9142 11.25 13.5V9C11.25 8.58579 11.5858 8.25 12 8.25Z">
-                </path>
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M10.0052 4.45201C10.8464 2.83971 13.1536 2.83971 13.9948 4.45201L20.5203 16.9592C21.3019 18.4572 20.2151 20.25 18.5255 20.25H5.47447C3.78487 20.25 2.69811 18.4572 3.47966 16.9592L10.0052 4.45201ZM12.6649 5.14586C12.3845 4.60842 11.6154 4.60842 11.335 5.14586L4.80953 17.6531C4.54902 18.1524 4.91127 18.75 5.47447 18.75H18.5255C19.0887 18.75 19.4509 18.1524 19.1904 17.6531L12.6649 5.14586Z">
-                </path>
-                <path
-                  d="M12 17.25C12.6213 17.25 13.125 16.7463 13.125 16.125C13.125 15.5037 12.6213 15 12 15C11.3787 15 10.875 15.5037 10.875 16.125C10.875 16.7463 11.3787 17.25 12 17.25Z">
-                </path>
-              </svg>
+            <svg class="modal__alert-icon logout__alert-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#000000"
+              d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 192a58.432 58.432 0 0 0-58.24 63.744l23.36 256.384a35.072 35.072 0 0 0 69.76 0l23.296-256.384A58.432 58.432 0 0 0 512 256zm0 512a51.2 51.2 0 1 0 0-102.4 51.2 51.2 0 0 0 0 102.4z" />
+            </svg>
               <div class="logout__title">Thông báo</div>
             </div>
             <div class="logout__content-wrap">
@@ -235,9 +227,9 @@ document
         btnCancelLogout.dataset.bound = true;
       }
       const overlay = modalLogout.querySelector(`.modal__overlay`);
-      overlay.addEventListener(`click`,()=>{
+      overlay.addEventListener(`click`, () => {
         modalLogout.style.display = `none`;
-      })
+      });
       const btnConfirmLogout = modalLogout.querySelector(
         `#logout__action-confirm`
       );
@@ -251,7 +243,7 @@ document
       }
     });
   });
-        
+
 const gotoAccountPage = (option) => {
   window.location.href = `useraccount.html?${option}`;
 };

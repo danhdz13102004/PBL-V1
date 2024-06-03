@@ -1237,8 +1237,8 @@ select:not(:-internal-select-author-button) {
   filter: brightness(0) saturate(100%) invert(61%) sepia(79%) saturate(3155%)
     hue-rotate(356deg) brightness(100%) contrast(98%);
   fill: var(--yellow-color);
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.6rem;
+  height: 2.6rem;
   margin-right: 0.8rem;
 }
 #modal__account-logout .logout__content-wrap,
@@ -1251,7 +1251,7 @@ select:not(:-internal-select-author-button) {
 }
 #modal__account-logout .logout__title,
 #modal__confirm-delete-account .confirm-delete-account__title {
-  font-size: 1.6rem;
+  font-size: 2rem;
   font-weight: 500;
   line-height: 2.4rem;
 }

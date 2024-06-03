@@ -1,3 +1,4 @@
+import * as ToastMessageUI from './toastmessage.js';
 const fillPartialStar = (rating, starArray) => {
   // 2 layer (path), front layer clip and show remain part of back layer.
   const fullFillStar = Math.floor(rating);
@@ -42,21 +43,18 @@ emptyReviewList.classList.toggle(`hidden`, reviewCount !== 0);
 reviewList.classList.toggle(`hidden`, reviewCount === 0);
 
 //* Open modal add my feedback
+const modalFeedback = document.getElementById(`modal__feedback`);
 const btnAddNewFeedback = document.querySelector(`#addNewFeedback`);
 btnAddNewFeedback.addEventListener(`click`, () => {
   modalFeedback.style.display = `flex`;
 });
 
 //* Event of modal add feedback
-const modalFeedback = document.getElementById(`modal__feedback`);
-const btnOpenFeedbacks = document.querySelectorAll(
-  `.review-action .make__review`
-);
 const btnCloseFeedback = document.getElementById(`btnCloseFeedbackForm`);
 const btnSaveFeedbackForm = document.getElementById(`btnSaveFeedbackForm`);
 let parentRow, ratingCell;
 let currentRating;
-const ratingStars = [...document.getElementsByClassName(`star-icon`)];
+const ratingStars = [...modalFeedback.getElementsByClassName(`star-icon`)];
 const loadingStars = (userRating) => {
   ratingStars.forEach((star, index) => {
     if (index < userRating) {
@@ -66,14 +64,6 @@ const loadingStars = (userRating) => {
     }
   });
 };
-btnOpenFeedbacks.forEach((btnFeedback) => {
-  btnFeedback.addEventListener(`click`, () => {
-    parentRow = btnFeedback.closest(`.review-list__row`);
-    ratingCell = parentRow.querySelector(`.review-my-star`);
-    loadingStars(parseInt(ratingCell.textContent.trim()));
-    modalFeedback.style.display = `flex`;
-  });
-});
 btnCloseFeedback.addEventListener(`click`, () => {
   modalFeedback.style.display = `none`;
 });
@@ -216,4 +206,31 @@ btnViewLess.addEventListener(`click`, () => {
   btnViewLess.scrollIntoView({ behavior: 'smooth', block: 'center' });
   btnViewLess.classList.add(`hidden`);
   btnViewMore.classList.remove(`hidden`);
+});
+
+
+//?--------------------------- New -------------------------
+//* Hàm fill các ngôi sao
+const fillStar = (reviewRowElement, rating) => {
+  const stars = [...reviewRowElement.getElementsByClassName(`star-icon`)];
+  stars.forEach((star, index) => {
+    if (index < rating) {
+      star.classList.add(`active-fill`);
+    } else {
+      star.classList.remove(`active-fill`);
+    }
+  });
+}
+const reviewRowElement = document.querySelector(`.review__row`);
+fillStar(reviewRowElement, 3);
+
+//* Thêm toast message 
+const btnAddToCart = document.getElementById(`btnAddToCart`);
+btnAddToCart.addEventListener(`click`, () => {
+  ToastMessageUI.toast({
+    title: `Thành công`,
+    message: `Sản phẩm đã được thêm vào giỏ hàng`,
+    type: `success`,
+    duration: 5000,
+  });
 });

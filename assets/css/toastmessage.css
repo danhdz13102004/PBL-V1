@@ -1,0 +1,87 @@
+#toast{
+  position: fixed;
+  bottom: calc(0% + 3rem);
+  right: calc(0% + 3rem);
+  z-index: 999999;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  background: var(--white-color);
+  border-radius: 0.4rem;
+  border-left: 0.3rem solid;
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+  padding: 2rem 0rem;
+  min-width: 40rem;
+  max-width: 45rem;
+  transition: all linear 0.3s;
+}
+.toast__icon {
+  padding: 0rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toast__icon--state {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.toast + .toast {
+  margin-top: 2.4rem;
+}
+.toast__body {
+  flex-grow: 1;
+}
+.toast__title {
+  margin: 0.6rem 0rem 0rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.toast__message {
+  margin: 0.6rem 0rem 0rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-color);
+  max-width: 100%;
+}
+.toast__close {
+  padding: 0rem 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.toast__icon--close {
+  width: 1.8rem;
+  height: 1.8rem;
+  cursor: pointer;
+}
+.toast--success {
+  border-color: var(--color-success);
+  & .toast__icon--state {
+    filter: brightness(0) saturate(100%) invert(67%) sepia(6%) saturate(4749%)
+      hue-rotate(91deg) brightness(98%) contrast(92%);
+  }
+}
+.toast--info {
+  border-color: var(--blue-color);
+  & .toast__icon--state {
+    filter: brightness(0) saturate(100%) invert(43%) sepia(25%) saturate(4561%)
+      hue-rotate(186deg) brightness(102%) contrast(107%);
+  }
+}
+.toast--warning {
+  border-color: var(--color-warning);
+  & .toast__icon--state {
+    filter: brightness(0) saturate(100%) invert(51%) sepia(62%) saturate(3560%)
+      hue-rotate(7deg) brightness(94%) contrast(98%);
+  }
+}
+.toast--error {
+  border-color: var(--color-error);
+  & .toast__icon--state {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(4343%)
+      hue-rotate(348deg) brightness(92%) contrast(99%);
+  }
+}
