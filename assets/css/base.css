@@ -453,4 +453,9 @@ html {
     opacity: 0;
   }
 }
+@keyframes runOutProgress {
+  to{
+    right: 100%;
+  }
+}
 /** End Animation */

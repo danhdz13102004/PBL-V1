@@ -32,17 +32,14 @@ export const toast = ({ title = ``, message = ``, type = ``, duration = 3000 }) 
 
   const mainToast = document.getElementById(`toast`);
   if (mainToast) {
+    const innerMainToast = document.createElement(`div`);
     const currentToasts = mainToast.querySelectorAll(`.toast`);
-    console.log(currentToasts);
     if (currentToasts.length >= 3) {
       removeToast(mainToast, currentToasts[0]);
     }
-
-    const innerMainToast = document.createElement(`div`);
     const autoRemoveId = setTimeout(() => {
       removeToast(mainToast, innerMainToast);
     }, duration + 1000);
-
     innerMainToast.onclick = (e) => {
       if (e.target.closest(`.toast__close`)) {
         clearTimeout(autoRemoveId);
@@ -54,6 +51,162 @@ export const toast = ({ title = ``, message = ``, type = ``, duration = 3000 }) 
     innerMainToast.classList.add(`toast`, `toast--${type}`);
     innerMainToast.style.animation = `slideInLeft 0.3s ease, toFadeOut 1s linear ${delayTime}s forwards`;
     innerMainToast.innerHTML = `
+      <style>
+        #toast{
+          position: fixed;
+          bottom: calc(0% + 3rem);
+          right: calc(0% + 3rem);
+          z-index: 999999;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+          overflow: hidden;
+        }
+        .toast {
+          position: relative;
+          display: flex;
+          align-items: center;
+          background: var(--white-color);
+          border-radius: 1rem;
+          border-left: 0.5rem solid;
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+          padding: 2rem 0rem;
+          min-width: 40rem;
+          max-width: 40rem;
+          height: 9rem;
+          transition: all linear 0.3s;
+          
+          z-index: 999;
+        }
+        .toast__icon {
+          padding: 0rem 1.6rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .toast__icon--state {
+          width: 3.2rem;
+          height: 3.2rem;
+          > path {
+            width: 3rem;
+            height: 3rem;
+          }
+        }
+        .toast + .toast {
+          margin-top: 2.4rem;
+        }
+        .toast__body {
+          flex-grow: 1;
+        }
+        .toast__title {
+          margin: 0.6rem 0rem 0rem;
+          font-size: 1.6rem;
+          font-weight: 600;
+          color: var(--text-color);
+        }
+        .toast__message {
+          margin: 0.6rem 0rem 0rem;
+          font-size: 1.4rem;
+          font-weight: 400;
+          line-height: 1.5;
+          color: var(--text-color);
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: wrap;
+          display: block;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+        }
+        .toast__close {
+          padding: 0rem 1.6rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .toast__icon--close {
+          width: 1.8rem;
+          height: 1.8rem;
+          cursor: pointer;
+        }
+        .toast__progress-bar{
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 100%;
+          height: 0.25rem;
+          border-radius: 0.5rem;
+        }
+        .toast__progress-bar::before{
+          position: absolute;
+          content: "";
+          bottom: 0;
+          right: 0;
+          height: 100%;
+          width: 100%;
+          border-radius: 0.5rem;
+          animation: runOutProgress calc(${delayTime}s + 0.5s) linear forwards;
+        }
+        .toast--success {
+          border-color: var(--color-success);
+          & .toast__icon--state {
+            filter: brightness(0) saturate(100%) invert(67%) sepia(6%) saturate(4749%)
+              hue-rotate(91deg) brightness(98%) contrast(92%);
+          }
+          & .toast__progress-bar::before{
+            background-color: var(--color-success);
+          }
+        }
+        .toast--info {
+          border-color: var(--blue-color);
+          & .toast__icon--state {
+            filter: brightness(0) saturate(100%) invert(43%) sepia(25%) saturate(4561%)
+              hue-rotate(186deg) brightness(102%) contrast(107%);
+          }
+          & .toast__progress-bar::before{
+            background-color: var(--blue-color);
+          }
+        }
+        .toast--warning {
+          border-color: var(--color-warning);
+          & .toast__icon--state {
+            filter: brightness(0) saturate(100%) invert(51%) sepia(62%) saturate(3560%)
+              hue-rotate(7deg) brightness(94%) contrast(98%);
+          }
+          & .toast__progress-bar::before{
+            background-color: var(--color-warning);
+          }
+        }
+        .toast--error {
+          border-color: var(--color-error);
+          & .toast__icon--state {
+            filter: brightness(0) saturate(100%) invert(24%) sepia(62%) saturate(4343%)
+              hue-rotate(348deg) brightness(92%) contrast(99%);
+          }
+          & .toast__progress-bar::before{
+            background-color: var(--color-error);
+          }
+        }
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(calc(100% + 3rem));
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        @keyframes toFadeOut {
+          to{
+            opacity: 0;
+          }
+        }
+        @keyframes runOutProgress {
+          to{
+            right: 100%;
+          }
+        }   
+      </style>
       <div class="toast__icon">
         ${icon}
       </div>
@@ -70,8 +223,8 @@ export const toast = ({ title = ``, message = ``, type = ``, duration = 3000 }) 
             fill="#000000" />
         </svg>
       </div>
+      <div class="toast__progress-bar"></div>
     `;
     mainToast.appendChild(innerMainToast);
   }
 };
-
