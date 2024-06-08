@@ -1,8 +1,6 @@
 package modelApi;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,9 +10,8 @@ import com.google.gson.JsonSerializer;
 
 import model.ChiTietDonHang;
 import model.DonHang;
-import model.Sach;
 
-public class DonHangSerializer implements JsonSerializer<DonHang>{
+public class DonHangSerializer1 implements JsonSerializer<DonHang>{
 
 	public static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
 	@Override
@@ -41,37 +38,19 @@ public class DonHangSerializer implements JsonSerializer<DonHang>{
         JsonObject listChiTietDonHang= new JsonObject();
         JsonObject ctdh;  
         int cnt = 0;
-        for(ChiTietDonHang c : src.getListCTDH()) {
-        	cnt++;
-        	ctdh = new JsonObject();
-        	ctdh.addProperty("tenSach", c.getSach().getTen());
-        	ctdh.addProperty("soLuong", c.getSoLuong());  
-        	ctdh.addProperty("urlImage", c.getSach().getUrlImage());
-        	ctdh.addProperty("soLuong", c.getSoLuong());
-        	Sach sach = c.getSach();
-        	Double giamgia = 0.0;
-        	if(!sach.getCtGiamGia().getId().equals("123")) {   
-        		Date t = new Date();
-            	Timestamp tm = new Timestamp(t.getTime());
-            	System.out.println(sach.getCtGiamGia().getNgayBatDau());
-            	System.out.println(t.compareTo(sach.getCtGiamGia().getNgayBatDau()));
-            	
-            	System.out.println(sach.getCtGiamGia().getNgayKetThuc());
-            	System.out.println(t.compareTo(sach.getCtGiamGia().getNgayKetThuc()));
-            	System.out.println(sach.getCtGiamGia().getMucGiam());
-            	if( (t.compareTo(sach.getCtGiamGia().getNgayBatDau()) >= 0) && (t.compareTo(sach.getCtGiamGia().getNgayKetThuc()) <=0) ) { 
-            		giamgia = sach.getCtGiamGia().getMucGiam();
-            	}
-            }
-        	ctdh.addProperty("giaBan", sach.getGiaBan() * (1 - giamgia / 100));
-        	listChiTietDonHang.add("ChiTietDonHang" + cnt, ctdh);
-        }
+//        for(ChiTietDonHang c : src.getListCTDH()) {
+//        	cnt++;
+//        	ctdh = new JsonObject();
+//        	ctdh.addProperty("tenSach", c.getSach().getTen());
+//        	ctdh.addProperty("soLuong", c.getSoLuong());  
+//        	ctdh.addProperty("urlImage", c.getSach().getUrlImage());
+//        	listChiTietDonHang.add("ChiTietDonHang" + cnt, ctdh);
+//        }
         System.out.println(cnt);
-        jsonObject.add("listChiTietDonHang", listChiTietDonHang);
+//        jsonObject.add("listChiTietDonHang", listChiTietDonHang);
         jsonObject.addProperty("soDienThoai", src.getSdtNguoiNhan());
         jsonObject.addProperty("tenNguoiNhan", src.getTenNguoiNhan());
         jsonObject.addProperty("trangThai", src.getTinhTrang().getMessage());
-        jsonObject.addProperty("loiNhan", src.getLoiNhan());
 //        jsonObject.add("listCTDH", context.serialize(src.getListCTDH()));
         return jsonObject;
 	}

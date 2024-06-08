@@ -602,7 +602,14 @@
   padding: 0.8rem 1.6rem;
   transition: right linear 0.1s;
   cursor: pointer;
+  user-select: none;
 }
+
+.category-item__link.click {
+  font-weight: 500;
+  color: var(--blue-color);
+}
+
 .category-item__link:hover {
   font-weight: 500;
   right: -0.4rem;

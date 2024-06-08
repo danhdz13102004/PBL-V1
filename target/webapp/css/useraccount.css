@@ -396,7 +396,7 @@ select:not(:-internal-select-author-button) {
   position: absolute;
   left: 0;
   bottom: calc(0% - 1.9rem);
-  opacity: 0;
+  color: red;
   cursor: default;
 }
 .form__alert-icon {
@@ -777,6 +777,7 @@ select:not(:-internal-select-author-button) {
 #account-review-management .feedback-product__unitPrice {
   grid-area: unitPrice;
   font-size: 1.4rem;
+  padding-left: 12px;
 }
 #account-order-management .order-payment__info {
   padding-left: 1.6rem;

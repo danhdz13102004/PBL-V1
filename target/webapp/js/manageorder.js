@@ -46,6 +46,14 @@ function loadOrder(page,size) {
 					cnt++;
 				  }
 			}
+            if(item.trangThai === "Đã hủy") {
+                h1 += `<br>`;
+                h1 += `<span style="color:red; font-size:16px">Lí do hủy: Hủy bởi nvql</span>`;
+            }
+            else if (item.trangThai === "Đang chờ xử lý trả hàng") {
+                h1 += `<br>`;
+                h1 += `<span style="color:red; font-size:16px">Lí do trả hàng: ${item.loiNhan}</span>`;
+            }
 			h1 += `</td>`; h2 += `</td>`;
 			html += h1 + h2;
 			html += `<td width="100">${item.tenNguoiNhan}</td>
@@ -62,8 +70,21 @@ function loadOrder(page,size) {
 				html += `<td><span class="badge bg-danger">Đã hủy</span></td>`;
 			}
 			else if(item.trangThai === "Đã xác nhận") {
-				html += `<td><span class="badge bg-success">Đã xác nhận</span></td>`;
+				console.log('Tt đã xác nhận');
+				html += `<td class="status${item.id}"><span class="badge bg-success">Đã xác nhận</span></td>`;
+				html += `<td class="action${item.id}"><button onclick="changeToShipping('${item.id}')" class="btn btn-primary btn-sm edit" type="button" title="Chuyển sang đang giao hàng" id="show-emp" data-toggle="modal"
+                      data-target="#ModalUP"><i class="fa-solid fa-car-side"></i></button>
+				</td> </tr>  `;
 			}
+            else if(item.trangThai === "Đang giao hàng") {
+                html += `<td class="status${item.id}"><span class="badge bg-success">Đang giao hàng</span></td>`;
+            }
+            else if(item.trangThai === "Đang chờ xử lý trả hàng") {
+                html += `<td class="status${item.id}"><span class="badge bg-warning">Yêu cầu trả hàng</span></td>`;
+                html += `<td class="action${item.id}"><button onclick="refuseReturn('${item.id}')" class="btn btn-primary btn-sm trash" type="button" title="Hủy đơn hàng"><i class="fa-solid fa-circle-xmark"></i></button>
+				<button onclick="confirmReturn('${item.id}')" class="btn btn-primary btn-sm btn-confirm" type="button" title="Xác nhận"><i class="fa-solid fa-circle-check"></i></button>
+				</td> </tr>  `;
+            }
 		});
 
 		document.querySelector('.main-row').innerHTML = html;
@@ -83,7 +104,7 @@ function closeConfirmDelete() {
 }
 
 function deleteOrder(id) {
-    var url = currentURL + "/api/order/updateOrder?id=" +id + "&status=delete";
+    var url = currentURL + "/api/order/updateOrder?id=" +id + `&status=delete&message=${encodeURIComponent("Hủy bởi nvql")}`;
     console.log(url);
     fetch(url)
     .then(response => {
@@ -93,14 +114,41 @@ function deleteOrder(id) {
     })
 }
 
+function changeToShipping(id) {
+    var url = currentURL + "/api/order/updateOrder?id=" +id + "&status=delivering";
+    console.log(url);
+    fetch(url)
+    .then(response => {
+        closeConfirmDelete();
+        document.querySelector(`.status${id}`).innerHTML = `<span class="badge bg-success">Đang giao hàng</span>`;
+		document.querySelector(`.action${id}`).innerHTML = "";
+    })
+}
+
+
 function confirmOrder(id) {
 	var url = currentURL + "/api/order/updateOrder?id=" +id + "&status=confirm";
 	fetch(url)
     .then(response => {
         document.querySelector(`.status${id}`).innerHTML = `<span class="badge bg-success">Đã xác nhận</span>`;
-		document.querySelector(`.action${id}`).innerHTML = "";
+		document.querySelector(`.action${id}`).innerHTML = `<button onclick="changeToShipping('${id}')" class="btn btn-primary btn-sm edit" type="button" title="Chuyển sang đang giao hàng" id="show-emp" data-toggle="modal"
+                      data-target="#ModalUP"><i class="fa-solid fa-car-side"></i></button>`;
     })
 } 
+
+function refuseReturn(id) {
+    var url = currentURL + "/api/order/updateOrder?id=" +id + "&status=refuseReturn";
+	fetch(url)
+    document.querySelector(`.status${id}`).innerHTML = `<span class="badge bg-danger">Từ chối trả hàng</span>`;
+	document.querySelector(`.action${id}`).innerHTML = "";
+}
+
+function confirmReturn(id) {
+    var url = currentURL + "/api/order/updateOrder?id=" +id + "&status=confirmReturn";
+	fetch(url)
+    document.querySelector(`.status${id}`).innerHTML = `<span class="badge bg-success">Xác nhận trả hàng</span>`;
+	document.querySelector(`.action${id}`).innerHTML = "";
+}
 
 
 

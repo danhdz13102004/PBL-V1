@@ -48,6 +48,8 @@ public class DonHang {
 	@Column(name = "Dia_chi_giao_hang")
     private String diaChiGiaoHang;
     
+	@Column(name = "Loi_nhan")
+	private String loiNhan;
     
     public DonHang() {
     
@@ -162,7 +164,22 @@ public class DonHang {
     }
     
     
-    public enum Status
+    
+    
+    public String getLoiNhan() {
+		return loiNhan;
+	}
+
+
+
+	public void setLoiNhan(String loiNhan) {
+		this.loiNhan = loiNhan;
+	}
+
+
+
+
+	public enum Status
     {
     	DANGXULY("Đang xử lý"),
     	DAXACNHAN("Đã xác nhận"),
@@ -170,6 +187,8 @@ public class DonHang {
     	DAHUY("Đã hủy"),
     	DANGGIAOHANG("Đang giao hàng"),
     	THANHCONG("Thành công"),
+    	TUCHOITRAHANG("Từ chối trả hàng"),
+    	XACNHANTRAHANG("Xác nhận trả hàng"),
     	DATRAHANG("Đã trả hàng");
     	private String message;
     	private Status(String mess) {

@@ -46,6 +46,9 @@ public class allRequest extends HttpServlet {
 		else if(url.contains("/reset-password")) {
 			resetPassword(request, response);
 		}
+		else if(url.contains("/change-password")) {
+			changePassword(request, response);
+		}
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -179,7 +182,9 @@ public class allRequest extends HttpServlet {
 	
 	protected void dangXuat(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		System.out.println("before close");
 		session.invalidate();
+		System.out.println("after close");
 		String urlRedirect = "/index.jsp";
 		RequestDispatcher rq = getServletContext().getRequestDispatcher(urlRedirect);
 		Cookie cookie = new Cookie("status","dang-nhap");
@@ -222,4 +227,49 @@ public class allRequest extends HttpServlet {
 		RequestDispatcher rq = getServletContext().getRequestDispatcher(urlRedirect);
 		rq.forward(request, response);	
 	}
+	
+	
+	protected void changePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String email = request.getParameter("email");
+		String otpCode = request.getParameter("otpCode");
+		String oldpass = request.getParameter("oldpass");
+		String password = request.getParameter("password");
+		String confirmPassword = request.getParameter("confirmPassword");
+		boolean c = true;
+		
+		String otpCheck = UserDao.getUserDao().getMaXacThucByEmail(email);
+		System.out.println(email + " " + otpCode + " " + password + " " + otpCheck + " " + confirmPassword);
+		if(otpCheck == null) {
+			System.out.println("loi mail");
+			request.setAttribute("loiEmail", "Email không tồn tại hoặc chưa được đăng kí"); c = false;
+		}
+		else if(!otpCheck.equals(otpCode)) {
+			System.out.println("loi otp");
+			request.setAttribute("loiOTP", "Mã xác thực không hợp lệ"); c = false;
+		}
+		
+		if(userDao.checkEmailPassAndStatus(email, MaHoa.Encode(oldpass)) == null) {
+			request.setAttribute("loiOldPass", "Mật khẩu không chính xác"); c = false;
+		}
+		
+		
+		if(!password.equals(confirmPassword)) {
+			System.out.println("loi pass");
+			request.setAttribute("loiPass", "Mật khẩu không khớp"); c = false;
+		}
+		
+		String urlRedirect = "/customer/useraccount.jsp?info&changingpassword";
+		if(c) {
+			System.out.println("change mat khau");
+			HttpSession session  = request.getSession();
+			session.invalidate();
+			urlRedirect = "/customer/signin.jsp";
+//			request.setAttribute("thongBao", "Đổi mật khẩu thành công. Đăng nhập để tiếp tục!");
+			UserDao.getUserDao().changeMatKhau(MaHoa.Encode(password), email);
+		}
+		request.setAttribute("thongBao", "Thay đổi mật khẩu thành công. Đăng nhập để tiếp tục");
+		RequestDispatcher rq = getServletContext().getRequestDispatcher(urlRedirect);
+		rq.forward(request, response);	
+	}
+	
 }

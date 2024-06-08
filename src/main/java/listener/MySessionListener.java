@@ -1,10 +1,8 @@
 package listener;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -20,11 +18,13 @@ public class MySessionListener implements HttpSessionListener {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
+    	System.out.println("before destroy");
     	HttpSession session = se.getSession();
 		User user = (User) session.getAttribute("khachHang");
 		List<ChiTietGioHang> cart = (List<ChiTietGioHang>) session.getAttribute("cart");
 		org.hibernate.Session session2 =  HibernateUtil.getSessionFactory().openSession();
 		for(ChiTietGioHang c : cart) {
+			
 			GioHangDAO.getGioHangDao().updateCart(c.getSach().getId(), user.getId(), c.getSoLuong(), session2);
 		}
 		

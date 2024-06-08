@@ -105,7 +105,19 @@ public class allRequest extends HttpServlet {
 				SachDao.getSachDao().updateSoluong(c.getSach().getId(), session2, c.getSoLuong());
 			}
 		}
+		List<DonHang> list1 = (List<DonHang>) session.getAttribute("page1size10statusall");
+		if(list1 != null) {
+			list1.add(0,dh);
+			session.setAttribute("page1size10statusall", list1);
+		}
+		List<DonHang> list2 = (List<DonHang>) session.getAttribute("page1size10statusawaiting");
+		if(list2 != null) {
+			list2.add(0,dh);
+			session.setAttribute("page1size10statusawaiting", list2);
+		}
 		
+		RequestDispatcher rq = getServletContext().getRequestDispatcher("/customer/useraccount.jsp");
+		rq.forward(request, response);
 		session2.close();
 			
 	}

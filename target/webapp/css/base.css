@@ -298,7 +298,9 @@ html {
 #logout__action-cancel,
 #btnCancelViewDetail,
 #btnCloseFeedbackForm,
-#confirm-delete-account__action-cancel {
+#confirm-delete-account__action-cancel,
+#addNewFeedback,
+#confirm-delete-review__action-cancel {
   background-color: var(--white-color);
   border: 0.2rem solid var(--blue-color);
   border-radius: 0.6rem;
@@ -306,6 +308,10 @@ html {
   font-size: 1.6rem;
   font-weight: 600;
   transition: opacity 0.3s ease;
+  &:hover,
+  &:focus {
+    opacity: 0.85;
+  }
 }
 #btnReturnHome {
   width: 20rem;
@@ -327,7 +333,8 @@ html {
 #btnAnnouceProcess,
 #btnConfirmReturnOrder,
 #btnSaveFeedbackForm,
-#confirm-delete-account__action-confirm {
+#confirm-delete-account__action-confirm,
+#confirm-delete-review__action-confirm {
   height: 4.6rem;
   background-color: var(--blue-color);
   border: 0.2rem solid var(--blue-color);
@@ -339,7 +346,7 @@ html {
   opacity: 1;
   &:hover,
   &:focus {
-    opacity: 0.825;
+    opacity: 0.85;
   }
 }
 #btnToPaymentPage {
@@ -431,5 +438,24 @@ html {
     transform: scale(1);
   }
 }
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + 3rem));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes toFadeOut {
+  to{
+    opacity: 0;
+  }
+}
+@keyframes runOutProgress {
+  to{
+    right: 100%;
+  }
+}
 /** End Animation */
-	

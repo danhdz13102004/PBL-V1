@@ -1,3 +1,4 @@
+
 var currentURL = window.location.protocol + "//" + window.location.host;
 function formatCurrency(amount) {
 	// Kiểm tra xem giá trị đầu vào có phải là số không
@@ -92,7 +93,7 @@ function showNewestItem() {
         })
 }
 
-function addToCart(id) {
+/*function addToCart(id) {
     var cookiesArray = document.cookie.split(";");
     var cookieExists = false;
     console.log(cookiesArray.length);
@@ -118,14 +119,20 @@ function addToCart(id) {
         var url = currentURL + "/cart/add?id=" + id + "&soluong=" + ip.value;
         console.log(url);
         fetch(url)
-       .then(response => {
-            showSmallCart();
+			.then(response => {
+	            showSmallCart();
+				ToastMessageUI.toast({
+					title: `Thành công`,
+					message: `Sản phẩm đã được thêm vào giỏ hàng`,
+					type: `success`,
+					duration: 5000,
+				});
        })
     }
     else {
         console.log("input null");
     }
-}
+}*/
 
 // function showCart() {
 //     var url = currentURL + "/api/user/selectCart";
@@ -192,7 +199,7 @@ function showCart(){
           data.forEach(item => {
       
               if(item.soLuong > 0) {
-                  var giaSauGiamGia = item.sach.giaBan * (1 - item.sach.phamTramGiamGia / 100);
+                  var giaSauGiamGia = item.sach.giaBan * (1 - item.sach.phanTramGiamGia / 100);
                   if(item.status === true) total += giaSauGiamGia * item.soLuong;
                   html += `<div class="cart-detail-product__item">
                   <div for="cart-detail-product__item-checkBox" class="cart-detail-product__item-info">
@@ -214,14 +221,14 @@ function showCart(){
                     <span style="padding-left: 8px" class="product-item__old-price">${formatCurrency(item.sach.giaBan)}</span>
                   </div>
                   <div class="cart-detail-product__item-quantity">
-                    <button onclick="updateInCart('dec',${item.sach.idSach},${giaSauGiamGia})" class="button" id="btnDecrease">
+                    <button onclick="updateInCart('dec','${item.sach.idSach}',${giaSauGiamGia})" class="button" id="btnDecrease">
                       <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6 12L18 12" stroke="#000000" stroke-width="2" stroke-linecap="round"
                           stroke-linejoin="round" />
                       </svg>
                     </button>
                     <input type="text" name="item-quantity" class="val${item.sach.idSach}" id="item-quantity" value="${item.soLuong}" readonly>
-                    <button onclick="updateInCart('in',${item.sach.idSach},${giaSauGiamGia})" class="button" id="btnIncrease">
+                    <button onclick="updateInCart('in','${item.sach.idSach}',${giaSauGiamGia})" class="button" id="btnIncrease">
                       <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6 12H18M12 6V18" stroke="#000000" stroke-width="2" stroke-linecap="round"
                           stroke-linejoin="round" />
@@ -229,7 +236,7 @@ function showCart(){
                     </button>
                   </div>
                   <span class="cart-detail-product__item-totalAmount total${item.sach.idSach}">${formatCurrency(item.soLuong * giaSauGiamGia)}</span>
-                  <button onclick="deleteAndShow(${item.sach.idSach})" class="button" id="btnDelete">
+                  <button onclick="deleteAndShow('${item.sach.idSach}')" class="button" id="btnDelete">
                     <svg class="cart-detail-product__btnDelete-icon" id="cart-detail-product__header-btnDelete"
                       viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -456,6 +463,13 @@ function changePage(page,size,text = "none",id = "id") {
     }   
     else if(id !== "id") {
         document.querySelector(".current-category").value = id;
+
+        const elements = document.querySelectorAll('.category-item__link');
+        for (let element of elements) {
+          element.classList.remove('click');
+        }
+
+        document.querySelector(`.theloai${id}`).classList.add('click');
     }
     var val = document.querySelector(".header-search-bar__input-field").value;
     var val_category = parseInt(document.querySelector(".current-category").value);
@@ -698,11 +712,13 @@ function showSmallCart() {
         <ul class="header-cart__table">`;
         console.log(data);
         data.forEach(item => {
+            console.log(item.sach);
+            var price = item.sach.giaBan * (1 - item.sach.phanTramGiamGia / 100 ); 
+            console.log(item.sach.phanTramGiamGia);
             console.log(item.sach.idSach);
             console.log(item.sach.tenSach);
-            console.log(item.sach.phamTramGiamGia);
-            console.log(item.sach.giaBan);      
-            var price = item.sach.giaBan * (1 - item.sach.phamTramGiamGia / 100 );
+            console.log(item.sach.giaBan);  
+            console.log(price);    
             if(item.soLuong > 0) {
                 cnt++;
                 html += `<li class="header-cart__item">
@@ -759,7 +775,7 @@ function showTheLoai() {
         data.forEach(item => {
             html += `
             <li class="category-item">
-                  <span onclick="changePage(1,4,'none',${item.id})"  class="category-item__link category-item--active">${item.ten}</span>
+                  <span onclick="changePage(1,4,'none',${item.id})"  class="category-item__link category-item--active theloai${item.id}">${item.ten}</span>
                 </li>	
             `;
         })
@@ -789,7 +805,7 @@ function checkBoxItemEvent(element,type="none",id="none") {
   .then(data => {
           var total = 0;
           data.forEach(item => {
-            var giaSauGiamGia = item.sach.giaBan * (1 - item.sach.phamTramGiamGia / 100);
+            var giaSauGiamGia = item.sach.giaBan * (1 - item.sach.phanTramGiamGia / 100);
             if(item.soLuong > 0 && item.status === true) {
               total += giaSauGiamGia * item.soLuong ;
             }
@@ -811,7 +827,7 @@ function checkBoxItemEvent(element,type="none",id="none") {
   .then(data => {
           var total = 0;
           data.forEach(item => {
-            var giaSauGiamGia = item.sach.giaBan * (1 - item.sach.phamTramGiamGia / 100);
+            var giaSauGiamGia = item.sach.giaBan * (1 - item.sach.phanTramGiamGia / 100);
             if(item.soLuong > 0 && item.status === true) {
               total += giaSauGiamGia * item.soLuong ;
             }
@@ -870,7 +886,7 @@ function showItemInOrder() {
           data.forEach(item => {
                 console.log(item.status === true && parseInt(item.soLuong) > 0);
                 if(item.status === true && parseInt(item.soLuong) > 0) {
-                  var giaBanSauGiamGia = item.sach.giaBan * (1 - item.sach.phamTramGiamGia / 100);
+                  var giaBanSauGiamGia = item.sach.giaBan * (1 - item.sach.phanTramGiamGia / 100);
                   total += giaBanSauGiamGia * item.soLuong;
                   html += `<div class="checking-order__item">
                   <div for="checking-order__item-checkBox" class="checking-order__item-info">
@@ -903,9 +919,13 @@ function showItemInOrder() {
 
 function changeSoLuong(key) {
   var sl = parseInt(document.querySelector(".item-quantity").value);
+  var str = document.querySelector(".item-quantity__left").textContent;
+  var max_sl = parseInt(str.split(" ")[0]);
+  console.log(str);
+  console.log(max_sl);
   if(sl === 1 && key === "dec") return;
-  if(key === "inc") sl++;
-  else sl--;
+  if(key === "inc" && sl < max_sl) sl++;
+  else if(key === "dec") sl--;
   document.querySelector(".item-quantity").value = sl.toString();
   document.querySelector(".inp-quantity").value = sl;
 }
@@ -1152,3 +1172,555 @@ function setText() {
   
 }
 
+function updateInfor() {
+  var name = document.querySelector('#form__input-fullname').value;
+  var email = document.querySelector('#form__input-email').value;
+  var soDienThoai = document.querySelector('#form__input-phone-number').value;
+
+  var url = currentURL + `/api/user/updateInforUser?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&soDienThoai=${encodeURIComponent(soDienThoai)}`;
+  fetch(url);
+  showNotification("Cập nhật thành công")
+}
+
+function showNotification(message) {
+  const notification = document.getElementById('notification');
+  const notificationMessage = document.getElementById('notificationMessage');
+  notificationMessage.textContent = message;
+  notification.style.display = 'block';
+
+  // Tự động ẩn thông báo sau 3 giây
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 3000);
+}
+
+// Hàm để đóng thông báo khi bấm nút X
+function closeNotification() {
+  const notification = document.getElementById('notification');
+  notification.style.display = 'none';
+}
+function loadOrder(page,size,status) {
+  var url = currentURL + `/api/user/selectOrderByState?page=${page}&size=${size}&status=${status}`;
+  fetch(url)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Lỗi khi lấy dữ liệu từ URL");
+    }
+    return response.json();
+  })
+  .then(data => {
+      var html = `<div class="order-list__row order-list__header">
+      <input type="hidden" class="inp-check-load-${status}">
+      <div class="order-list__cell">Mã đơn hàng</div>
+      <div class="order-list__cell">Thời gian lập</div>
+      <div class="order-list__cell">Nguời nhận</div>
+      <div class="order-list__cell">Tổng tiền</div>
+      <div class="order-list__cell">Tình trạng đơn</div>
+      <div class="order-list__cell">Thao tác</div>
+    </div>
+    <div class="order-list__row order-list__body">`;
+      data.forEach(item => {
+          html += `<div class="order-list__row">
+          <div class="order-list__cell order-id">${item.id}</div>
+          <div class="order-list__cell order-invoice-date">${item.thoiGianDatHang}</div>
+          <div class="order-list__cell order-fullname">${item.tenNguoiNhan}</div>
+          <div class="order-list__cell order-total-amount">${formatCurrency(item.tongTien)}</div>
+          <div class="order-list__cell order-status${item.id}">${item.trangThai}</div>
+          <div onclick="showViewDetail('${item.id}')" class="order-list__cell order-view-detail">Xem chi tiết</div>
+        </div>`;
+      });
+
+      html += `</div>`;
+      var element;
+      if(status === "all") element = document.querySelector('#all-order')
+      else if(status === "complete") element = document.querySelector('#complete-order');
+      else if(status === "delivering") element = document.querySelector('#delivering-order');
+      else if(status === "awaiting") element = document.querySelector('#awaiting-order');
+      else if(status === "cancelled") element = document.querySelector('#cancelled-order');
+      else if(status === "returned") element = document.querySelector('#returned-order');
+      console.log(element);
+      element.innerHTML = html;
+  })
+}
+
+
+ function changePageOrder(page,size,status) {
+  console.log("goi ham changePageOrderorder");
+  var url = currentURL + "/api/order/countOrderByIdAndStatus?status=" + status;
+  var totalPage = null;
+  console.log(url);
+  fetch(url)
+  .then(response => {
+      if (!response.ok) {
+          throw new Error("Lỗi khi lấy dữ liệu từ URL");
+      }
+      return response.json();
+  })
+  .then(data => {
+      // data = data.parseInt;
+      console.log("dữ liêu: " + data);
+      
+      if(data % size === 0) totalPage = data/size;
+      else totalPage = Math.floor(data/size) + 1;
+
+      
+      loadOrder(page,size,status);
+      // html phan trang
+      var html = "";
+      if(page === 1) {
+          html += `<div class="pagination__item disable-paging">`;
+      }
+      else {
+          html += `<div onclick="changePageOrder(${page-1},${size},${status})" class="pagination__item">`;
+      }
+      html += `<button class="button btnPrev">
+          <svg class="btn__icon" fill="" height="800px" width="800px" version="1.1" id="Capa_1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 500 500" xml:space="preserve">
+          <g>
+              <path d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225
+              c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z" />
+          </g>
+          </svg>
+      </button>
+      </div>`;
+  
+      if(totalPage <= 5) {
+          for(var i=1;i<=totalPage;i++) {
+              if(i === page) {
+                  html += `<div class="pagination__item pagination__item--active">
+                  <button class="button">${i}</button>
+                </div>`;
+              }
+              else {
+                  html += `<div onclick="changePageOrder(${i},${size},'${status}')" class="pagination__item">
+                  <button class="button">${i}</button>
+                </div>`;
+              }
+          }
+      }
+      else {
+          if(page <= 3) {
+            for(var i=1;i<=6;i++) {
+                  if(i <= 4) {
+                      if(i === page) {
+                          html += `<div class="pagination__item pagination__item--active">
+                          <button class="button">${i}</button>
+                          </div>`;  
+                      }
+                      else {
+                          html += `<div onclick="changePageOrder(${i},${size},'${status}')" class="pagination__item">
+                          <button class="button">${i}</button>
+                          </div>`;
+                      }
+                  }
+                  else if(i == 5) {
+                      html += `<div class="pagination__item">
+                      <button class="button">...</button>
+                      </div>`;
+                  }
+                  else {
+                      html += `<div onclick="changePageOrder(${totalPage},${size},'${status}')" class="pagination__item">
+                      <button class="button">${totalPage}</button>
+                      </div>`;
+                  }
+            }  
+          }
+          else if(totalPage - page <=2) {
+              html += `<div onclick="changePageOrder(1,${size},'${status}')" class="pagination__item">
+                      <button class="button">1</button>
+                      </div>`;
+              html += `<div class="pagination__item">
+                      <button class="button">...</button>
+                      </div>`;
+              for(var i=totalPage - 3;i<=totalPage;i++) {
+                  if(i === page) {
+                      html += `<div class="pagination__item pagination__item--active">
+                      <button class="button">${i}</button>
+                      </div>`;
+                  }
+                  else {
+                      html += `<div onclick="changePageOrder(${i},${size},'${status}')" class="pagination__item">
+                      <button class="button">${i}</button>
+                      </div>`;
+                  }
+              }
+          }
+          else {
+              html += `<div onclick="changePageOrder(1,${size},'${status}')" class="pagination__item">
+                      <button class="button">1</button>
+                      </div>`;
+              html += `<div class="pagination__item">
+                      <button class="button">...</button>
+                      </div>`;
+              html += `<div onclick="changePageOrder(${page-1},${size},'${status}')" class="pagination__item">
+                      <button class="button">${page-1}</button>
+                      </div>`;
+              html += `<div class="pagination__item pagination__item--active">
+                      <button class="button">${page}</button>
+                      </div>`;
+              html += `<div onclick="changePageOrder(${page+1},${size},'${status}')" class="pagination__item">
+                      <button class="button">${page+1}</button>
+                      </div>`;
+              html += `<div class="pagination__item">
+                      <button class="button">...</button>
+                      </div>`;
+              html += `<div onclick="changePageOrder(${totalPage},${size},'${status}')" class="pagination__item">
+                      <button class="button">${totalPage}</button>
+                      </div>`;
+              }
+      }
+  
+      if(totalPage === page ) {
+          html += `<div class="pagination__item disable-paging">`;
+      }
+      else {
+          html += `<div onclick="changePageOrder(${page+1},${size},'${status}')" class="pagination__item ">`;
+      }
+      html += `<button class="button btnNext">
+          <svg class="btn__icon" fill="" height="800px" width="800px" version="1.1" id="Capa_1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 500 500" xml:space="preserve">
+          <g>
+              <path d="M360.731,229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1,0s-5.3,13.8,0,19.1l215.5,215.5l-215.5,215.5
+              c-5.3,5.3-5.3,13.8,0,19.1c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-4l225.1-225.1C365.931,242.875,365.931,234.275,360.731,229.075z
+              " />
+          </g>
+          </svg>
+      </button>
+      </div>`;
+      document.querySelector(".pagination").innerHTML = html;
+      // html phan trang nho o tren
+      var html1 = "";
+      if(page == 1) {
+          html1 += `<button class="button btnPrev disable-paging">
+          <svg class="btn__icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" xml:space="preserve">
+            <g>
+              <path d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225
+              c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z" />
+            </g>
+          </svg>
+        </button>`;
+      }
+      else {
+          html1 += `<button onclick="changePageOrder(${page-1},${size},'${status}')" class="button btnPrev">
+          <svg class="btn__icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" xml:space="preserve">
+            <g>
+              <path d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225
+              c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z" />
+            </g>
+          </svg>
+        </button>`;
+      }
+
+      html1 += `<div class="page__number">
+      <div class="page__current">${page}</div>
+      <div class="page__border">/</div>
+      <div class="page__total">${totalPage}</div>
+    </div>`;
+
+    if(page == totalPage) {
+          html1 += `<button class="button btnNext disable-paging">
+          <svg class="btn__icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" xml:space="preserve">
+            <g>
+              <path d="M360.731,229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1,0s-5.3,13.8,0,19.1l215.5,215.5l-215.5,215.5
+              c-5.3,5.3-5.3,13.8,0,19.1c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-4l225.1-225.1C365.931,242.875,365.931,234.275,360.731,229.075z
+              " />
+            </g>
+          </svg>
+        </button>`;
+    }
+    else {
+          html1 += `<button onclick="changePageOrder(${page+1},${size},'${status}')" class="button btnNext">
+          <svg class="btn__icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" xml:space="preserve">
+          <g>
+              <path d="M360.731,229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1,0s-5.3,13.8,0,19.1l215.5,215.5l-215.5,215.5
+              c-5.3,5.3-5.3,13.8,0,19.1c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-4l225.1-225.1C365.931,242.875,365.931,234.275,360.731,229.075z
+              " />
+          </g>
+          </svg>
+      </button>`;
+    }
+
+   /* document.querySelector(".filter__page-controller").innerHTML = html1;*/
+    var t1 = "inc";
+    var t2 = "dec"
+    var html2 = `<button onclick="showTextBySearch(${page},${size},'inc')" type="button" class="button btnFilter" id="ascPrice">Giá thấp đến cao</button>
+    <button onclick="showTextBySearch(${page},${size},'dec')" type="button" class="button btnFilter" id="descPrice">Giá cao đến thấp</button>`;
+   /* document.querySelector(".filter__group").innerHTML = html2;*/
+  }) 
+}
+
+function hideAllButton() {
+  document.querySelector('#btnCancelOrder').style.display = 'none';
+  document.querySelector('#btnRequestReturnOrder').style.display = 'none';
+  document.querySelector('#btnConfirmReturnOrder').style.display = 'none';
+  document.querySelector('#btnConfirmCompleteOrder').style.display = 'none';
+  document.querySelector('#btnRebuyOrder').style.display = 'none';
+  document.querySelector('.order-info__cancellation-reason').style.display = 'none';
+}
+
+function showViewDetail(id) {
+  var url = currentURL + "/api/user/selectOrderById?id=" + id;
+  fetch(url)
+  .then(response => {
+      if (!response.ok) {
+          throw new Error("Lỗi khi lấy dữ liệu từ URL");
+      }
+      return response.json();
+  })
+  .then(data => {
+      var html = ``;
+      for(var key in data.listChiTietDonHang) {
+				if (data.listChiTietDonHang.hasOwnProperty(key)) {
+					var ctdh = data.listChiTietDonHang[key];
+					html += `<div class="order-product__info">
+          <div class="order-product__img">
+            <div class="order-product__image"
+              style="background-image: url(${ctdh.urlImage});">
+            </div>
+          </div>
+          <div class="order-product__info-wrap">
+            <div class="order-product__name">
+              ${ctdh.tenSach}
+            </div>
+            <div class="order-product__quantity">
+              x${ctdh.soLuong}
+            </div>
+            <div class="order-product__unitPrice">
+              ${formatCurrency(ctdh.giaBan)}
+            </div>
+          </div>
+        </div>`;
+				  }
+			}
+      document.querySelector('.inp-order-current').value = id;
+      document.querySelector('.inp-status-current').value = data.tinhTrang;
+      document.querySelector('.order-product__list').innerHTML = html;
+
+      hideAllButton();
+      document.querySelector('.order-text-status').innerText = data.tinhTrang; 
+      document.querySelector('.order-text-id').innerText = data.id;
+      document.querySelector('.order-text-name').innerText = data.tenNguoiNhan;
+      document.querySelector('.order-text-phone').innerText = data.soDienThoai;
+      document.querySelector('.order-text-address').innerText = data.diaChiGiaoHang;
+      document.querySelector('.order-text-time').innerText = data.thoiGianDatHang;
+      document.querySelector('.order-text-money').innerText = formatCurrency(data.tongTien);
+      console.log(data.trangThai);
+      let comparison = data.trangThai.localeCompare("Đang xử lý", 'vi', { sensitivity: 'base' });
+      console.log(comparison);
+      if(data.trangThai === "Đang xử lý") {
+        document.querySelector('#btnCancelOrder').style.display = 'block';
+      }
+      else if(data.trangThai === "Đang giao hàng") {
+        document.querySelector('#btnConfirmCompleteOrder').style.display = 'block';
+      }
+      else if(data.trangThai === "Thành công") {
+        document.querySelector('#btnRebuyOrder').style.display = 'block';
+        document.querySelector('#btnRequestReturnOrder').style.display = 'block';
+      }
+      else if(data.trangThai === "Đã hủy") {
+        document.querySelector('.order-info__cancellation-reason').style.display = 'block';
+        document.querySelector('.label-click').innerText = "Xem lý do hủy đơn";
+        document.querySelector('.label-detail').innerText = data.loiNhan;
+      }
+      else if(data.trangThai === "Đang chờ xử lý trả hàng" || data.trangThai === "Đã trả hàng" || data.trangThai === "Từ chối trả hàng" || data.trangThai === "Xác nhận trả hàng") {
+        document.querySelector('.order-info__cancellation-reason').style.display = 'block';
+        document.querySelector('.label-click').innerText = "Xem lý do trả hàng";
+        document.querySelector('.label-detail').innerText = data.loiNhan;
+      }
+       
+
+
+  })
+  document.getElementById(`modal__view-order-detail`).style.display = 'flex';
+}
+
+function cancelOrder() {
+    var status = document.querySelector('.inp-status-current').value ;
+    console.log(status);
+    if(status === "Thành công") {
+      requestReturn(); return;
+    }
+    else {
+      var select = document.getElementById('form__input-reason');
+      console.log(select);
+      // Lấy option được chọn
+      var selectedOption = select.options[select.selectedIndex];
+      var reason;
+      if(selectedOption.value === "other") {
+        reason = document.querySelector('#form__textarea-reason').value;
+      }
+      else {
+        reason = selectedOption.text;
+      }
+
+        var id = document.querySelector('.inp-order-current').value ;
+        var url = currentURL + `/api/order/updateOrder?id=${id}&status=delete&message=${reason}`;
+        fetch(url);
+        document.querySelector('#modal__cancellation-reason').style.display = 'none';
+        var elements = document.querySelectorAll(`.order-status${id}`);
+        console.log(elements);
+        elements.forEach((element) => {
+          console.log(element);
+          element.innerText = "Đã hủy"
+        });
+    }
+}
+
+function completeOrder() {
+  
+  var id = document.querySelector('.inp-order-current').value ;
+  var url = currentURL + `/api/order/updateOrder?id=${id}&status=complete`;
+  fetch(url);
+  document.querySelector('#modal__view-order-detail').style.display = 'none';
+  var elements = document.querySelectorAll(`.order-status${id}`);
+  console.log(elements);
+  elements.forEach((element) => {
+    console.log(element);
+    element.innerText = "Thành công";
+  });
+}
+
+function requestReturn() {
+  var id = document.querySelector('.inp-order-current').value ;
+  var select = document.getElementById('form__input-reason');
+  console.log(select);
+  // Lấy option được chọn
+  var selectedOption = select.options[select.selectedIndex];
+  var reason;
+  if(selectedOption.value === "other") {
+    reason = document.querySelector('#form__textarea-reason').value;
+  }
+  else {
+    reason = selectedOption.text;
+  }
+  console.log(reason);
+  var url = currentURL + `/api/order/updateOrder?id=${id}&status=return&message=${encodeURIComponent(reason)}`;
+  console.log(url);
+  fetch(url);
+  var elements = document.querySelectorAll(`.order-status${id}`);
+  console.log(elements);
+  elements.forEach((element) => {
+    console.log(element);
+    element.innerText = "Chờ xử lí trả hàng";
+  });
+  document.querySelector('#modal__cancellation-reason').style.display = 'none';
+}
+
+
+function showLogout() {
+	let modalLogout = document.querySelector(`#modal__account-logout`);
+      if (!modalLogout) {
+        modalLogout = document.createElement(`div`);
+        modalLogout.setAttribute(`class`, `modal`);
+        modalLogout.setAttribute(`id`, `modal__account-logout`);
+        modalLogout.innerHTML = `
+      <style>
+        #modal__account-logout .modal__body{
+          padding: 2rem 2.4rem;
+        }
+        #modal__account-logout .logout__inner{
+          font-size: 1.6rem;
+        }
+        .logout__container{
+          display: flex;
+          flex-direction: column;
+        }
+        .logout__head{
+          display: flex;
+          align-items: center;
+          margin-bottom: 1.6rem;
+        }
+        .logout__alert-icon{
+          filter: brightness(0) saturate(100%) invert(61%) sepia(79%) saturate(3155%) hue-rotate(356deg) brightness(100%) contrast(98%);
+          fill: var(--yellow-color);
+          width: 2.6rem;
+          height: 2.6rem;
+          margin-right: 0.8rem;
+        }
+        #modal__account-logout .logout__content-wrap{
+          background-color: var(--white-color);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-bottom: 2.4rem;
+        }
+        #modal__account-logout .logout__title{
+          font-size: 2rem;
+          font-weight: 500;
+          line-height: 2.4rem;
+        }
+        #modal__account-logout .logout__content{
+          font-size: 1.6rem;
+          line-height: 2rem;
+        }
+        #modal__account-logout .logout__action-wrap{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #logout__action-cancel{
+          margin-right: 1.6rem;
+          width: 50%;
+          height: 4.2rem;
+        }
+        #logout__action-confirm{
+          width: 50%;
+          height: 4.2rem;
+        }
+      </style>
+      <div class="modal__overlay"></div>
+      <div class="modal__body">
+        <div class="modal__inner logout__inner">
+          <div class="logout__container">
+            <div class="logout__head">
+            <svg class="modal__alert-icon logout__alert-icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#000000"
+              d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 192a58.432 58.432 0 0 0-58.24 63.744l23.36 256.384a35.072 35.072 0 0 0 69.76 0l23.296-256.384A58.432 58.432 0 0 0 512 256zm0 512a51.2 51.2 0 1 0 0-102.4 51.2 51.2 0 0 0 0 102.4z" />
+            </svg>
+              <div class="logout__title">Thông báo</div>
+            </div>
+            <div class="logout__content-wrap">
+              <div class="logout__content">Bạn có chắc chắn muốn đăng xuất?</div>
+            </div>
+          </div>
+          <div class="logout__action-wrap">
+            <button class="button" id="logout__action-cancel">Hủy</button>
+            <a href="${currentURL}/khach-hang/dang-xuat" class="button" id="logout__action-confirm">Đăng xuất</a>
+          </div>
+        </div>
+      </div>
+      `;
+        document.body.appendChild(modalLogout);
+      }
+      modalLogout.style.display = `flex`;
+      const btnCancelLogout = modalLogout.querySelector(
+        `#logout__action-cancel`
+      );
+      if (!btnCancelLogout.dataset.bound) {
+        btnCancelLogout.addEventListener(`click`, () => {
+          modalLogout.style.display = `none`;
+        });
+        btnCancelLogout.dataset.bound = true;
+      }
+      const overlay = modalLogout.querySelector(`.modal__overlay`);
+      overlay.addEventListener(`click`, () => {
+        modalLogout.style.display = `none`;
+      });
+      const btnConfirmLogout = modalLogout.querySelector(
+        `#logout__action-confirm`
+      );
+      if (!btnConfirmLogout.dataset.bound) {
+        btnConfirmLogout.addEventListener(`click`, () => {
+          localStorage.removeItem(`user`);
+          modalLogout.style.display = `none`;
+          window.location.reload();
+        });
+        btnConfirmLogout.dataset.bound = true;
+      }
+}

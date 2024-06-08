@@ -4,6 +4,11 @@
 <html lang="en">
 
 <head>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!-- Thêm thư viện Toastr CSS và JS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tài khoản của tôi</title>
@@ -16,19 +21,53 @@
   <link rel="stylesheet" href="../css/normalize.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/useraccount.css">
-<!--   <script type="module" src="../js/header.js" defer></script>
-  <script type="module" src="../js/footer.js" defer></script> -->
   <script type="module" src="../js/validator.js" defer></script>
-  <script type="module" src="../js/useraccount.js" defer></script>
+  <script type="module" src="../js/useraccount.js" defer>
+</script>
+  <script type="module" src="../js/loadorder.js" defer></script>
+  <style type="text/css">
+  	.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: none; /* Ẩn thông báo ban đầu */
+}
+
+.notification button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.error-infor {
+		color: red;
+		font-size: 16px;
+	}
+  </style>
+  
+  
+  
 </head>
 
 <body>
   <div class="webapp">
+  <div id="notification" class="notification">
+  <span id="notificationMessage">Cập nhật thành công!</span>
+  <button id="closeBtn" onclick="closeNotification()">X</button>
+</div>
     <!-- * Header -->
    <jsp:include page="header1.jsp" />
     <!-- * User Account management -->
     <main class="main-user-account" id="main-user-account">
-      <div class="container">
+      <div class="container">																		
         <div class="row">
           <div class="col-lg-3">
             <div class="account-sidebar-function">
@@ -69,7 +108,7 @@
                           Đổi mật khẩu
                         </div>
                       </li>
-                      <li class="sub-option" id="account-other-settings">
+                      <li style="display: none;" class="sub-option" id="account-other-settings">
                         <div class="sub-option__content">
                           Thiết lập khác
                         </div>
@@ -173,56 +212,32 @@
                 <div class="form-field">
                   <label for="form__input-fullname" class="form__label">Họ và tên</label>
                   <input class="form__input" id="form__input-fullname" type="text" name="fullname" placeholder=" "
-                    autocomplete="" value="Nguyễn Phúc">
-                  <div class="form__alert">
-                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
-                    </svg>
-                    <div class="form__alert-message"></div>
-                  </div>
+                    autocomplete="" value="${sessionScope.khachHang.ten}">
+                  
                 </div>
                 <!--* Email -->
                 <div class="form-field">
                   <label for="form__input-email" class="form__label">Email</label>
                   <input class="form__input" id="form__input-email" type="email" name="email" placeholder=" "
-                    autocomplete="" value="phuc11b3ntdn@gmail.com" readonly>
-                  <div class="form__alert">
-                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
-                    </svg>
-                    <div class="form__alert-message"></div>
-                  </div>
+                    autocomplete="" value="${sessionScope.khachHang.email}" readonly>
+                  
                 </div>
                 <!--* Phone number  -->
                 <div class="form-field">
                   <label for="form__input-phone-number" class="form__label">Số điện thoại</label>
                   <input class="form__input" id="form__input-phone-number" type="tel" name="phonenumber" placeholder=" "
-                    autocomplete="" value="0383431907">
-                  <div class="form__alert">
-                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
-                    </svg>
-                    <div class="form__alert-message"></div>
-                  </div>
+                    autocomplete="" value="${sessionScope.khachHang.SDT}">
+                  
                 </div>
-                <button class="button" id="btnSaveUserInfo">Lưu thay đổi</button>
+                <button onclick="updateInfor()" class="button" id="btnSaveUserInfo">Lưu thay đổi</button>
               </form>
-              <form class="account-form-info" action="" method="" id="account-form-changing-password">
+              <form class="account-form-info" action="${pageContext.request.contextPath}/khach-hang/change-password" method="post" id="account-form-changing-password">
                 <!-- ? Email -->
-                <div class="form-field ">
+                 <div class="form-field ">
                   <label for="form__input-email" class="form__label">Email của bạn</label>
-                  <input class="form__input" id="form__input-email" type="email" name="email" autofocus placeholder=" "
-                    value="puckluvperfume@gmail.com">
-                  <div class="form__alert">
+                  <input class="form__input my-email" id="form__input-email" type="email" name="email" autofocus placeholder=" "
+                    value="${sessionScope.khachHang.email}">
+                  <!-- <div class="form__alert">
                     <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
@@ -230,36 +245,44 @@
                       <circle cx="12" cy="16.5" r="1" fill="#000000" />
                     </svg>
                     <div class="form__alert-message">Email chưa được đăng ký hoặc không tồn tại</div>
-                  </div>
-                </div>
+                  </div> -->
+                </div> 
                 <!-- ? OTP -->
                 <div class="form-field">
                   <label for="form__input-otp" class="form__label">Nhập mã xác nhận OTP</label>
                   <input class="form__input" id="form__input-otp" type="number" name="otpCode" placeholder=" ">
-                  <div class="form__alert">
-                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
-                    </svg>
-                    <div class="form__alert-message">Mã xác nhận không khớp</div>
-                  </div>
+                    <c:if test="${not empty requestScope.loiOTP}">
+	                  <div class="form__alert">
+	                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+	                      <path
+	                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+	                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+	                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+	                    </svg>
+	                    <div class="form__alert-message">Mã xác nhận không hợp lệ</div>
+	                  </div>
+					</c:if>
+					
+					<c:if test="${not empty requestScope.loiDangNhap}">
+					<label class="error-infor">${requestScope.loiDangNhap}</label>
+					</c:if>
                   <button class="button" id="btnSendOTPCodeToEmail">Gửi mã OTP</button>
                 </div>
                 <!-- ? Current Password -->
                 <div class="form-field">
                   <label for="form__input-password" class="form__label">Nhập mật khẩu hiện tại</label>
-                  <input class="form__input" id="form__input-password" type="password" name="password" placeholder=" ">
-                  <div class="form__alert">
-                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
-                    </svg>
-                    <div class="form__alert-message">Mật khẩu không chính xác</div>
-                  </div>
+                  <input class="form__input" id="form__input-password" type="password" name="oldpass" placeholder=" ">
+                    <c:if test="${not empty requestScope.loiOldPass}">
+	                  <div class="form__alert">
+	                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+	                      <path
+	                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+	                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+	                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+	                    </svg>
+	                    <div class="form__alert-message">Mật khẩu không chính xác</div>
+	                  </div>
+					</c:if>
                   <div class="form__eye">
                     <svg class="form__eye-hide-password" viewBox="0 0 24 24" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -282,15 +305,18 @@
                 <div class="form-field">
                   <label for="form__input-password" class="form__label">Nhập mật khẩu mới</label>
                   <input class="form__input" id="form__input-password" type="password" name="password" placeholder=" ">
-                  <div class="form__alert">
-                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
-                    </svg>
-                    <div class="form__alert-message">Mật khẩu không chính xác</div>
-                  </div>
+                    <c:if test="${not empty requestScope.loiPass}">
+	                  <div class="form__alert">
+	                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+	                      <path
+	                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+	                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+	                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
+	                    </svg>
+	                    <div class="form__alert-message">Mật khẩu không khớp</div>
+	                  </div>
+                    	
+					</c:if>
                   <div class="form__eye">
                     <svg class="form__eye-hide-password" viewBox="0 0 24 24" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -314,15 +340,7 @@
                   <label for="form__input-confirm-password" class="form__label">Nhập lại mật khẩu mới</label>
                   <input class="form__input" id="form__input-confirm-password" type="password" name="confirmPassword"
                     placeholder=" ">
-                  <div class="form__alert">
-                    <svg class="form__alert-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 7V13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      <circle cx="12" cy="16.5" r="1" fill="#000000" />
-                    </svg>
-                    <div class="form__alert-message">Mật khẩu không khớp</div>
-                  </div>
+           
                   <div class="form__eye">
                     <svg class="form__eye-hide-password" viewBox="0 0 24 24" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -456,7 +474,7 @@
               </div>
               <div class="order-list__empty-order">
                 <div class="order-list__empty-order-img">
-                  <img src="assets/image/order-empty-img.png" alt="donhangtrong">
+                  <img src="../image/order-empty-img.png" alt="donhangtrong">
                 </div>
                 <div class="order-list__empty-order-content">
                   Bạn chưa có đơn hàng nào.
@@ -703,7 +721,7 @@
                               <div class="order-product__quantity">
                                 2 x
                               </div>
-                              <div class="order-product__unitPrice">
+                              <div style="padding-left: 12px;" class="order-product__unitPrice">
                                 100.000đ
                               </div>
                             </div>
@@ -786,37 +804,37 @@
                             <label class="order-info__label">Chi tiết đơn hàng</label>
                           </div>
                           <div class="order-info__wrap order-info__status">
-                            <div class="order-info__content">
+                            <div class="order-info__content order-text-status">
                               Đơn hàng đang chờ xác nhận
                             </div>
                           </div>
                           <div class="order-info__wrap order-info__id">
                             <label class="order-info__label">Mã đơn hàng:</label>
-                            <div class="order-info__content">103459304</div>
+                            <div class="order-info__content order-text-id">103459304</div>
                           </div>
                           <div class="order-info__wrap order-info__fullname">
                             <label class="order-info__label">Họ và tên người nhận:</label>
-                            <div class="order-info__content">Lê Võ Nhật Minh</div>
+                            <div class="order-info__content order-text-name">Lê Võ Nhật Minh</div>
                           </div>
                           <div class="order-info__wrap order-info__phone-number">
                             <label class="order-info__label">Số điện thoại:</label>
-                            <div class="order-info__content">0987654321</div>
+                            <div class="order-info__content order-text-phone">0987654321</div>
                           </div>
                           <div class="order-info__wrap order-info__address">
                             <label class="order-info__label">Địa chỉ giao hàng:</label>
-                            <div class="order-info__content">K19/21 Ngô Sĩ Liên, Phường Hòa Minh, Quận Liên Chiểu, Đà
+                            <div class="order-info__content order-text-address">K19/21 Ngô Sĩ Liên, Phường Hòa Minh, Quận Liên Chiểu, Đà
                               Nẵng
                             </div>
                           </div>
                           <div class="order-info__wrap order-info__invoice-date">
                             <label class="order-info__label">Thời gian lập đơn:</label>
-                            <div class="order-info__content">
+                            <div class="order-info__content order-text-time">
                               5:21, 20/5/2024
                             </div>
                           </div>
                           <div class="order-info__wrap order-info__total-price">
                             <label class="order-info__label">Tổng tiền:</label>
-                            <div class="order-info__content">
+                            <div class="order-info__content order-text-money">
                               1.000.000đ
                             </div>
                           </div>
@@ -827,22 +845,24 @@
                             </div>
                           </div>
                           <div class="order-info__wrap order-info__cancellation-reason">
-                            <label class="order-info__label">Xem lý do hủy đơn</label>
-                            <div class="order-info__content"></div>
+                            <label class="order-info__label label-click">Xem lý do hủy đơn</label>
+                            <div class="order-info__content label-detail"></div>
                           </div>
                           <div class="order-info__wrap order-button__wrap">
                             <button class="button btnCancelViewDetail" id="btnCancelViewDetail">Quay lại</button>
                             <!-- Tạo đơn => Đơn hàng đang chờ xác nhận, tại đây có thể hủy đơn -->
                             <!-- NVQL xác nhận => Trạng thái chờ xử lý (Đóng gói, thuê đơn vị vận chuyển,...) 
                                 => Đang giao hàng hoặc NVQL có thể hủy đơn (Vì yếu tố bên ngoài) -->
+                            <input type="hidden" class="inp-order-current">
+                            <input type="hidden" class="inp-status-current">
                             <button class="button" id="btnCancelOrder">Hủy đơn hàng</button>
-                            <button class="button" id="btnRequestReturnOrder">Yêu cầu trả hàng</button>
+                            <button onclick="requestReturn()" class="button" id="btnRequestReturnOrder">Yêu cầu trả hàng</button>
                             <button class="button" id="btnConfirmReturnOrder">Trả hàng hoàn tất</button>
                             <!-- Giao hàng hoàn tất => Trạng thái đã giao hàng hoàn tất -->
-                            <button class="button" id="btnConfirmCompleteOrder">Giao hàng hoàn tất</button>
+                            <button onclick="completeOrder()" class="button" id="btnConfirmCompleteOrder">Giao hàng hoàn tất</button>
                             <!-- Mua lại -->
                             <button class="button" id="btnRebuyOrder">Mua lại</button>
-                            <button class="button" id="btnAnnouceProcess"></button>
+                            <!-- <button class="button" id="btnAnnouceProcess"></button> -->
                           </div>
                         </div>
                       </div>
@@ -880,7 +900,7 @@
                         </div>
                         <div class="form__button-wrap">
                           <button class="button" type="button" id="btnCloseReasonForm">Đóng lại</button>
-                          <button class="button" type="submit" id="btnSubmitReasonForm">Xác nhận</button>
+                          <button onclick="cancelOrder()" class="button" type="button" id="btnSubmitReasonForm">Xác nhận</button>
                         </div>
                       </form>
                     </div>
@@ -1118,7 +1138,7 @@
                   </div>
                   <div class="logout__action-wrap">
                     <button class="button" id="logout__action-cancel">Hủy</button>
-                    <button class="button" id="logout__action-confirm">Đăng xuất</button>
+                    <a href="${pageContext.request.contextPath}/khach-hang/dang-xuat" class="button" id="logout__action-confirm">Đăng xuất</a>
                   </div>
                 </div>
               </div>
@@ -1129,8 +1149,8 @@
     </main>
     <jsp:include page="footer1.jsp" />
   </div>
+  <script type="text/javascript">
+  	showTextConsole('a');
+  </script>
 </body>
-	<script type="text/javascript">
-			
-	</script>
 </html>

@@ -89,16 +89,18 @@
                       <div class="header-user__avatar hidden">
                         <img src="" alt="">
                       </div>
-                      <div class="header-user__name">Lê Võ Nhật Minh</div>
                       <div class="header-user__wrap">
                         <div class="header-user__list">
-                          <a id="header-user__info" class="header-user__option">
+                          <a href="${pageContext.request.contextPath}/customer/useraccount.jsp?info" id="header-user__info" class="header-user__option">
                             <div class="header-user__title">Thông tin tài khoản</div>
                           </a>
-                          <a id="header-user__order" class="header-user__option">
+                          <a href="${pageContext.request.contextPath}/customer/useraccount.jsp?order" id="header-user__order" class="header-user__option">
                             <div class="header-user__title">Đơn hàng của tôi</div>
                           </a>
-                          <a href="${pageContext.request.contextPath}/khach-hang/dang-xuat" id="header-user__logout" class="header-user__option">
+                          <a href="${pageContext.request.contextPath}/customer/useraccount.jsp?review" id="header-user__order" class="header-user__option">
+                            <div class="header-user__title">Quản lí đánh giá</div>
+                          </a>
+                          <a onclick="showLogout()" id="header-user__logout" class="header-user__option">
                             <div class="header-user__title">Đăng xuất</div>
                           </a>
                         </div>
@@ -115,4 +117,11 @@
           </div>
         </div>
       </div>
+
+      <script>
+        function logout() {
+          document.querySelector('#logout__action-confirm').click();
+        }
+
+      </script>
     </header>

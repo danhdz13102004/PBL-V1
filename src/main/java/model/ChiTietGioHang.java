@@ -30,6 +30,7 @@ public class ChiTietGioHang {
 
     private int soLuong;
     
+    @Transient
     private boolean status = false;
     
     

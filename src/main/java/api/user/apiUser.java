@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,8 +39,10 @@ import model.User;
 import modelApi.ChiTietGioHangSerializer;
 import modelApi.DiaChiGiaoHangSerializer;
 import modelApi.DonHangSerializer;
+import modelApi.DonHangSerializer1;
 import modelApi.SachSerializer;
 import modelApi.TheLoaiSerializer;
+import modelApi.UserSerializer;
 import util.Email;
 import util.HibernateUtil;
 import util.RandomNumber;
@@ -106,6 +109,18 @@ public class apiUser extends HttpServlet {
 			}
 			else if(url.equals("updateAddress")) {
 				updateAddress(request, response);
+			}
+			else if(url.equals("selectInforUser")) {
+				selectInforUser(request, response);
+			}
+			else if(url.equals("updateInforUser")) {
+				updateInforUser(request, response);
+			}
+			else if(url.equals("selectOrderByState")) {
+				selectOrderByState(request, response);
+			}
+			else if(url.equals("selectOrderById")) {
+				selectOrderById(request, response);
 			}
 		}
 		
@@ -461,6 +476,117 @@ public class apiUser extends HttpServlet {
 		Session session2 = HibernateUtil.getSessionFactory().openSession();
 		HQLutil.getInstance().doUpdate(d, session2);
 		session2.close();
+	}
+	
+	protected void selectInforUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("khachHang");
+		if(user != null) {
+			GsonBuilder gb = new GsonBuilder();
+	    	gb.registerTypeAdapter(model.User.class, new UserSerializer());
+	    	Gson gson = gb.create();
+	    	String json = gson.toJson(user);
+	    	response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter out = response.getWriter();
+	        out.print(json);
+	        out.flush();	
+		}
+	
+	}
+	
+	protected void updateInforUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("khachHang");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String soDienThoai = request.getParameter("soDienThoai");
+		if(user != null) {
+			user.setEmail(email);
+			user.setTen(name);
+			user.setSoDienThoai(soDienThoai);
+			Session session2 = HibernateUtil.getSessionFactory().openSession();
+			HQLutil.getInstance().doUpdate(user, session2);
+			session2.close();
+		}
+	
+	}
+	
+	
+	protected void selectOrderByState(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("khachHang");
+		Integer page = Integer.parseInt(request.getParameter("page"));
+		Integer size = Integer.parseInt(request.getParameter("size"));
+		String status = request.getParameter("status");
+		Session session2 = HibernateUtil.getSessionFactory().openSession();
+		List<DonHang> res;
+		res = (List<DonHang>) session.getAttribute("page" + page + "size" + size + "status" + status);
+		if(res == null) {
+				if(status.equals("all")) {
+					res = DonHangDAO.getDonHangDao().selectDonHangByUserId(user.getId(), session2, page, size);
+				}
+				else if(status.equals("awaiting")) {
+					res = DonHangDAO.getDonHangDao().selectDonHangByStatus(page, size,DonHang.Status.DANGXULY , user.getId(), session2);
+				}
+				else if(status.equals("cancelled")) {
+					res = DonHangDAO.getDonHangDao()	.selectDonHangByStatus(page, size,DonHang.Status.DAHUY , user.getId(), session2);
+				}
+				else if(status.equals("daxacnhan")) {
+					res = DonHangDAO.getDonHangDao().selectDonHangByStatus(page, size,DonHang.Status.DAXACNHAN , user.getId(), session2);
+				}
+				else if(status.equals("delivering")) {
+					res = DonHangDAO.getDonHangDao().selectDonHangByStatus(page, size,DonHang.Status.DANGGIAOHANG , user.getId(), session2);
+				}
+				else if(status.equals("complete")) {
+					res = DonHangDAO.getDonHangDao().selectDonHangByStatus(page, size,DonHang.Status.THANHCONG , user.getId(), session2);
+				}
+				else if(status.equals("trahang")) {
+					res = DonHangDAO.getDonHangDao().selectDonHangByStatus(page, size,DonHang.Status.DANGCHOXULYTRAHANG , user.getId(), session2);
+				}
+				else if(status.equals("returned")) {
+					res = DonHangDAO.getDonHangDao().selectDonHangByStatus(page, size,DonHang.Status.DATRAHANG,DonHang.Status.DANGCHOXULYTRAHANG,DonHang.Status.TUCHOITRAHANG,DonHang.Status.XACNHANTRAHANG, user.getId(), session2);
+				}
+				else {
+					res = new ArrayList<DonHang>();
+				}
+				session.setAttribute(("page" + page + "size" + size + "status" + status), res);
+		}
+		
+		GsonBuilder gb = new GsonBuilder();
+    	gb.registerTypeAdapter(model.DonHang.class, new DonHangSerializer1());
+    	Gson gson = gb.create();
+    	String json = gson.toJson(res);
+    	response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+        out.print(json);
+        out.flush();	
+        session2.close();
+	
+	}
+	
+	protected void selectOrderById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String id = request.getParameter("id");
+		DonHang dh = (DonHang) session.getAttribute("donhang" + id);
+		Session session2 = null;
+		if(dh == null) {
+			session2 = HibernateUtil.getSessionFactory().openSession();
+			User user = (User) session.getAttribute("khachHang");
+			dh = DonHangDAO.getDonHangDao().selectDonHangByUserIdAndOrderId(user.getId(),session2 , id);	
+		}
+		
+		GsonBuilder gb = new GsonBuilder();
+    	gb.registerTypeAdapter(model.DonHang.class, new DonHangSerializer());
+    	Gson gson = gb.create();
+    	String json = gson.toJson(dh);
+    	response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+        out.print(json);
+        out.flush();	
+        if(session2 != null) session2.close();
 	}
 	
 }
