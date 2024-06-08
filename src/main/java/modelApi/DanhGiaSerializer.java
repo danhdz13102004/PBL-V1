@@ -18,7 +18,7 @@ public class DanhGiaSerializer implements JsonSerializer<DanhGia> {
         // TODO Auto-generated method stub
         final JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("id", src.getId());
-		
+		jsonObject.addProperty("tenKhachHangDanhGia", src.getCtDonHang().getDonHang().getKhachHang().getTen());
 //		final JsonObject jsonCTDonHang = new JsonObject();
 //		jsonCTDonHang.addProperty("idCTDonHang", src.getCtDonHang().getId());
 //		jsonObject.add("ChiTietDonHang", jsonCTDonHang);

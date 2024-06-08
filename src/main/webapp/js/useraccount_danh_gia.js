@@ -134,6 +134,7 @@ function setBottomPagination(page, totalPage)
 
 function updateDanhGia(idCTDH, soSao, binhLuan)
 {
+	
 	var now=Date.now();
 	var url = `${currentURL}/api/detail_order_user/add_update?idCTDH=${idCTDH}&soSao=${soSao}&binhLuan=${binhLuan}&thoiGian=${now}`
 	fetch(url)
@@ -146,7 +147,7 @@ function updateDanhGia(idCTDH, soSao, binhLuan)
     .then((data)=>{
 		console.log(data)
 		document.querySelector(`#account-review-management .review-list__container .review-list__row.review-list__body #${idCTDH} .review-invoice-date`).innerHTML=data.danhGia.thoiGian
-		document.querySelector(`#account-review-management .review-list__container .review-list__row.review-list__body #${idCTDH} .review-average-star`).innerHTML=data.sach.soSaoTB
+		document.querySelector(`#account-review-management .review-list__container .review-list__row.review-list__body #${idCTDH} .review-average-star`).innerHTML=parseFloat(data.sach.soSaoTB).toFixed(2)
 		document.querySelector(`#account-review-management .review-list__container .review-list__row.review-list__body #${idCTDH} .review-feed-back`).innerHTML=data.danhGia.binhLuan
 	})
 }
@@ -177,12 +178,11 @@ btnCloseFeedback.addEventListener(`click`, () => {
 });
 btnSaveFeedbackForm.addEventListener(`click`, () => {
   ratingCell.innerHTML = ``;
-  const newRating = currentRating;
+  //const newRating = currentRating;
   var binhLuan=document.querySelector("#modal__feedback .feedback-textarea").value
-  
   updateDanhGia(curID,currentRating,binhLuan)
   
-  ratingCell.innerHTML = newRating;
+  //ratingCell.innerHTML = newRating;
   modalFeedback.style.display = `none`;
 });
 
@@ -267,6 +267,12 @@ function getDanhGia(id, page, size)
 			
 		    parentRow = btnFeedback.parentNode;
 		    ratingCell = parentRow.querySelector(`.review-my-star`);
+		    if (ratingCell.textContent === "chưa đánh giá"){
+				currentRating = 5
+			}
+			else{
+				currentRating = parseInt(ratingCell.textContent.trim())
+			}
 		    loadingStars(parseInt(ratingCell.textContent.trim()));
 		    curID = parentRow.id
 		    var idSP = parentRow.querySelector(`.review-id`).innerHTML

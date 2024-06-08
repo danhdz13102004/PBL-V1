@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 
 import dao.ChiTietDonHangDao;
+import dao.DanhGiaDAO;
 import model.ChiTietDonHang;
+import model.DanhGia;
 import util.HibernateUtil;
 import util.HttpUtil;
 import util.JsonUtil;
@@ -32,10 +34,74 @@ public class apiChiTietDonHang extends HttpServlet {
         {
         	doAddUpdate(req, resp);
         }
+        else if (url.contains("/getFeedbackOfBook"))
+        {
+        	doGetFeedbackOfBook(req,resp);
+        }
+        else if (url.contains("/countFeedbackOfBook"))
+        {
+        	doCountFeedbackOfBook(req,resp);
+        }
+        else if (url.contains("/getFBOfBookHasStar"))
+        {
+        	doGetFBOfBookHasStar(req,resp);
+        }
+        else if (url.contains("/countFBOfBookHasStar"))
+        {
+        	doCountFBOfBookHasStar(req,resp);
+        }
         else
         {
         	doSelect(req, resp);
         }
+	}
+	private void doCountFBOfBookHasStar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String idSach = req.getParameter("idSach");
+		Integer soSao = Integer.parseInt(req.getParameter("soSao"));
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		Long cnt = DanhGiaDAO.getInstance().countFBOfBookHasStar(idSach, soSao, s);
+		resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        HttpUtil.getInstance().writeToResp(resp, Long.toString(cnt));
+		s.close();
+	}
+	private void doGetFBOfBookHasStar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String idSach = req.getParameter("idSach");
+		Integer soSao = Integer.parseInt(req.getParameter("soSao"));
+		Integer curPage = Integer.parseInt(req.getParameter("curPage"));
+		Integer size = Integer.parseInt(req.getParameter("size"));
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		List<DanhGia> li = DanhGiaDAO.getInstance().getFBOfBookHasStar(idSach, soSao, curPage, size, s);
+		resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        String json = JsonUtil.getInstance().jsonToString(li);
+        HttpUtil.getInstance().writeToResp(resp, json);
+		s.close();
+	}
+	private void doCountFeedbackOfBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String idSach = req.getParameter("idSach");
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		Long cnt = DanhGiaDAO.getInstance().countFeedbackOfBook(idSach, s);
+		resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        HttpUtil.getInstance().writeToResp(resp, Long.toString(cnt));
+		s.close();
+	}
+	private void doGetFeedbackOfBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String idSach = req.getParameter("idSach");
+		Integer curPage = Integer.parseInt(req.getParameter("curPage"));
+		Integer size = Integer.parseInt(req.getParameter("size"));
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		List<DanhGia> li = DanhGiaDAO.getInstance().getFeedbackOfBook(idSach, curPage, size, s);
+		resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        String json = JsonUtil.getInstance().jsonToString(li);
+        HttpUtil.getInstance().writeToResp(resp, json);
+		s.close();
 	}
 	private void doAddUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -46,6 +112,8 @@ public class apiChiTietDonHang extends HttpServlet {
 		Date thoiGian = new Date(timeElapse);
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		ChiTietDonHang ctdh = ChiTietDonHangDao.getChiTietDonHangDao().AddUpdateDanhGia(idCTDH, soSao, binhLuan,thoiGian, s);
+		resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
 		HttpUtil.getInstance().writeToResp(resp, JsonUtil.getInstance().jsonToString(ctdh));
 		s.close();
 	}

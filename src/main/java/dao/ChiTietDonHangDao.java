@@ -96,15 +96,17 @@ public class ChiTietDonHangDao  {
 		ctdh = HQLutil.getInstance().doUpdate(ctdh, s);
 		return ctdh;
 	}
-	public static void main(String[] args) {
-		//List<ChiTietDonHang> list;
-		//Session s = HibernateUtil.getSessionFactory().openSession();
-		//list = ChiTietDonHangDao.getChiTietDonHangDao().getChiTietDonHangOf("US00000001", 1, 100, s);
-		//Long cnt =ChiTietDonHangDao.getChiTietDonHangDao().countChiTietDonHangOf("US00000001", s);
-		//ChiTietDonHang ctdh = ChiTietDonHangDao.getChiTietDonHangDao().AddUpdateDanhGia("DO00000002", 5, "Hay", s);
-		
-		//HibernateUtil.close();
-		
-		
-	}
+	
+//	public static void main(String[] args) {
+//		List<DanhGia> list;
+//		Session s = HibernateUtil.getSessionFactory().openSession();
+//		//list = ChiTietDonHangDao.getChiTietDonHangDao().getChiTietDonHangOf("US00000001", 1, 100, s);
+//		//Long cnt =ChiTietDonHangDao.getChiTietDonHangDao().countChiTietDonHangOf("US00000001", s);
+//		//ChiTietDonHang ctdh = ChiTietDonHangDao.getChiTietDonHangDao().AddUpdateDanhGia("DO00000002", 5, "Hay", s);
+//		//list = ChiTietDonHangDao.getChiTietDonHangDao().getFBOfBookHasStar("SA00000001", 3, 1, 2, s);
+//		System.out.println(JsonUtil.getInstance().jsonToString(list));
+//		HibernateUtil.close();
+//		
+//		
+//	}
 }
