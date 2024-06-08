@@ -12,7 +12,7 @@ import model.DonHang;
 
 public class DonHangSerializer implements JsonSerializer<DonHang>{
 
-	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	public static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	@Override
 	public JsonElement serialize(DonHang src, Type typeOfSrc, JsonSerializationContext context) {
 		final JsonObject jsonObject = new JsonObject();

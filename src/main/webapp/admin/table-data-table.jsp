@@ -324,6 +324,7 @@
 -->
 	<!-- my script -->
   <script src="js/myscript_get.js"></script>
+  <script src="js/myscript_post.js"></script>
   <!-- Essential javascripts for application to work-->
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/popper.min.js"></script>

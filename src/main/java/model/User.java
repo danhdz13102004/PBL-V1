@@ -55,9 +55,6 @@ public class User {
 	private List<DiaChiGiaoHang> listDiaChi;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khachHang", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DanhGia> listDanhGia;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khachHang", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietGioHang> listChiTietGioHang;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "khachHang", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -169,13 +166,7 @@ public class User {
 			this.listDiaChi = list;
 		}
 	}
-	public void setListDanhGia(List<DanhGia> list)
-	{
-		if (this.role == Role.KH)
-		{
-			this.listDanhGia = list;
-		}
-	}
+	
 	public void setListDonHang(List<DonHang> list)
 	{
 		if (this.role == Role.KH)
@@ -198,14 +189,6 @@ public class User {
 		return null;
 	}
 	
-	public List<DanhGia> getlistDanhGia()
-    {
-		if (this.role == Role.KH)
-		{
-			return this.listDanhGia;
-		}
-		return null;
-    }
 	public List<ChiTietGioHang> getChiTietGioHang() {
 		if (this.role == Role.KH)
 		{

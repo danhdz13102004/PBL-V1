@@ -25,6 +25,9 @@ public class ChiTietDonHang {
 	@JoinColumn(name = "Id_sach", referencedColumnName = "Id")
     private Sach sach;
 	
+	@OneToOne(mappedBy = "ctDonHang",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private DanhGia danhGia;
+
 	@Column(name = "Gia_ban")
     private Double giaBan;
     
@@ -44,7 +47,14 @@ public class ChiTietDonHang {
     public void setId(String id) {
         this.id = id;
     }
-    
+	
+	public DanhGia getDanhGia() {
+		return danhGia;
+	}
+
+	public void setDanhGia(DanhGia danhGia) {
+		this.danhGia = danhGia;
+	}
     public DonHang getDonHang() {
         return this.donHang;
     }

@@ -38,6 +38,9 @@ public class Sach {
     @Column(name = "So_trang")
     private Integer soTrang;
     
+    @Column(name = "So_luot_danh_gia")
+    private Integer soLuotDanhGia;
+    
     @Column(name = "Lan_xuat_ban")
     private Integer lanXuatBan;
     
@@ -76,8 +79,6 @@ public class Sach {
     @JoinColumn(name = "Id_ct_giam_gia", referencedColumnName = "Id")
     private ChuongTrinhGiamGia ctGiamGia;
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sach", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DanhGia> listDanhGia;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sach", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietGioHang> listChiTietGioHang;
@@ -96,7 +97,7 @@ public class Sach {
 
 	public Sach(String id, String ten, Integer soLuongNhap, Integer soLuongBan, String moTa, double soSaoTB,
 			Integer soTrang, Integer lanXuatBan, Timestamp ngayThem, String urlImage, Double giaBan, Double giaNhap,
-			Double phanTramGiamGia, TheLoai theLoai, TacGia tacGia, NhaXuatBan nxb, List<DanhGia> listDanhGia,
+			Double phanTramGiamGia, TheLoai theLoai, TacGia tacGia, NhaXuatBan nxb,
 			List<ChiTietGioHang> listChiTietGioHang, List<ChiTietDonHang> listChiTietDonHang) {
 		super();
 		this.id = id;
@@ -115,7 +116,6 @@ public class Sach {
 		this.theLoai = theLoai;
 		this.tacGia = tacGia;
 		this.nxb = nxb;
-		this.listDanhGia = listDanhGia;
 		this.listChiTietGioHang = listChiTietGioHang;
 		this.listChiTietDonHang = listChiTietDonHang;
 	}
@@ -194,9 +194,7 @@ public class Sach {
 		return ngayThem;
 	}
 
-	public List<DanhGia> getListDanhGia() {
-		return listDanhGia;
-	}
+	
 
     public Boolean isStatus()
     {
@@ -208,9 +206,6 @@ public class Sach {
         this.status = status;
     }
 
-	public void setListDanhGia(List<DanhGia> listDanhGia) {
-		this.listDanhGia = listDanhGia;
-	}
 
 	public List<ChiTietGioHang> getListChiTietGioHang() {
 		return listChiTietGioHang;
@@ -223,7 +218,7 @@ public class Sach {
 	public List<ChiTietDonHang> getListChiTietDonHang() {
 		return listChiTietDonHang;
 	}
-
+	
 	public void setListChiTietDonHang(List<ChiTietDonHang> listChiTietDonHang) {
 		this.listChiTietDonHang = listChiTietDonHang;
 	}
@@ -299,13 +294,26 @@ public class Sach {
     	this.ctGiamGia = ctgg;
     }
 
+    
+	public Integer getSoLuotDanhGia() {
+		return soLuotDanhGia;
+	}
+
+
+
+	public void setSoLuotDanhGia(Integer soLuotDanhGia) {
+		this.soLuotDanhGia = soLuotDanhGia;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Sach [id=" + id + ", ten=" + ten + ", soLuongNhap=" + soLuongNhap + ", soLuongBan=" + soLuongBan
 				+ ", moTa=" + moTa + ", soSaoTB=" + soSaoTB + ", soTrang=" + soTrang + ", lanXuatBan=" + lanXuatBan
 				+ ", ngayThem=" + ngayThem + ", urlImage=" + urlImage + ", giaBan=" + giaBan + ", giaNhap=" + giaNhap
 				+ ", phanTramGiamGia=" + phanTramGiamGia + ", theLoai=" + theLoai + ", tacGia=" + tacGia + ", nxb="
-				+ nxb + ", listDanhGia=" + listDanhGia + ", listChiTietGioHang=" + listChiTietGioHang
+				+ nxb + ", listChiTietGioHang=" + listChiTietGioHang
 				+ ", listChiTietDonHang=" + listChiTietDonHang + "]";
 	}
     

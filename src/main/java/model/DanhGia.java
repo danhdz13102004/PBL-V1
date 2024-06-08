@@ -3,7 +3,7 @@ package model;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
-
+import model.*;
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -19,9 +19,9 @@ public class DanhGia {
 	@Column(name = "Id")
 	private String id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "Id_sach", referencedColumnName = "Id")
-    private Sach sach;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "Id_chi_tiet_don_hang", referencedColumnName = "Id")
+	private ChiTietDonHang ctDonHang;
 	
 	@Column(name = "So_sao")
     private Integer soSao;
@@ -32,10 +32,6 @@ public class DanhGia {
     @Column(name = "Trang_thai")
 	Boolean status = false;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="Id_khach_hang", referencedColumnName = "Id")
-    private User khachHang;
-	
 	@Column(name = "Thoi_gian_danh_gia")
 	@Temporal(TemporalType.TIMESTAMP)
     private Date thoiGian;
@@ -51,16 +47,19 @@ public class DanhGia {
     public void setId(String id) {
         this.id = id;
     }
-    
-    public Sach getSach() {
-        return sach;
-    }
-    
-    public void setSach(Sach sach) {
-        this.sach = sach;
-    }
+   
 
-    public Integer getSoSao() {
+    public ChiTietDonHang getCtDonHang() {
+		return ctDonHang;
+	}
+
+
+	public void setCtDonHang(ChiTietDonHang ctDonHang) {
+		this.ctDonHang = ctDonHang;
+	}
+
+
+	public Integer getSoSao() {
         return soSao;
     }
 
@@ -75,15 +74,6 @@ public class DanhGia {
     public void setBinhLuan(String binhLuan) {
         this.binhLuan = binhLuan;
     }
-
-    public User getKhachHang() {
-        return khachHang;
-    }
-
-    public void setKhachHang(User khachHang) {
-        this.khachHang = khachHang;
-    }
-
 
 	public Date getThoiGian() {
 		return thoiGian;

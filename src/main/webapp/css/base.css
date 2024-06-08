@@ -3,19 +3,25 @@
   font-family: "Roboto", sans-serif;
   --white-color: #ffffff;
   --black-color: #000000;
-  --gray-color: #f5f5f5;
+  /* --gray-color: #f5f5f5; */
+  --gray-color: #f0f0f0;
   --blue-color: #0396ff;
   --darkblue-color: #024fb4;
   --cyan-color: #27e4f0;
   --yellow-color: #feb10d;
-  --orange-color: #f7941e;
+  --orange-color: #ee4d2d;
 
   --text-color: #333333;
   --text-gray-color: #808088;
   --text-darkblue-color: #0c47a5;
 
+  --color-error: #d32f2f;
+  --color-warning: #df7002;
+  --color-success: #2ecc71;
+
   --shadow-gray-color: #808088;
   --shadow-color: #c3c2c2;
+  --border-gray-color: #9f9f9f;
 }
 html {
   font-size: 62.5%; /* 10px */
@@ -50,6 +56,7 @@ html {
 }
 .container-fluid {
   width: 100%;
+  max-width: 100%;
 }
 .row {
   display: flex;
@@ -57,16 +64,25 @@ html {
   margin-left: -15px;
   margin-right: -15px;
 }
+.col-lg-1,
 .col-lg-2,
 .col-lg-3,
 .col-lg-4,
 .col-lg-5,
 .col-lg-6,
+.col-lg-7,
+.col-lg-8,
 .col-lg-9,
-.col-lg-10 {
+.col-lg-10,
+.col-lg-12 {
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
+}
+.col-lg-1 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: calc(100% / 12);
 }
 .col-lg-2 {
   -ms-flex: 0 0 auto;
@@ -93,6 +109,16 @@ html {
   flex: 0 0 auto;
   max-width: 50%;
 }
+.col-lg-7 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: calc(100% / 12 * 7);
+}
+.col-lg-8 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: calc(100% / 12 * 8);
+}
 .col-lg-9 {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
@@ -103,6 +129,11 @@ html {
   flex: 0 0 auto;
   max-width: calc(100% / 12 * 10);
 }
+.col-lg-12 {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  max-width: calc(100%);
+}
 /** End of Responsive */
 /** Button */
 .button {
@@ -110,8 +141,7 @@ html {
   border: none;
   outline: none;
 
-  text-decoration: none;
-  text-transform: capitalize;
+  text-decoration: none !important;
   line-height: 1.6;
   cursor: pointer;
   font-size: 1.4rem;
@@ -124,25 +154,25 @@ html {
   padding: 0.6rem 1.2rem;
   background-color: transparent;
 }
-.btnSignIn {
+#btnLogin {
   background-color: var(--blue-color);
   border: 0.2rem solid var(--blue-color);
   border-radius: 0.6rem;
   color: var(--white-color);
-  width: 11rem;
+  width: 10rem;
   transition: opacity 0.3s ease;
 }
-.btnSignUp {
+#btnSignup {
   background-color: var(--white);
   border: 0.2rem solid var(--blue-color);
   border-radius: 0.6rem;
   color: var(--blue-color);
-  width: 11rem;
+  width: 10rem;
   transition: opacity 0.3s ease;
 }
-.btnSignIn:hover,
-.btnSignUp:hover {
-  opacity: 0.8;
+#btnLogin:hover,
+#btnSignup:hover {
+  opacity: 0.825;
 }
 .btnPrev,
 .btnNext {
@@ -150,22 +180,29 @@ html {
   justify-content: center;
   align-items: center;
   padding: 0.4rem;
-  -moz-transition: filter 0.2s ease-in-out, stroke 1s ease-in-out;
-  -o-transition: filter 0.2s ease-in-out, stroke 1s ease-in-out;
-  -webkit-transition: filter 0.2s ease-in-out, stroke 1s ease-in-out;
-  transition: filter 0.2s ease-in-out, stroke 1s ease-in-out;
+  border-radius: 0.3rem;
+  -moz-transition: filter 0.2s ease-in-out, stroke 0.2s ease-in-out;
+  -o-transition: filter 0.2s ease-in-out, stroke 0.2s ease-in-out;
+  -webkit-transition: filter 0.2s ease-in-out, stroke 0.2s ease-in-out;
+  transition: filter 0.2s ease-in-out, stroke 0.2s ease-in-out;
 }
 .btnPrev > .btn__icon,
 .btnNext > .btn__icon {
+  position: relative;
+  z-index: 5;
   overflow: visible;
   width: 1.8rem;
   height: 1.8rem;
   stroke: var(--text-color);
   stroke-width: 3rem;
   fill: var(--text-color);
+  -moz-transition: filter 0.2s ease-in-out, stroke 0.2s ease-in-out;
+  -o-transition: filter 0.2s ease-in-out, stroke 0.2s ease-in-out;
+  -webkit-transition: filter 0.2s ease-in-out, stroke 0.2s ease-in-out;
+  transition: filter 0.2s ease-in-out, stroke 0.2s ease-in-out;
 }
-.btnNext:hover,
-.btnPrev:hover {
+.btnNext:hover > .btn__icon,
+.btnPrev:hover > .btn__icon {
   filter: brightness(0) saturate(100%) invert(48%) sepia(67%) saturate(4582%)
     hue-rotate(186deg) brightness(104%) contrast(107%);
 }
@@ -206,13 +243,13 @@ html {
     z-index: 0;
   }
   &:hover::after {
-    opacity: 0.3;
+    opacity: 0.18;
   }
   /* disabled select ellipsis */
-/*  c &#btnEllipsis {
+  &#btnEllipsis {
     pointer-events: none;
     user-select: none;
-  }*/
+  }
 }
 .pagination__item .button {
   display: flex;
@@ -237,22 +274,125 @@ html {
   transition: opacity 0.3s ease;
   font-weight: 500;
 }
-#btnDelete {
+.btnDelete {
   font-size: 1.4rem;
   font-weight: 400;
-  text-align: right;
   padding-right: 0rem;
   color: var(--text-gray-color);
   transition: color 0.25s ease;
   &:hover {
     color: var(--blue-color);
   }
-  &:focus{
+  &:focus {
     font-weight: bold;
     color: var(--blue-color);
   }
 }
+#btnReturnHome,
+#btnReturnCart,
+#btnReturnSignupPage,
+#btnReturnLoginPage,
+#btnReturn,
+#btnReturnSwitchInfo,
+#btnAddNewInfo,
+#logout__action-cancel,
+#btnCancelViewDetail,
+#btnCloseFeedbackForm,
+#confirm-delete-account__action-cancel {
+  background-color: var(--white-color);
+  border: 0.2rem solid var(--blue-color);
+  border-radius: 0.6rem;
+  color: var(--blue-color);
+  font-size: 1.6rem;
+  font-weight: 600;
+  transition: opacity 0.3s ease;
+}
+#btnReturnHome {
+  width: 20rem;
+  height: 4.5rem;
+}
+#btnToPaymentPage,
+#btnSubmitPayment,
+#btnSubmitVerify,
+#btnChooseDefaultInfo,
+#btnCreateNewInfo,
+#btnSubmitInfo,
+#btnUpdateInfo,
+#btnSaveUserInfo,
+#logout__action-confirm,
+#btnCancelOrder,
+#btnRebuyOrder,
+#btnConfirmCompleteOrder,
+#btnRequestReturnOrder,
+#btnAnnouceProcess,
+#btnConfirmReturnOrder,
+#btnSaveFeedbackForm,
+#confirm-delete-account__action-confirm {
+  height: 4.6rem;
+  background-color: var(--blue-color);
+  border: 0.2rem solid var(--blue-color);
+  border-radius: 0.6rem;
+  color: var(--white-color);
+  font-size: 1.6rem;
+  font-weight: 600;
+  transition: opacity 0.3s ease;
+  opacity: 1;
+  &:hover,
+  &:focus {
+    opacity: 0.825;
+  }
+}
+#btnToPaymentPage {
+  width: 100%;
+}
+#btnSendOTPCodeToEmail {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: calc(2rem + 0.105rem);
+  user-select: none;
+  transition: all 0.3s ease;
+  font-size: 1.4rem;
+  font-weight: 500;
+  z-index: 10;
+  color: var(--blue-color);
+  border-left: 0.1px solid var(--blue-color);
+  padding: 0rem 0rem 0rem 1rem;
+}
 /** End of Button */
+/** Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  transform-origin: center;
+}
+.modal__overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+.modal__body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: relative;
+  z-index: 10;
+  border-radius: 0.6rem;
+  background-color: var(--white-color);
+  box-shadow: 0 0px 4px rgba(0, 0, 0, 0.54);
+  animation: fadeInAndZoomOut 0.3s ease forwards;
+}
+/** End of Modal */
 /** Animation */
 @keyframes fadeIn {
   0% {
@@ -271,70 +411,25 @@ html {
     opacity: 0;
   }
 }
-
-#btnToPaymentPage{
-  width: 100%;
-  height: 4.6rem;
-  background-color: var(--blue-color);
-  border: 0.2rem solid var(--blue-color);
-  border-radius: 0.6rem;
-  color: var(--white-color);
-  font-size: 1.6rem;
-  font-weight: 600;
-  transition: opacity 0.3s ease;
+@keyframes fadeInAndFloatLeftToRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-30%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
-
-#btnLogin {
-  background-color: var(--blue-color);
-  border: 0.2rem solid var(--blue-color);
-  border-radius: 0.6rem;
-  color: var(--white-color);
-  width: 10rem;
-  transition: opacity 0.3s ease;
-}
-
-.col-lg-1,
-.col-lg-2,
-.col-lg-3,
-.col-lg-4,
-.col-lg-5,
-.col-lg-6,
-.col-lg-7,
-.col-lg-8,
-.col-lg-9,
-.col-lg-10,
-.col-lg-12 {
-  width: 100%;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-
-#btnReturnHome, #btnReturnCart {
-  min-width: 20rem;
-  background-color: var(--white-color);
-  border: 0.2rem solid var(--blue-color);
-  border-radius: 0.6rem;
-  color: var(--blue-color);
-  font-size: 1.6rem;
-  font-weight: 600;
-  transition: opacity 0.3s ease;
-}
-
-
-#btnToPaymentPage, #btnSubmitPayment{
-  width: 100%;
-  height: 4.6rem;
-  background-color: var(--blue-color);
-  border: 0.2rem solid var(--blue-color);
-  border-radius: 0.6rem;
-  color: var(--white-color);
-  font-size: 1.6rem;
-  font-weight: 600;
-  transition: opacity 0.3s ease;
-  opacity: 1;
-  &:hover, &:focus {
-    opacity: 0.825;
+@keyframes fadeInAndZoomOut {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 /** End Animation */
+	

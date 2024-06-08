@@ -73,14 +73,7 @@ public class UserDao  {
 				listDC.get(i).setStatus(true);
 			}
 		}
-		List<DanhGia> listDG = delUser.getlistDanhGia();
-		if (listDG!=null)
-		{
-			for (int i=0;i<listDG.size();i++)
-			{
-				listDG.get(i).setStatus(true);
-			}
-		}
+		
 		List<ChiTietGioHang> listCTGH = delUser.getChiTietGioHang();
 		if (listDC!=null)
 		{

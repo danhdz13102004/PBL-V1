@@ -369,11 +369,54 @@ ul > li {
    * Remove text line above a tag
    */
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 /**
   * Hide cancel button   
 */
-[type="search"]::-webkit-search-cancel-button {
-  display: none;
+[type="search"]::-webkit-search-cancel-button:hover {
+  
+}
+
+/**
+  * Remove outline of input tag
+*/
+input{
+  outline:none;
+}
+/**
+  * Remove light b.lu.e background-color when use autofill in input
+*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active
+{
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+/**
+  * Remove the eye from password field
+*/
+input[type="password"]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+    display: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/**
+  * Remove the increase and decrease in input type button
+*/
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

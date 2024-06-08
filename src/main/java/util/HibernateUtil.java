@@ -71,5 +71,7 @@ public class HibernateUtil {
     public static void close() {
         getSessionFactory().close();
     }
-    
+    public static void main(String[] args) {
+		HibernateUtil.getSessionFactory().openSession();
+	}
 }
