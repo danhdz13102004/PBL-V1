@@ -2,6 +2,8 @@ var currentURL = window.location.protocol + "//" + window.location.host;
 var danhGiaSanPham = document.querySelector('.account-sidebar__option:nth-of-type(3)')
 const PAGE_SIZE=2
 var curID
+var idUser 
+
 function setBottomPagination(page, totalPage)
 {
 	var html = "";
@@ -9,7 +11,7 @@ function setBottomPagination(page, totalPage)
             html += `<div class="pagination__item disable-paging">`;
         }
         else {
-            html += `<div onclick="changePage(${page-1},${size})" class="pagination__item">`;
+            html += `<div onclick="changeThePage(${page-1},${PAGE_SIZE})" class="pagination__item">`;
         }
         html += `<button class="button btnPrev">
             <svg class="btn__icon" fill="" height="800px" width="800px" version="1.1" id="Capa_1"
@@ -31,7 +33,7 @@ function setBottomPagination(page, totalPage)
                   </div>`;
                 }
                 else {
-                    html += `<div onclick="changePage(${i},${size})" class="pagination__item">
+                    html += `<div onclick="changeThePage(${i},${PAGE_SIZE})" class="pagination__item">
                     <button class="button">${i}</button>
                   </div>`;
                 }
@@ -47,7 +49,7 @@ function setBottomPagination(page, totalPage)
                             </div>`;  
                         }
                         else {
-                            html += `<div onclick="changePage(${i},${size})" class="pagination__item">
+                            html += `<div onclick="changeThePage(${i},${PAGE_SIZE})" class="pagination__item">
                             <button class="button">${i}</button>
                             </div>`;
                         }
@@ -58,14 +60,14 @@ function setBottomPagination(page, totalPage)
                         </div>`;
                     }
                     else {
-                        html += `<div onclick="changePage(${totalPage},${size})" class="pagination__item">
+                        html += `<div onclick="changeThePage(${totalPage},${PAGE_SIZE})" class="pagination__item">
                         <button class="button">${totalPage}</button>
                         </div>`;
                     }
               }  
             }
             else if(totalPage - page <=2) {
-                html += `<div onclick="changePage(1,${size})" class="pagination__item">
+                html += `<div onclick="changeThePage(1,${PAGE_SIZE})" class="pagination__item">
                         <button class="button">1</button>
                         </div>`;
                 html += `<div class="pagination__item">
@@ -78,32 +80,32 @@ function setBottomPagination(page, totalPage)
                         </div>`;
                     }
                     else {
-                        html += `<div onclick="changePage(${i},${size})" class="pagination__item">
+                        html += `<div onclick="changeThePage(${i},${PAGE_SIZE})" class="pagination__item">
                         <button class="button">${i}</button>
                         </div>`;
                     }
                 }
             }
             else {
-                html += `<div onclick="changePage(1,${size})" class="pagination__item">
+                html += `<div onclick="changeThePage(1,${PAGE_SIZE})" class="pagination__item">
                         <button class="button">1</button>
                         </div>`;
                 html += `<div class="pagination__item">
                         <button class="button">...</button>
                         </div>`;
-                html += `<div onclick="changePage(${page-1},${size})" class="pagination__item">
+                html += `<div onclick="changeThePage(${page-1},${PAGE_SIZE})" class="pagination__item">
                         <button class="button">${page-1}</button>
                         </div>`;
                 html += `<div class="pagination__item pagination__item--active">
                         <button class="button">${page}</button>
                         </div>`;
-                html += `<div onclick="changePage(${page+1},${size})" class="pagination__item">
+                html += `<div onclick="changeThePage(${page+1},${PAGE_SIZE})" class="pagination__item">
                         <button class="button">${page+1}</button>
                         </div>`;
                 html += `<div class="pagination__item">
                         <button class="button">...</button>
                         </div>`;
-                html += `<div onclick="changePage(${totalPage},${size})" class="pagination__item">
+                html += `<div onclick="changeThePage(${totalPage},${PAGE_SIZE})" class="pagination__item">
                         <button class="button">${totalPage}</button>
                         </div>`;
                 }
@@ -113,7 +115,7 @@ function setBottomPagination(page, totalPage)
             html += `<div class="pagination__item disable-paging">`;
         }
         else {
-            html += `<div onclick="changePage(${page+1},${size})" class="pagination__item ">`;
+            html += `<div onclick="changeThePage(${page+1},${PAGE_SIZE})" class="pagination__item">`;
         }
         html += `<button class="button btnNext">
             <svg class="btn__icon" fill="" height="800px" width="800px" version="1.1" id="Capa_1"
@@ -129,6 +131,7 @@ function setBottomPagination(page, totalPage)
         </div>`;
         document.querySelector("#account-review-management .pagination").innerHTML = html;
 }
+
 function updateDanhGia(idCTDH, soSao, binhLuan)
 {
 	var now=Date.now();
@@ -204,10 +207,13 @@ const executeRating = (stars) => {
 };
 executeRating(ratingStars);
 
-
+function changeThePage(page, size){
+	var totalPage = document.querySelector("#account-review-management .pagination .pagination__item:nth-last-child(2) .button").innerHTML
+	getDanhGia(idUser, page, size)
+	setBottomPagination(page, parseInt(totalPage))
+}
 function getDanhGia(id, page, size)
 {
-	var total
 	var url = `${currentURL}/api/detail_order_user?idUser=${id}&curPage=${page}&size=${size}`
 	fetch(url)
     .then(response => {
@@ -228,7 +234,7 @@ function getDanhGia(id, page, size)
 	                <div class="review-list__cell review-name">${item.sach.tenSach}</div>
 	                <div class="review-list__cell review-unit-price">${item.sach.giaBan}</div>
 	                <div class="review-list__cell review-invoice-date">${item.donHang.thoiGianDatHang}</div>
-	                <div class="review-list__cell review-average-star">${item.sach.soSaoTB}</div>
+	                <div class="review-list__cell review-average-star">${parseFloat(item.sach.soSaoTB).toFixed(2)}</div>
 	                <div class="review-list__cell review-my-star">Chưa đánh giá</div>
 	                <div class="review-list__cell review-view-detail" onclick="openModal(this)">Đánh giá</div>
 	                <div class="review-list__cell review-feed-back" style="display:none;"></div>
@@ -244,7 +250,7 @@ function getDanhGia(id, page, size)
 	                <div class="review-list__cell review-name">${item.sach.tenSach}</div>
 	                <div class="review-list__cell review-unit-price">${item.sach.giaBan}</div>
 	                <div class="review-list__cell review-invoice-date">${item.donHang.thoiGianDatHang}</div>
-	                <div class="review-list__cell review-average-star">${item.sach.soSaoTB}</div>
+	                <div class="review-list__cell review-average-star">${parseFloat(item.sach.soSaoTB).toFixed(2)}</div>
 	                <div class="review-list__cell review-my-star">${item.danhGia.soSao}</div>
 	                <div class="review-list__cell review-view-detail" onclick="openModal(this)">Đánh giá</div>
 	                <div class="review-list__cell review-feed-back" style="display:none;">${item.danhGia.binhLuan}</div>
@@ -284,8 +290,8 @@ function getDanhGia(id, page, size)
 
 
 danhGiaSanPham.addEventListener('click', ()=>{
-	var id = 'US00000001'
-	var url = `${currentURL}/api/detail_order_user/count?idUser=${id}`
+	idUser = 'US00000001'// do sth get id user
+	var url = `${currentURL}/api/detail_order_user/count?idUser=${idUser}`
 	fetch(url)
     .then(response => {
         if (!response.ok) {
@@ -307,7 +313,7 @@ danhGiaSanPham.addEventListener('click', ()=>{
 			document.querySelector('#account-review-management .review-list__container').classList.remove('hidden')
 			document.querySelector("#account-review-management .pagination").style.display='flex'
 			setBottomPagination(1,totalPage)
-			getDanhGia(id,1,PAGE_SIZE)
+			getDanhGia(idUser,1,PAGE_SIZE)
 		}
 		
 	})

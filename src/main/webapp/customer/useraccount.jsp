@@ -20,7 +20,6 @@
   <script type="module" src="../js/footer.js" defer></script> -->
   <script type="module" src="../js/validator.js" defer></script>
   <script type="module" src="../js/useraccount.js" defer></script>
-  <script type="module" src="../js/useraccount_danh_gia.js"></script>
 </head>
 
 <body>
@@ -1134,4 +1133,6 @@
 	<script type="text/javascript">
 			
 	</script>
+	
+  	<script src="../js/useraccount_danh_gia.js"></script>
 </html>
