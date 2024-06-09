@@ -25,7 +25,7 @@ public class DanhGiaDAO {
 				+ "From Sach sa "
 				+ "inner join sa.listChiTietDonHang ctdh "
 				+ "inner join ctdh.danhGia dg "
-				+ "where sa.id=?1"
+				+ "where sa.id=?1 "
 				+ "order by dg.thoiGian";
 		List<DanhGia> res = HQLutil.getInstance().doQuery(hql, DanhGia.class, s, (curPage-1)*size, size, id);
 		return res;

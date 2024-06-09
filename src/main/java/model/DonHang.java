@@ -166,7 +166,7 @@ public class DonHang {
     {
     	DANGXULY("Đang xử lý"),
     	DAXACNHAN("Đã xác nhận"),
-    	DANGCHOXULYTRAHANG("Đang chờ xử lý trả hàng"),
+    	DANGCHOXULYTRAHANG("Đang chờ xử lý đơn hàng"),
     	DAHUY("Đã hủy"),
     	DANGGIAOHANG("Đang giao hàng"),
     	THANHCONG("Thành công"),

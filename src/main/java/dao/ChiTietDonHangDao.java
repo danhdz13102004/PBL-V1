@@ -48,10 +48,10 @@ public class ChiTietDonHangDao  {
 				+ "User u "
 				+ "inner join u.listDonHang dh "
 				+ "inner join dh.listCTDH ctdh "
-				+ "where u.id = ?1 "
+				+ "where u.id = ?1 AND dh.tinhTrang=?2 "
 				+ "order by dh.thoiGianDatHang";
 		
-		List<ChiTietDonHang> res = HQLutil.getInstance().doQuery(hql, ChiTietDonHang.class, s, (page-1)*size, size, userID);
+		List<ChiTietDonHang> res = HQLutil.getInstance().doQuery(hql, ChiTietDonHang.class, s, (page-1)*size, size, userID, DonHang.Status.THANHCONG);
 		return res;
 	}
 	public Long countChiTietDonHangOf(String userID, Session s)
@@ -61,9 +61,9 @@ public class ChiTietDonHangDao  {
 				+ "User u "
 				+ "inner join u.listDonHang dh "
 				+ "inner join dh.listCTDH ctdh "
-				+ "where u.id = ?1 ";
+				+ "where u.id = ?1 AND dh.tinhTrang=?2";
 		
-		Long res = HQLutil.getInstance().doCountRecordOf(hql, s, userID);
+		Long res = HQLutil.getInstance().doCountRecordOf(hql, s, userID, DonHang.Status.THANHCONG);
 		return res;
 	}
 	public ChiTietDonHang AddUpdateDanhGia(String idCTDH, Integer soSao, String binhLuan,Date thoiGian, Session s)
@@ -97,16 +97,16 @@ public class ChiTietDonHangDao  {
 		return ctdh;
 	}
 	
-//	public static void main(String[] args) {
-//		List<DanhGia> list;
-//		Session s = HibernateUtil.getSessionFactory().openSession();
-//		//list = ChiTietDonHangDao.getChiTietDonHangDao().getChiTietDonHangOf("US00000001", 1, 100, s);
-//		//Long cnt =ChiTietDonHangDao.getChiTietDonHangDao().countChiTietDonHangOf("US00000001", s);
-//		//ChiTietDonHang ctdh = ChiTietDonHangDao.getChiTietDonHangDao().AddUpdateDanhGia("DO00000002", 5, "Hay", s);
-//		//list = ChiTietDonHangDao.getChiTietDonHangDao().getFBOfBookHasStar("SA00000001", 3, 1, 2, s);
-//		System.out.println(JsonUtil.getInstance().jsonToString(list));
-//		HibernateUtil.close();
-//		
-//		
-//	}
+	public static void main(String[] args) {
+		List<ChiTietDonHang> list;
+		Session s = HibernateUtil.getSessionFactory().openSession();
+		list = ChiTietDonHangDao.getChiTietDonHangDao().getChiTietDonHangOf("US00000001", 1, 100, s);
+		//Long cnt =ChiTietDonHangDao.getChiTietDonHangDao().countChiTietDonHangOf("US00000001", s);
+		//ChiTietDonHang ctdh = ChiTietDonHangDao.getChiTietDonHangDao().AddUpdateDanhGia("DO00000002", 5, "Hay", s);
+		//list = ChiTietDonHangDao.getChiTietDonHangDao().getFBOfBookHasStar("SA00000001", 3, 1, 2, s);
+		System.out.println(JsonUtil.getInstance().jsonToString(list));
+		HibernateUtil.close();
+		
+		
+	}
 }
