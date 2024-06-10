@@ -23,6 +23,9 @@ public class TacGia {
 	@OneToMany(mappedBy = "tacGia", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Sach> listSach;
 	
+	@Column(name = "Trang_thai")
+	boolean status = false;
+	
 	public TacGia() {
 		super();
 	}
@@ -50,5 +53,13 @@ public class TacGia {
 		return "TacGia [id=" + id + ", ten=" + ten + "]";
 	}
 	
-	
+	public boolean isStatus()
+    {
+        return this.status;
+    }
+
+    public void setStatus(boolean status)
+    {
+        this.status = status;
+    }
 }

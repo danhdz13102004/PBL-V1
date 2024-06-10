@@ -2,12 +2,16 @@
     pageEncoding="UTF-8"%>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page import="java.lang.Math" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Product detail</title>
 <link rel="stylesheet" href="../css/productdetail.css">
+
+<c:set var="number" value="${requestScope.product.soSaoTB}" />
 </head>
 <body>
 	<jsp:include page="customer/header1.jsp" />
@@ -54,7 +58,7 @@
                         <div class="product-detail__rating">
                           <div class="product-detail__rating-star">
                             <div class="product-detail__rating-star-average">
-                             	${requestScope.product.soSaoTB}
+                             	
                             </div>
                             <div class="product-detail__rating-star-list">
                               <svg class="product-detail__rating-star-icon" viewBox="0 0 24 24" fill="none"
@@ -135,7 +139,7 @@
                             </div>
                           </div>
                           <div class="product-detail__review-count">
-                            <div class="product-detail__review-count-number">100</div>
+                            <div class="product-detail__review-count-number">${requestScope.product.soLuotDanhGia - 1}</div>
                             <div class="product-detail__review-count-label">Đánh giá</div>
                           </div>
                           <div class="product-detail__quantity-sold">
@@ -225,7 +229,7 @@
                     <div class="review__wrap">
                       <div class="review__star-average">
                         <div class="review__briefing">
-                          <div class="review__rating-score">4.7</div>
+                          <div class="review__rating-score"></div>
                           <div class="review__rating-maximum">trên 5</div>
                         </div>
                         <div class="review__star-list">
@@ -297,18 +301,17 @@
                         </div>
                       </div>
                       <div class="review__filter">
-                        <button class="button active" id="all-review">Tất cả</button>
-                        <button class="button" id="newest-review">Mới nhất</button>
-                        <button class="button" id="five-star-review">5 sao</button>
-                        <button class="button" id="four-star-review">4 sao</button>
-                        <button class="button" id="three-star-review">3 sao</button>
-                        <button class="button" id="two-star-review">2 sao</button>
-                        <button class="button" id="one-star-review">1 sao</button>
+                        <button onclick="changePageFeedBack(1,3)" class="button active" id="all-review">Tất cả</button>
+                        <button onclick="changePageFeedBack(1,3,'sao',5)" class="button" id="five-star-review">5 sao</button>
+                        <button onclick="changePageFeedBack(1,3,'sao',4)" class="button" id="four-star-review">4 sao</button>
+                        <button onclick="changePageFeedBack(1,3,'sao',3)" class="button" id="three-star-review">3 sao</button>
+                        <button onclick="changePageFeedBack(1,3,'sao',2)" class="button" id="two-star-review">2 sao</button>
+                        <button onclick="changePageFeedBack(1,3,'sao',1)" class="button" id="one-star-review">1 sao</button>
                       </div>
                     </div>
                     <div class="empty-review__row hidden">
-                      <div class="empty-review__content col-lg-12">
-                        Sản phẩm chưa nhận được đánh giá nào. Bạn hãy là người đầu tiên đánh giá nhé!
+                      <div style="display: flex; align-items: center; justify-content: center;" class="empty-review__content col-lg-12">
+                        <span>Chưa có đánh giá ở mục này!</span>
                       </div>
                       <div class="modal" id="modal__feedback">
                         <div class="modal__overlay"></div>
@@ -827,9 +830,57 @@
                         </div>
                       </div>
                     </div>
-                    <div class="button__wrap">
-                      <button class="button" id="addNewFeedback">Thêm đánh giá của tôi</button>
+                    
+                    <div class="contain-pagination">
+	                    <div class="pagination">
+	                <div class="pagination__item">
+	                  <button class="button btnPrev">
+	                    <svg class="btn__icon" fill="" height="800px" width="800px" version="1.1" id="Capa_1"
+	                      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	                      viewBox="0 0 500 500" xml:space="preserve">
+	                      <g>
+	                        <path d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225
+	                        c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z" />
+	                      </g>
+	                    </svg>
+	                  </button>
+	                </div>
+	                <div class="pagination__item pagination__item--active">
+	                  <button class="button">1</button>
+	                </div>
+	                <div class="pagination__item">
+	                  <button class="button">2</button>
+	                </div>
+	                <div class="pagination__item">
+	                  <button class="button">3</button>
+	                </div>
+	                <div class="pagination__item">
+	                  <button class="button">4</button>
+	                </div>
+	                <div class="pagination__item" id="btnEllipsis">
+	                  <button class="button">...</button>
+	                </div>
+	                <div class="pagination__item">
+	                  <button class="button">10</button>
+	                </div>
+	                <div class="pagination__item">
+	                  <button class="button btnNext">
+	                    <svg class="btn__icon" fill="" height="800px" width="800px" version="1.1" id="Capa_1"
+	                      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	                      viewBox="0 0 500 500" xml:space="preserve">
+	                      <g>
+	                        <path d="M360.731,229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1,0s-5.3,13.8,0,19.1l215.5,215.5l-215.5,215.5
+	                        c-5.3,5.3-5.3,13.8,0,19.1c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-4l225.1-225.1C365.931,242.875,365.931,234.275,360.731,229.075z
+	                        " />
+	                      </g>
+	                    </svg>
+	                  </button>
+	                </div>
+	              </div>
                     </div>
+<!--                     <div class="button__wrap">
+                      <button class="button" id="addNewFeedback">Thêm đánh giá của tôi</button>
+                    </div> -->
                     <div class="modal" id="modal__confirm-delete-review">
                       <div class="modal__overlay"></div>
                       <div class="modal__body">
@@ -873,6 +924,18 @@
     </main>
     <div id="toast"></div>
 	<jsp:include page="customer/footer1.jsp" />
-	<script type="module" src="../js/productdetail.js" defer></script>
+	<script type="text/javascript">
+    var number = ${number};
+    var roundedNumber = parseFloat(number.toFixed(1));;
+    document.querySelector(".product-detail__rating-star-average").innerText = roundedNumber;
+    document.querySelector(".review__rating-score").innerText = roundedNumber;
+</script>
+	<script type="module" src="../js/productdetail.js" defer>
+		
+  </script>
+
+<script  src="../js/loadfeedback.js" defer>
+
+</script>
 </body>
 </html>

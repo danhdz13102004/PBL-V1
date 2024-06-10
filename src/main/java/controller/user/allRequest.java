@@ -140,13 +140,20 @@ public class allRequest extends HttpServlet {
 			else {
 				System.out.println(user);
 				if(user.getStatus().getStatusName().equals("Active")) {
-					urlRedirect += "/home";
 					HttpSession session = request.getSession();
 					session.setAttribute("khachHang", user);
+					if(user.getRole() == User.Role.KH) {
+					urlRedirect += "/home";
 					Cookie cookie = new Cookie("status","dang-nhap");
 					cookie.setMaxAge(24 * 60 * 60);
 					cookie.setPath("/");
 			        response.addCookie(cookie);
+			        }
+					else {
+						urlRedirect = "/nvql/index.jsp";
+					}
+					System.out.println("Role: " + user.getRole().name());
+				
 //			        response.sendRedirect("/home");
 				}
 				else if(user.getStatus().getStatusName().equals("Cho xac thuc")){

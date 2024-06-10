@@ -1,0 +1,110 @@
+html{
+	font-size: 10px
+}
+/*modal  */
+#ModalUP .btn{
+	font-size: 1.4rem
+}
+/*filter search  */
+.searchFilter{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.searchFilter__item{
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 280px;
+}
+.searchFilter__item  label{
+   min-width: 80px;
+}
+.searchFilter__item .searchFilter__item__value{
+    width: 200px;
+    height: 25px;
+}
+.searchFilter__item .searchFilter__item__button{
+    justify-self: center;
+}
+.searchFilter__item .searchFilter__item__button:hover{
+    cursor: pointer;
+    opacity: 0.5;
+}
+/*pagination in header  */
+#pagination{
+	display: none;
+	justify-content: right;
+	align-content: center;
+}
+#pagination .btn_wrap{
+	display: flex;
+	align-content: center;
+	padding: 0px;
+}
+#pagination .btn{
+	border: none;
+	background-color: transparent;
+	font-size: 3rem;
+	align-self:center;
+	height: 4.2rem;
+}
+#pagination .btn i{
+	font-size: 3rem;
+}
+#pagination .btn:hover{
+	color: blue;
+}
+#pagination .page_num{
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
+#pagination .page_num > *{
+	font-size: 1.7rem;
+	align-self: center;
+	width:1.5rem;
+}
+/*paginate in bottom  */
+#pagination_bottom{
+	display:none;
+	justify-content: center;
+	align-content: center;
+	
+}
+#pagination_bottom .pagination__item{
+	display:flex;
+	justify-content: center;
+	align-content: center;
+	width: 3rem;
+	height: 3rem;
+	margin: 0px;
+}
+#pagination_bottom .pagination__item .bottom_button{
+	display:flex;
+	border: none;
+	background-color: transparent;
+	font-size: 1.9rem;
+	width: 3rem;
+	height: 3rem;
+	justify-content: center;
+}
+#pagination_bottom .pagination__item .bottom_button i{
+	font-size: 3rem;
+}
+#pagination_bottom .pagination__item .bottom_button:hover{
+	background-color: #cce6ff;
+	cursor: pointer;
+	border-radius: .5rem;
+}
+#pagination_bottom .pagination__item .bottom_button:focus{
+	outline:none;
+}
+#pagination_bottom .pagination__item--active .bottom_button{
+	background-color: #1a90ff;
+	border-radius: .5rem;
+}
+#pagination_bottom .pagination__item--active .bottom_button:hover{
+	background-color: #1a90ff;
+	
+}

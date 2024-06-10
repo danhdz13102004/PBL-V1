@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "NguoiDung")
 public class User {
 	@Id
+	@GeneratedValue(generator = "my-generator")
+    @GenericGenerator(name = "my-generator", 
+      parameters =@Parameter(name = "prefix", value = "US"), 
+      strategy = "model.MyIDGenerator")
 	@Column(name = "Id")
 	private String id;
 	
@@ -31,6 +36,9 @@ public class User {
 	@Column(name = "Ma_xac_thuc")
 	private String maXacThuc;
 	
+	@Column(name = "Gioi_tinh")
+	private Boolean gioiTinh;
+	
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "Trang_thai")
@@ -39,8 +47,6 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khachHang", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<DiaChiGiaoHang> listDiaChi;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khachHang", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DanhGia> listDanhGia;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "khachHang", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietGioHang> listChiTietGioHang;
@@ -92,6 +98,10 @@ public class User {
 	public void setSoDienThoai(String sdt) {
 		this.SDT = sdt;
 	}
+	
+	public void setSDT(String sdt) {
+		this.SDT = sdt;
+	}
 
 	public String getEmail() {
 		return this.email;
@@ -141,14 +151,6 @@ public class User {
 		return null;
 	}
 	
-	public List<DanhGia> getlistDanhGia()
-    {
-		if (this.role == Role.KH)
-		{
-			return this.listDanhGia;
-		}
-		return null;
-    }
 	public List<ChiTietGioHang> getChiTietGioHang() {
 		if (this.role == Role.KH)
 		{
@@ -165,6 +167,40 @@ public class User {
 		}
 		return null;
     }
+	
+	public void setDiaChiGiaoHang(List<DiaChiGiaoHang> list)
+	{
+		if (this.role == Role.KH)
+		{
+			this.listDiaChi = list;
+		}
+	}
+
+	public void setListDonHang(List<DonHang> list)
+	{
+		if (this.role == Role.KH)
+		{
+			this.listDonHang = list;
+		}
+	}
+	public void setChiTietGioHang(List<ChiTietGioHang> list)
+	{
+		if (this.role == Role.KH)
+		{
+			this.listChiTietGioHang = list;
+		}
+	}
+	
+	
+	public Boolean isGioiTinh() {
+		return this.gioiTinh;
+	}
+
+	public void setGioiTinh(Boolean gt) {
+		this.gioiTinh = gt;
+	}
+	
+	
 	public static enum Role
 	{
 		KH("Khach hang"),
@@ -184,7 +220,8 @@ public class User {
 	{
 		PR("Cho xac thuc"),
 		AC("Active"),
-		BL("Khoa tai khoan");
+		BL("Khoa tai khoan"),
+		DC("Deactive");
 		private String statusName;
 		private Status(String sname)
 		{

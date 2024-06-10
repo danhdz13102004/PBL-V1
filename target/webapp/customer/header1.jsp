@@ -49,7 +49,7 @@
                     </ul>
                   </div>
                 </div>
-                <button onclick="changePage(1,4,'search','id')" type="submit" aria-label="search" class="button header-search-bar__btn">
+                <button onclick="changePage(1,8,'search','id')" type="submit" aria-label="search" class="button header-search-bar__btn">
                   <svg class="header-search-bar__btn-icon" width="30px" height="30px" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -178,9 +178,7 @@
         </div>
       </div>
       <script>
-        function logout() {
-          document.querySelector('#logout__action-confirm').click();
-        }
+\\
 
         
 

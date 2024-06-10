@@ -23,6 +23,9 @@ public class TheLoai {
 	@OneToMany(mappedBy = "theLoai", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Sach> listSach;
 	
+	@Column(name = "Trang_thai")
+	boolean status = false;
+	
 	public TheLoai() {
 		
 	}
@@ -66,5 +69,13 @@ public class TheLoai {
 		return "TheLoai [id=" + id + ", tenTheLoai=" + tenTheLoai + "]";
 	}
 	
-	
+	public boolean isStatus()
+    {
+        return this.status;
+    }
+
+    public void setStatus(boolean status)
+    {
+        this.status = status;
+    }
 }

@@ -29,6 +29,9 @@ public class DiaChiGiaoHang {
 	@Column(name = "Dia_chi")
 	private String diaChi;
 	
+
+	@Column(name = "Trang_thai")
+	Boolean status = false;
 	
 	
 	public DiaChiGiaoHang()
@@ -100,5 +103,14 @@ public class DiaChiGiaoHang {
 		this.soDienThoai = soDienThoai;
 	}
 	
+	public boolean isStatus()
+    {
+        return this.status;
+    }
+
+    public void setStatus(boolean status)
+    {
+        this.status = status;
+    }
 	
 }

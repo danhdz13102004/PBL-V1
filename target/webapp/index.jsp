@@ -447,7 +447,7 @@
     </main>
     <jsp:include page="customer/footer1.jsp" />
     <script type="text/javascript">
-    	changePage(1,4);
+    	changePage(1,8);
     	showTheLoai();
     </script>
 </body>

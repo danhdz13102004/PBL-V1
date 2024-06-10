@@ -189,7 +189,8 @@ public class DonHang {
     	THANHCONG("Thành công"),
     	TUCHOITRAHANG("Từ chối trả hàng"),
     	XACNHANTRAHANG("Xác nhận trả hàng"),
-    	DATRAHANG("Đã trả hàng");
+    	DATRAHANG("Đã trả hàng"),
+    	DAXOA("Đã xóa");
     	private String message;
     	private Status(String mess) {
 			// TODO Auto-generated constructor stub

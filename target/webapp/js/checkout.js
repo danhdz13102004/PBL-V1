@@ -83,7 +83,7 @@ const loadOptionToDefaultInfo = (option) => {
   defaultFullname.textContent = fullName.textContent.trim();
   defaultPhoneNumber.textContent = phoneNumber.textContent.trim();
   defaultAddress.textContent = `${homeAddress.textContent.trim()}`;
-  console.log(fullName.textContent.trim() + " " + phoneNumber.textContent.trim());
+  // console.log(fullName.textContent.trim() + " " + phoneNumber.textContent.trim());
 };
 btnChooseDefaultInfo.addEventListener(`click`, () => {
   const currentCheckedRadio = checkoutHistoryList.querySelector(
@@ -545,6 +545,9 @@ btnSubmitInfo.addEventListener(`click`, async () => {
   console.log(url);
   fetch(url);
 
+  document.querySelector('.checkout-default__fullname').innerText = tenNguoiNhan;
+  document.querySelector('.checkout-default__phone-number').innerText = soDienThoai;
+  document.querySelector('.checkout-default__address').querySelector('span').innerText = `${road}, ${ward}, ${district}, ${province}`;
 
   if (isValidForm(inputs, btnSubmitInfo)) {
     btnSubmitInfo.disabled = true;

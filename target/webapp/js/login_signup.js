@@ -45,3 +45,16 @@ function hiddenPass(element) {
   document.querySelector("#form__eye-hide-password").classList.remove("hidden");
   document.querySelector("#form__input-password").type = "password";
 }
+
+function showPass1(element) {
+  console.log("show pass");
+  element.classList.add("hidden")
+  document.querySelector(".eye-show").classList.remove("hidden");
+  document.querySelector("#form__input-confirm-password").type = "text";
+}
+function hiddenPass1(element) {
+  console.log("show pass");
+  element.classList.add("hidden")
+  document.querySelector(".eye-hide").classList.remove("hidden");
+  document.querySelector("#form__input-confirm-password").type = "password";
+}

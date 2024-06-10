@@ -127,7 +127,7 @@ public class allRequest extends HttpServlet {
 		User user = (User) session.getAttribute("khachHang");
 		String urlRedirect = "";
 		if(user == null) {
-			urlRedirect += "/customer/sigin.jsp";
+			urlRedirect += "/customer/signin.jsp";
 		}
 		else {
 			urlRedirect += "/customer/checkout.jsp";

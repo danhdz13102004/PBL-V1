@@ -718,7 +718,7 @@
       brightness(90%) contrast(90%);
 }
 .fullname {
-  font-size: 15px;
+  font-size: 13px;
   line-height: 24px;
   font-weight: 500;
   text-transform: capitalize;
@@ -999,4 +999,13 @@
   &:focus {
     opacity: 0.85;
   }
+}
+
+.contain-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination {
+  display: flex;
 }

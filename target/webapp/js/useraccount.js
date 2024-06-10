@@ -292,6 +292,9 @@ const handleSidebarClick = (key) => {
     console.log(element1);
     changePageOrder(1,max_order_inpage,"all");
   }
+  else if(key === "review") {
+    document.querySelector('#account-review').click();
+  }
   updateURL(paramValue);
   toggleOption(key);
   setTitle(functionMapping[key].titleElement, functionMapping[key].title);
@@ -743,62 +746,62 @@ productList.classList.toggle(`hidden`, isEmptyProductList);
 reviewPagination.classList.toggle(`hidden`, isEmptyProductList);
 //* Mở modal feedback lên
 
-const modalFeedback = document.getElementById(`modal__feedback`);
-const btnFeedbacks = document.querySelectorAll(`.review-view-detail`);
-const btnCloseFeedback = document.getElementById(`btnCloseFeedbackForm`);
-const btnSaveFeedbackForm = document.getElementById(`btnSaveFeedbackForm`);
-let modalFeedbackRating = modalFeedback.querySelector(`review-my-star`);
-let parentRow, ratingCell;
-let currentRating;
-const ratingStars = [...document.getElementsByClassName(`star-icon`)];
-const loadingStars = (userRating) => {
-  ratingStars.forEach((star, index) => {
-    if(index < userRating) {
-      star.classList.add(`active-fill`);
-    }
-    else{
-      star.classList.remove(`active-fill`);
-    }
-  });
-};
-btnFeedbacks.forEach((btnFeedback) => {
-  btnFeedback.addEventListener(`click`, () => {
-    parentRow = btnFeedback.parentNode;
-    ratingCell = parentRow.querySelector(`.review-my-star`);
-    loadingStars(parseInt(ratingCell.textContent.trim()));
-    modalFeedback.style.display = `flex`;
-  });
-});
-btnCloseFeedback.addEventListener(`click`, () => {
-  modalFeedback.style.display = `none`;
-});
-btnSaveFeedbackForm.addEventListener(`click`, () => {
-  ratingCell.innerHTML = ``;
-  const newRating = currentRating;
-  ratingCell.innerHTML = newRating;
-  modalFeedback.style.display = `none`;
-});
-
-const executeRating = (stars) => {
-  const starsListLength = stars.length;
-  let i;
-  Array.from(stars).map((star) => {
-    star.addEventListener(`click`, () => {
-      i = stars.indexOf(star);
-      currentRating = i + 1;
-      if (!stars[i].classList.contains(`active-fill`)) {
-        for (i; i >= 0; --i) {
-          stars[i].classList.add(`active-fill`);
-        }
-      } else {
-        for (let j = i + 1; j < starsListLength; ++j) {
-          stars[j].classList.remove(`active-fill`);
-        }
-      }
-    });
-  });
-};
-executeRating(ratingStars);
+//const modalFeedback = document.getElementById(`modal__feedback`);
+//const btnFeedbacks = document.querySelectorAll(`.review-view-detail`);
+//const btnCloseFeedback = document.getElementById(`btnCloseFeedbackForm`);
+//const btnSaveFeedbackForm = document.getElementById(`btnSaveFeedbackForm`);
+//let modalFeedbackRating = modalFeedback.querySelector(`review-my-star`);
+//let parentRow, ratingCell;
+//let currentRating;
+//const ratingStars = [...document.getElementsByClassName(`star-icon`)];
+//const loadingStars = (userRating) => {
+//  ratingStars.forEach((star, index) => {
+//    if(index < userRating) {
+//      star.classList.add(`active-fill`);
+//    }
+//    else{
+//      star.classList.remove(`active-fill`);
+//    }
+//  });
+//};
+//btnFeedbacks.forEach((btnFeedback) => {
+//  btnFeedback.addEventListener(`click`, () => {
+//    parentRow = btnFeedback.parentNode;
+//    ratingCell = parentRow.querySelector(`.review-my-star`);
+//    loadingStars(parseInt(ratingCell.textContent.trim()));
+//    modalFeedback.style.display = `flex`;
+//  });
+//});
+//btnCloseFeedback.addEventListener(`click`, () => {
+//  modalFeedback.style.display = `none`;
+//});
+//btnSaveFeedbackForm.addEventListener(`click`, () => {
+//  ratingCell.innerHTML = ``;
+//  const newRating = currentRating;
+//  ratingCell.innerHTML = newRating;
+//  modalFeedback.style.display = `none`;
+//});
+//
+//const executeRating = (stars) => {
+//  const starsListLength = stars.length;
+//  let i;
+//  Array.from(stars).map((star) => {
+//    star.addEventListener(`click`, () => {
+//      i = stars.indexOf(star);
+//      currentRating = i + 1;
+//      if (!stars[i].classList.contains(`active-fill`)) {
+//        for (i; i >= 0; --i) {
+//          stars[i].classList.add(`active-fill`);
+//        }
+//      } else {
+//        for (let j = i + 1; j < starsListLength; ++j) {
+//          stars[j].classList.remove(`active-fill`);
+//        }
+//      }
+//    });
+//  });
+//};
+//executeRating(ratingStars);
 
 //* Sự kiện gửi mã OTP
 //* Click button

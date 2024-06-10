@@ -24,6 +24,7 @@
   <script type="module" src="../js/validator.js" defer></script>
   <script type="module" src="../js/useraccount.js" defer>
 </script>
+ 
   <script type="module" src="../js/loadorder.js" defer></script>
   <style type="text/css">
   	.notification {
@@ -446,7 +447,7 @@
             <div class="account-function__content order-management" id="account-order-management">
               <div class="order-function__header">
                 <div class="account-function__title">Đơn hàng của tôi</div>
-                <div class="order__search">
+                <div style="display: none;" class="order__search">
                   <input class="order__search-input" type="search" placeholder="Tìm kiếm đơn hàng">
                   <div class="order__search-select-wrap">
                     <select class="order__search-select">
@@ -490,7 +491,7 @@
                   <div class="order-list__cell">Thao tác</div>
                 </div>
                 <div class="order-list__row order-list__body">
-                  <div class="order-list__row">
+                  <!-- <div class="order-list__row">
                     <div class="order-list__cell order-id">103459307</div>
                     <div class="order-list__cell order-invoice-date">22:30, 24/05/2024</div>
                     <div class="order-list__cell order-fullname">Puck & Perfume</div>
@@ -553,7 +554,7 @@
                     <div class="order-list__cell order-total-amount">520.521đ</div>
                     <div class="order-list__cell order-status">Đã hủy</div>
                     <div class="order-list__cell order-view-detail">Xem chi tiết</div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="order-list__container" id="complete-order">
@@ -566,34 +567,34 @@
                   <div class="order-list__cell">Thao tác</div>
                 </div>
                 <div class="order-list__row order-list__body">
-                  <div class="order-list__row">
+                  <!-- <div class="order-list__row">
                     <div class="order-list__cell order-id">103459303</div>
                     <div class="order-list__cell order-invoice-date">5:20, 21/05/2024</div>
                     <div class="order-list__cell order-fullname">Puck & Perfume</div>
                     <div class="order-list__cell order-total-amount">520.521đ</div>
                     <div class="order-list__cell order-status">Giao hàng hoàn tất</div>
                     <div class="order-list__cell order-view-detail">Xem chi tiết</div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="order-list__container" id="delivering-order">
-                <div class="order-list__row order-list__header">
+                <!-- <div class="order-list__row order-list__header">
                   <div class="order-list__cell">Mã đơn hàng</div>
                   <div class="order-list__cell">Thời gian lập</div>
                   <div class="order-list__cell">Nguời nhận</div>
                   <div class="order-list__cell">Tổng tiền</div>
                   <div class="order-list__cell">Tình trạng đơn</div>
                   <div class="order-list__cell">Thao tác</div>
-                </div>
+                </div> -->
                 <div class="order-list__row order-list__body">
-                  <div class="order-list__row">
+                  <!-- <div class="order-list__row">
                     <div class="order-list__cell order-id">103459302</div>
                     <div class="order-list__cell order-invoice-date">5:21, 20/05/2024</div>
                     <div class="order-list__cell order-fullname">Puck & Perfume</div>
                     <div class="order-list__cell order-total-amount">520.521đ</div>
                     <div class="order-list__cell order-status">Đang giao hàng</div>
                     <div class="order-list__cell order-view-detail">Xem chi tiết</div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="order-list__container" id="awaiting-order">
@@ -606,14 +607,14 @@
                   <div class="order-list__cell">Thao tác</div>
                 </div>
                 <div class="order-list__row order-list__body">
-                  <div class="order-list__row">
+                  <!-- <div class="order-list__row">
                     <div class="order-list__cell order-id">103459300</div>
                     <div class="order-list__cell order-invoice-date">17:21, 05/05/2024</div>
                     <div class="order-list__cell order-fullname">Puck & Perfume</div>
                     <div class="order-list__cell order-total-amount">520.521đ</div>
                     <div class="order-list__cell order-status">Đã hủy</div>
                     <div class="order-list__cell order-view-detail">Xem chi tiết</div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="order-list__container" id="cancelled-order">
@@ -626,14 +627,14 @@
                   <div class="order-list__cell">Thao tác</div>
                 </div>
                 <div class="order-list__row order-list__body">
-                  <div class="order-list__row">
+                  <!-- <div class="order-list__row">
                     <div class="order-list__cell order-id">103459300</div>
                     <div class="order-list__cell order-invoice-date">17:21, 05/05/2024</div>
                     <div class="order-list__cell order-fullname">Puck & Perfume</div>
                     <div class="order-list__cell order-total-amount">520.521đ</div>
                     <div class="order-list__cell order-status">Đã hủy</div>
                     <div class="order-list__cell order-view-detail">Xem chi tiết</div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="order-list__container" id="returned-order">
@@ -646,14 +647,14 @@
                   <div class="order-list__cell">Thao tác</div>
                 </div>
                 <div class="order-list__row order-list__body">
-                  <div class="order-list__row">
+                  <!-- <div class="order-list__row">
                     <div class="order-list__cell order-id">103459300</div>
                     <div class="order-list__cell order-invoice-date">17:21, 05/05/2024</div>
                     <div class="order-list__cell order-fullname">Puck & Perfume</div>
                     <div class="order-list__cell order-total-amount">520.521đ</div>
                     <div class="order-list__cell order-status">Đã hủy</div>
                     <div class="order-list__cell order-view-detail">Xem chi tiết</div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="pagination">
@@ -914,7 +915,7 @@
               </div>
               <div class="review-list__empty-product">
                 <div class="review-list__empty-product-img">
-                  <img src="assets/image/order-empty-img.png" alt="donhangtrong">
+                  <img src="../image/order-empty-img.png" alt="donhangtrong">
                 </div>
                 <div class="review-list__empty-product-content">
                   Bạn chưa mua sản phẩm nào.
@@ -1150,7 +1151,7 @@
     <jsp:include page="footer1.jsp" />
   </div>
   <script type="text/javascript">
-  	showTextConsole('a');
   </script>
+   <script  src="../js/useraccount_danh_gia.js"></script>
 </body>
 </html>

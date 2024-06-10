@@ -58,6 +58,9 @@ public class Sach {
     @Column(name = "Trang_thai")
     private boolean trangThai = true;
     
+    @Column(name = "So_luot_danh_gia")
+    private Integer soLuotDanhGia;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Id_the_loai", referencedColumnName = "Id")
     private TheLoai theLoai;
@@ -74,8 +77,6 @@ public class Sach {
     @JoinColumn(name = "Id_ct_giam_gia", referencedColumnName = "Id")
     private ChuongTrinhGiamGia ctGiamGia;
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sach", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DanhGia> listDanhGia;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sach", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChiTietGioHang> listChiTietGioHang;
@@ -91,13 +92,14 @@ public class Sach {
 		ChuongTrinhGiamGia c = new ChuongTrinhGiamGia();
 		c.setId("DE0000000001");
 		ctGiamGia = c;
+		this.soLuotDanhGia = 1;
 	}
 	
 	
 
 	public Sach(String id, String ten, Integer soLuongNhap, Integer soLuongBan, String moTa, double soSaoTB,
 			Integer soTrang, Integer lanXuatBan, Timestamp ngayThem, String urlImage, Double giaBan, Double giaNhap,
-			Double phanTramGiamGia, TheLoai theLoai, TacGia tacGia, NhaXuatBan nxb, List<DanhGia> listDanhGia,
+			Double phanTramGiamGia, TheLoai theLoai, TacGia tacGia, NhaXuatBan nxb,
 			List<ChiTietGioHang> listChiTietGioHang, List<ChiTietDonHang> listChiTietDonHang) {
 		super();
 		this.id = id;
@@ -116,7 +118,6 @@ public class Sach {
 		this.theLoai = theLoai;
 		this.tacGia = tacGia;
 		this.nxb = nxb;
-		this.listDanhGia = listDanhGia;
 		this.listChiTietGioHang = listChiTietGioHang;
 		this.listChiTietDonHang = listChiTietDonHang;
 	}
@@ -191,13 +192,8 @@ public class Sach {
 		return ngayThem;
 	}
 
-	public List<DanhGia> getListDanhGia() {
-		return listDanhGia;
-	}
 
-	public void setListDanhGia(List<DanhGia> listDanhGia) {
-		this.listDanhGia = listDanhGia;
-	}
+	
 
 	public List<ChiTietGioHang> getListChiTietGioHang() {
 		return listChiTietGioHang;
@@ -304,6 +300,26 @@ public class Sach {
 	public void setTrangThai(boolean trangThai) {
 		this.trangThai = trangThai;
 	}
+	
+	public Integer getSoLuotDanhGia() {
+		return soLuotDanhGia;
+	}
+
+
+
+	public void setSoLuotDanhGia(Integer soLuotDanhGia) {
+		this.soLuotDanhGia = soLuotDanhGia;
+	}
+	
+	public boolean isStatus()
+    {
+        return this.trangThai;
+    }
+
+    public void setStatus(boolean status)
+    {
+        this.trangThai = status;
+    }
 
 
 
@@ -313,7 +329,7 @@ public class Sach {
 				+ ", moTa=" + moTa + ", soSaoTB=" + soSaoTB + ", soTrang=" + soTrang + ", lanXuatBan=" + lanXuatBan
 				+ ", ngayThem=" + ngayThem + ", urlImage=" + urlImage + ", giaBan=" + giaBan + ", giaNhap=" + giaNhap
 				+ ", phanTramGiamGia=" + phanTramGiamGia + ", theLoai=" + theLoai + ", tacGia=" + tacGia + ", nxb="
-				+ nxb + ", listDanhGia=" + listDanhGia + ", listChiTietGioHang=" + listChiTietGioHang
+				+ nxb + ", listChiTietGioHang=" + listChiTietGioHang
 				+ ", listChiTietDonHang=" + listChiTietDonHang + "]";
 	}
     

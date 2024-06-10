@@ -47,10 +47,10 @@ reviewList.classList.toggle(`hidden`, reviewCount === 0);
 
 //* Open modal add my feedback
 const modalFeedback = document.getElementById(`modal__feedback`);
-const btnAddNewFeedback = document.querySelector(`#addNewFeedback`);
-btnAddNewFeedback.addEventListener(`click`, () => {
-  modalFeedback.style.display = `flex`;
-});
+// const btnAddNewFeedback = document.querySelector(`#addNewFeedback`);
+// btnAddNewFeedback.addEventListener(`click`, () => {
+//   modalFeedback.style.display = `flex`;
+// });
 
 //* Event of modal add feedback
 const btnCloseFeedback = document.getElementById(`btnCloseFeedbackForm`);
@@ -284,3 +284,5 @@ function addToCart(id) {
       console.log("input null");
   }
 }
+
+

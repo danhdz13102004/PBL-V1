@@ -1,9 +1,16 @@
+<%@page import="model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
+<%
+    User khachHang = (User) session.getAttribute("khachHang");
+    String role = khachHang != null ? khachHang.getRole().name() : "";
+%>
   <title>Quản lí giảm giá | Quản trị Admin</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,7 +40,7 @@
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="/index.html"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      <li><a class="app-nav__item" href="${pageContext.request.contextPath}/khach-hang/dang-xuat"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 
       </li>
     </ul>
@@ -41,10 +48,15 @@
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/images/hay.jpg" width="50px"
-        alt="User Image">
+    <div class="app-sidebar__user">
       <div>
-        <p class="app-sidebar__user-designation">Nhân viên quản lí</p>
+      <c:if test="${not empty khachHang and khachHang.role.name() == 'AD'}">
+        <p class="app-sidebar__user-designation">Quản trị viên </p>
+      </c:if>
+      
+      <c:if test="${not empty khachHang and khachHang.role.name() == 'NV'}">
+        <p class="app-sidebar__user-designation">Nhân viên quản lí  </p>
+      </c:if>
       </div>
     </div>
     <hr>
@@ -52,9 +64,11 @@
       <li><a class="app-menu__item" href="/nvql/index.jsp"><i
             class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
       </li>
-
-      <!-- <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
-            class="app-menu__label">Quản lý khách hàng</span></a></li> -->
+	
+	 <c:if test="${not empty khachHang and khachHang.role.name() == 'AD'}">
+    	<li><a class="app-menu__item" href="/admin/table-data-table.jsp"><i class='app-menu__icon bx bx-user-voice'></i><span
+            class="app-menu__label">Quản lý khách hàng</span></a></li> 
+	</c:if>
       <li><a class="app-menu__item" href="/nvql/manageProduct.jsp"><i
             class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
       </li>

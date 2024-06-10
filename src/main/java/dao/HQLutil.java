@@ -88,14 +88,34 @@ public class HQLutil {
 	}
 	
 	
-	public <T> boolean doInsert (T ob,Session session)
+	public <T> T doInsert (T ob, Session s)
+	{
+		
+		Transaction ts = s.getTransaction();
+		try
+		{
+			ts.begin();
+			s.saveOrUpdate(ob);
+			ts.commit();
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex.getMessage());
+			ts.rollback();
+			return null;
+		}
+		return ob;
+		
+	}
+	
+	public <T> boolean doInsert1(T ob,Session session)
 	{
 		boolean isSuccess = true;
 		Transaction ts = session.getTransaction();
 		try
 		{
 			ts.begin();
-			session.persist(ob);
+			session.save(ob);
 			ts.commit();
 		}
 		catch (Exception ex)
@@ -126,7 +146,7 @@ public class HQLutil {
 		return isSuccess;
 	}
 
-	public <T> boolean doUpdate (T ob,Session s)
+	public <T> boolean doUpdate1(T ob,Session s)
 	{
 		boolean isSuccess = true;
 		Transaction ts = s.getTransaction();
@@ -144,6 +164,26 @@ public class HQLutil {
 		return isSuccess;
 	}
 	
+	public <T> T doUpdate (T ob, Session s)
+	{
+		T updateOb;
+		Transaction ts = s.getTransaction();
+		try
+		{
+			ts.begin();
+			updateOb = (T)s.merge(ob);
+			ts.commit();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			ts.rollback();
+			updateOb = null;
+		}	
+		return updateOb;
+	}
+	
+	
 	public <T> List<T> doQuery (String hql, Class<T> c, Session s,int offset,int limit, Object... params)
 	{
 		Query<T> query;
@@ -160,6 +200,18 @@ public class HQLutil {
 			query.setParameter(i+1, params[i]);
 		}
 		List<T> res = query.list();
+		return res;
+	}
+	
+	
+	public long doCountRecordOf (String hql, Session s, Object... params)
+	{
+		Query<Long> query = s.createQuery(hql,Long.class);
+		for (int i=0;i<params.length;i++)
+		{
+			query.setParameter(i+1, params[i]);
+		}
+		Long res = query.getSingleResult();
 		return res;
 	}
 //	public <T> int doUpdateRange (List<T> obs)

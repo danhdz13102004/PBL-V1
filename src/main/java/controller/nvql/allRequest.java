@@ -237,7 +237,7 @@ public class allRequest extends HttpServlet {
 		sach.setCtGiamGia(c);
 		System.out.println(sach.getId() + " " + sach.getTen());
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		HQLutil.getInstance().doUpdate(sach,session);
+		HQLutil.getInstance().doUpdate1(sach,session);
 		session.close();
 		RequestDispatcher rq = getServletContext().getRequestDispatcher("/nvql/manageProduct.jsp");
 		rq.forward(request, response);

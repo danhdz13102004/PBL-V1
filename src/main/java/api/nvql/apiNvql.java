@@ -352,7 +352,7 @@ public class apiNvql extends HttpServlet {
 		c.setNgayKetThuc(end_time);
 		c.setMucGiam(discount);
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		HQLutil.getInstance().doUpdate(c, session);
+		HQLutil.getInstance().doUpdate1(c, session);
 		session.close();
 	}
 	

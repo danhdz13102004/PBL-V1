@@ -81,7 +81,7 @@
                       </button>
                     </div>
                     <div class="cart-detail-product__body">
-                      <div class="cart-detail-product__item">
+                      <!-- <div class="cart-detail-product__item">
                         <div for="cart-detail-product__item-checkBox" class="cart-detail-product__item-info">
                           <input type="checkbox" name="" class="cart-detail-product__item-checkbox">
                           <div class="cart-detail-product__item-image-wrap">
@@ -187,7 +187,7 @@
                               fill="#71717A" />
                           </svg>
                         </button>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                   <div class="col-lg-3">

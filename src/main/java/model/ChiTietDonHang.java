@@ -30,6 +30,9 @@ public class ChiTietDonHang {
     @Column(name = "So_luong")
     private int soLuong;
     
+    @OneToOne(mappedBy = "ctDonHang",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private DanhGia danhGia;
+    
 
     public ChiTietDonHang() {
     }
@@ -75,6 +78,14 @@ public class ChiTietDonHang {
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
+    
+	public DanhGia getDanhGia() {
+		return danhGia;
+	}
+
+	public void setDanhGia(DanhGia danhGia) {
+		this.danhGia = danhGia;
+	}
 
     
     

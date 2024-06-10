@@ -1,5 +1,7 @@
+<%@page import="model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +37,10 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 	}
 </style>
 </head>
-
+<%
+    User khachHang = (User) session.getAttribute("khachHang");
+    String role = khachHang != null ? khachHang.getRole().name() : "";
+%>
 <body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
   <header class="app-header">
@@ -46,7 +51,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="/index.html"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      <li><a class="app-nav__item" href="${pageContext.request.contextPath}/khach-hang/dang-xuat"><i class='bx bx-log-out bx-rotate-180'></i> </a>
 
       </li>
     </ul>
@@ -54,11 +59,15 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/images/hay.jpg" width="50px"
-        alt="User Image">
+    <div class="app-sidebar__user">
       <div>
-        <p class="app-sidebar__user-name"><b>Võ Trường</b></p>
-        <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+        <c:if test="${not empty khachHang and khachHang.role.name() == 'AD'}">
+        <p class="app-sidebar__user-designation">Quản trị viên </p>
+      </c:if>
+      
+      <c:if test="${not empty khachHang and khachHang.role.name() == 'NV'}">
+        <p class="app-sidebar__user-designation">Nhân viên quản lí  </p>
+      </c:if>
       </div>
     </div>
     <hr>
@@ -67,8 +76,10 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
             class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
       </li>
 
-      <!-- <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
-            class="app-menu__label">Quản lý khách hàng</span></a></li> -->
+      <c:if test="${not empty khachHang and khachHang.role.name() == 'AD'}">
+    	<li><a class="app-menu__item" href="/admin/table-data-table.jsp"><i class='app-menu__icon bx bx-user-voice'></i><span
+            class="app-menu__label">Quản lý khách hàng</span></a></li> 
+	</c:if>
       <li><a class="app-menu__item" href="/nvql/manageProduct.jsp"><i
             class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
       </li>
@@ -94,7 +105,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
       <div class="col-md-12 col-lg-12">
         <div class="row">
        <!-- col-6 -->
-       <div class="col-md-6">
+      <!--  <div class="col-md-6">
         <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
           <div class="info">
             <h4>Tổng khách hàng</h4>
@@ -103,7 +114,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
           </div>
         </div>
       </div>
-       <!-- col-6 -->
+       col-6
           <div class="col-md-6">
             <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
               <div class="info">
@@ -113,7 +124,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
               </div>
             </div>
           </div>
-           <!-- col-6 -->
+           col-6
           <div class="col-md-6">
             <div class="widget-small warning coloured-icon"><i class='icon bx bxs-shopping-bags fa-3x'></i>
               <div class="info">
@@ -123,7 +134,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
               </div>
             </div>
           </div>
-           <!-- col-6 -->
+           col-6
           <div class="col-md-6">
             <div class="widget-small danger coloured-icon"><i class='icon bx bxs-error-alt fa-3x'></i>
               <div class="info">
@@ -132,7 +143,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
                 <p class="info-tong">Số sản phẩm cảnh báo hết cần nhập thêm.</p>
               </div>
             </div>
-          </div>
+          </div> -->
           
           <div class="col-md-12 col-lg-12">
         <div class="row">

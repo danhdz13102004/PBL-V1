@@ -78,7 +78,7 @@
               <div class="form__switch-text">
                 Bạn chưa có tài khoản?
               </div>
-              <a href="signup.html" class="form__switch-link" target="_self">Đăng ký ngay!</a>
+              <a href="${pageContext.request.contextPath}/customer/signup.jsp" class="form__switch-link" target="_self">Đăng ký ngay!</a>
             </div>
           </div>
         </div>
